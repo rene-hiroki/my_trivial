@@ -22,3 +22,10 @@ colorlinks: yes
 # はじめに {-}
 
 作成中です hogehoge fugafuga
+
+
+## 環境
+```{r}
+sessionInfo()
+```
+

@@ -1,24 +1,13 @@
 # android分析
 
 
-## ライブラリの準備
-
-pacman::p_loadを使うと、ライブラリをまとめて読み込んでくれます。また、インストールされていないライブラリがある場合は、インストールかつ読み込みを行ってくれます。
-pacmanがインストールされていない場合は、コメントアウトしてインストールしてください。
-
-```{r, warning=FALSE,message=FALSE}
-# install.packages(pacman)
+```{r}
 pacman::p_load(tidyverse, jsonlite, patchwork, here, update = FALSE)
 ```
-
-## activityをダウンロード 
-
-## activityの読み込み 
 
 ```{r}
 android <- jsonlite::fromJSON(here("data/android_activity.json"))
 ```
-
 
 ```{r}
 glimpse(android)
@@ -61,7 +50,7 @@ android <-
 ```{r}
 android_latest %>% 
   count(header, sort = TRUE)  %>% 
-  head(5) %>% 
+  head(20) %>% 
   mutate(header = fct_reorder(header, n)) %>% 
   ggplot() + geom_col(aes(y = header, x = n)) +
   theme_minimal() +
@@ -74,7 +63,7 @@ android_latest %>%
 ```{r}
 android %>% 
   count(header, sort = TRUE)  %>% 
-  head(5) %>% 
+  head(20) %>% 
   mutate(header = fct_reorder(header, n)) %>% 
   ggplot() + geom_col(aes(y = header, x = n)) +
   theme_minimal() +
@@ -90,7 +79,7 @@ android_latest %>%
   group_by(year, header) %>% 
   summarise(n = n()) %>% 
   arrange(desc(n)) %>% 
-  head(5) %>% #View()
+  head(10) %>% #View()
   mutate(header = fct_reorder(header, n)) %>% 
   ggplot() + geom_col(aes(y = header, x = n)) +
  # facet_wrap(~year, scales = "free") +
@@ -103,7 +92,7 @@ android_latest %>%
   group_by(year, header) %>% 
   summarise(n = n()) %>% 
   arrange(desc(n)) %>% 
-  head(5) %>% #View()
+  head(10) %>% #View()
   mutate(header = fct_reorder(header, n)) %>% 
   ggplot() + geom_col(aes(y = header, x = n)) +
  # facet_wrap(~year, scales = "free") +
