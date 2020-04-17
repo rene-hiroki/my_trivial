@@ -1,0 +1,28 @@
+bookdown::gitbook:
+  css: style.css
+  split_by: rmd
+  config:
+    toc:
+      collapse: section
+      scroll_highlight: yes
+      before: "My Trivial"
+      after: null
+    toolbar:
+      position: fixed
+    edit : null
+    download: [pdf]
+    search: yes
+    fontsettings:
+      theme: white
+      family: sans
+      size: 1
+    sharing:
+      facebook: yes
+      github: no
+      twitter: yes
+      linkedin: no
+    info: yes
+# 日本語タイトルが使えるようにするおまじないです。!import
+  pandoc_args: [
+        "--from", "markdown+autolink_bare_uris+tex_math_single_backslash-implicit_figures"
+        ]

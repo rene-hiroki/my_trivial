@@ -1,0 +1,24 @@
+--- 
+title: "日々の雑学"
+author: "Akiyama Hiroki"
+date: "最終更新日: `r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+fontsize: 20pt
+# github-repo: (your-github-repository)
+description: "This is a description. Please wrote a abstract this contents. "
+colorlinks: yes
+# url: 'https\://bookdown.org/yihui/bookdown/' サイトのurl
+# github-repo: rstudio/bookdown
+# cover-image: cover.jpg
+---
+
+```{r fig.align='center', echo=FALSE, include=identical(knitr:::pandoc_to(), 'html')}
+# knitr::include_graphics("cover.jpg", dpi = NA)
+```
+
+
+# はじめに {-}
+
+作成中です hogehoge fugafuga

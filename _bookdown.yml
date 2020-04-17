@@ -1,0 +1,12 @@
+#書籍ファイル名
+book_filename: "My Trivial"
+#チャプターの枕詞
+chapter_name: "Chapter: "
+# 出力先の指定。docsに指定しています
+# output_dir: ../../output_book
+#使用するRmdファイル群。指定しなければすべてのRmdを持ってきます
+# rmd_files: ["index.Rmd", "hoge.Rmd", "hogehoge.Rmd"]
+# 詳しくは公式ドキュメントを参照してください
+
+delete_merged_file: true
+
