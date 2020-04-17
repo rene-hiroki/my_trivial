@@ -1,0 +1,109 @@
+```{r}
+pacman::p_load(tidyverse, jsonlite, patchwork, here, update = FALSE)
+```
+
+```{r}
+android <- jsonlite::fromJSON(here("data/android_activity.json"))
+```
+
+```{r}
+glimpse(android)
+```
+
+```{r}
+android$time <- parse_datetime(android$time,locale = locale(tz = "Asia/Calcutta"))
+summary(android$time)
+
+```
+
+```{r}
+android <-
+  android %>% 
+  mutate(date = lubridate::date(time),
+         year = lubridate::year(time))
+```
+
+```{r}
+android_latest <- 
+  android %>% 
+  filter(year %in% c(2019,2020))
+```
+
+```{r}
+android_latest <-
+  android_latest %>% 
+  mutate(header = if_else(str_length(header) >= 20,
+                                     substr(header,1,20),
+                                     header))
+android <-
+  android %>% 
+  mutate(header = if_else(str_length(header) >= 20,
+                                     substr(header,1,20),
+                                     header))
+
+```
+
+
+```{r}
+android_latest %>% 
+  count(header, sort = TRUE)  %>% 
+  head(20) %>% 
+  mutate(header = fct_reorder(header, n)) %>% 
+  ggplot() + geom_col(aes(y = header, x = n)) +
+  theme_minimal() +
+  labs(title = "Most used Apps - Overall",
+       subtitle = "Android Smartphone usage",
+       caption = "Data:Google Takeout")
+```
+
+
+```{r}
+android %>% 
+  count(header, sort = TRUE)  %>% 
+  head(20) %>% 
+  mutate(header = fct_reorder(header, n)) %>% 
+  ggplot() + geom_col(aes(y = header, x = n)) +
+  theme_minimal() +
+  labs(title = "Most used Apps - Overall",
+       subtitle = "Android Smartphone usage",
+       caption = "Data:Google Takeout")
+
+```
+
+```{r}
+android_latest %>% 
+  filter(year %in% '2019') %>% 
+  group_by(year, header) %>% 
+  summarise(n = n()) %>% 
+  arrange(desc(n)) %>% 
+  head(10) %>% #View()
+  mutate(header = fct_reorder(header, n)) %>% 
+  ggplot() + geom_col(aes(y = header, x = n)) +
+ # facet_wrap(~year, scales = "free") +
+  theme_minimal() +
+  labs(title = "Most used Apps - 2019",
+       subtitle = "Android Smartphone usage",
+       caption = "Data:Google Takeout") -> p2019
+android_latest %>% 
+  filter(year %in% '2020') %>% 
+  group_by(year, header) %>% 
+  summarise(n = n()) %>% 
+  arrange(desc(n)) %>% 
+  head(10) %>% #View()
+  mutate(header = fct_reorder(header, n)) %>% 
+  ggplot() + geom_col(aes(y = header, x = n)) +
+ # facet_wrap(~year, scales = "free") +
+  theme_minimal() +
+  labs(title = "Most used Apps - 2020",
+       subtitle = "Android Smartphone usage",
+       caption = "Data:Google Takeout") -> p2020
+
+p2019 / p2020
+```
+
+```{r}
+android %>%
+  count(date) %>% 
+  ggplot() + geom_line(aes(date,n))
+```
+
