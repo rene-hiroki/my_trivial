@@ -135,7 +135,16 @@ My Trivial
 <li class="chapter" data-level="1" data-path="01_android_analysis.html"><a href="01_android_analysis.html"><i class="fa fa-check"></i><b>1</b> android分析</a><ul>
 <li class="chapter" data-level="1.1" data-path="01_android_analysis.html"><a href="01_android_analysis.html#ライブラリの準備"><i class="fa fa-check"></i><b>1.1</b> ライブラリの準備</a></li>
 <li class="chapter" data-level="1.2" data-path="01_android_analysis.html"><a href="01_android_analysis.html#activityをダウンロード"><i class="fa fa-check"></i><b>1.2</b> activityをダウンロード</a></li>
-<li class="chapter" data-level="1.3" data-path="01_android_analysis.html"><a href="01_android_analysis.html#activityの読み込み"><i class="fa fa-check"></i><b>1.3</b> activityの読み込み</a></li>
+<li class="chapter" data-level="1.3" data-path="01_android_analysis.html"><a href="01_android_analysis.html#ここから解析"><i class="fa fa-check"></i><b>1.3</b> ここから解析</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="01_android_analysis.html"><a href="01_android_analysis.html#activityの読み込み"><i class="fa fa-check"></i><b>1.3.1</b> activityの読み込み</a></li>
+<li class="chapter" data-level="1.3.2" data-path="01_android_analysis.html"><a href="01_android_analysis.html#読み込んだactivityデータの概要確認"><i class="fa fa-check"></i><b>1.3.2</b> 読み込んだactivityデータの概要確認</a></li>
+<li class="chapter" data-level="1.3.3" data-path="01_android_analysis.html"><a href="01_android_analysis.html#timeデータを変換"><i class="fa fa-check"></i><b>1.3.3</b> timeデータを変換</a></li>
+<li class="chapter" data-level="1.3.4" data-path="01_android_analysis.html"><a href="01_android_analysis.html#年月ごとのデータ数の集計"><i class="fa fa-check"></i><b>1.3.4</b> 年月ごとのデータ数の集計</a></li>
+<li class="chapter" data-level="1.3.5" data-path="01_android_analysis.html"><a href="01_android_analysis.html#データの準備"><i class="fa fa-check"></i><b>1.3.5</b> データの準備</a></li>
+<li class="chapter" data-level="1.3.6" data-path="01_android_analysis.html"><a href="01_android_analysis.html#アプリの使用回数2019-2020"><i class="fa fa-check"></i><b>1.3.6</b> アプリの使用回数（2019-2020）</a></li>
+<li class="chapter" data-level="1.3.7" data-path="01_android_analysis.html"><a href="01_android_analysis.html#アプリの使用回数すべての年"><i class="fa fa-check"></i><b>1.3.7</b> アプリの使用回数（すべての年）</a></li>
+<li class="chapter" data-level="1.3.8" data-path="01_android_analysis.html"><a href="01_android_analysis.html#比較2019-vs-2020"><i class="fa fa-check"></i><b>1.3.8</b> 比較（2019 vs 2020）</a></li>
+</ul></li>
 </ul></li>
 </ul>
 
@@ -161,56 +170,85 @@ My Trivial
 <p>pacman::p_loadを使うと、ライブラリをまとめて読み込んでくれます。また、インストールされていないライブラリがある場合は、インストールかつ読み込みを行ってくれます。
 pacmanがインストールされていない場合は、コメントアウトしてインストールしてください。</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="co"># install.packages(pacman)</span></a>
-<a class="sourceLine" id="cb3-2" title="2">pacman<span class="op">::</span><span class="kw">p_load</span>(tidyverse, jsonlite, patchwork, here, <span class="dt">update =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb3-2" title="2">pacman<span class="op">::</span><span class="kw">p_load</span>(tidyverse, jsonlite, patchwork, here,</a>
+<a class="sourceLine" id="cb3-3" title="3">               lubridate, <span class="dt">update =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 </div>
 <div id="activityをダウンロード" class="section level2">
 <h2><span class="header-section-number">1.2</span> activityをダウンロード</h2>
+<p>あとで書く
+google takeout で検索</p>
 </div>
-<div id="activityの読み込み" class="section level2">
-<h2><span class="header-section-number">1.3</span> activityの読み込み</h2>
+<div id="ここから解析" class="section level2">
+<h2><span class="header-section-number">1.3</span> ここから解析</h2>
+<div id="activityの読み込み" class="section level3">
+<h3><span class="header-section-number">1.3.1</span> activityの読み込み</h3>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">android &lt;-<span class="st"> </span>jsonlite<span class="op">::</span><span class="kw">fromJSON</span>(<span class="kw">here</span>(<span class="st">&quot;data/android_activity.json&quot;</span>))</a></code></pre></div>
+</div>
+<div id="読み込んだactivityデータの概要確認" class="section level3">
+<h3><span class="header-section-number">1.3.2</span> 読み込んだactivityデータの概要確認</h3>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">glimpse</span>(android)</a></code></pre></div>
 <pre><code>## Rows: 63,120
 ## Columns: 5
-## $ header   [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;びよーんったー Pro&quot;, &quot;Nova Launcher ホーム&quot;, &quot;Gmail&quot;, &quot;Slack&quot;, &quot;Nova Launcher ホーム&quot;,...
-## $ title    [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;使用: びよーんったー Pro&quot;, &quot;使用: Nova Launcher ホーム&quot;, &quot;使用: Gmail&quot;, &quot;使用: Slack&quot;, &quot;使用:...
-## $ titleUrl [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;https://play.google.com/store/apps/details?id=com.ABS104a.biyontterpro&quot;, ...
-## $ time     [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;2020-04-16T21:29:57.048Z&quot;, &quot;2020-04-16T21:29:54.832Z&quot;, &quot;2020-04-16T21:29:...
-## $ products [3m[38;5;246m&lt;list&gt;[39m[23m [&quot;Android&quot;, &quot;Android&quot;, &quot;Android&quot;, &quot;Android&quot;, &quot;Android&quot;, &quot;Android&quot;, &quot;Andro...</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">android<span class="op">$</span>time &lt;-<span class="st"> </span><span class="kw">parse_datetime</span>(android<span class="op">$</span>time,<span class="dt">locale =</span> <span class="kw">locale</span>(<span class="dt">tz =</span> <span class="st">&quot;Asia/Calcutta&quot;</span>))</a>
-<a class="sourceLine" id="cb7-2" title="2"><span class="kw">summary</span>(android<span class="op">$</span>time)</a></code></pre></div>
-<pre><code>##                  Min.               1st Qu.                Median                  Mean 
-## &quot;2016-12-29 13:27:55&quot; &quot;2019-01-14 08:13:33&quot; &quot;2019-06-18 09:47:04&quot; &quot;2019-06-11 07:30:44&quot; 
-##               3rd Qu.                  Max. 
-## &quot;2019-11-10 14:45:16&quot; &quot;2020-04-17 02:59:57&quot;</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">android &lt;-</a>
-<a class="sourceLine" id="cb9-2" title="2"><span class="st">  </span>android <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">date =</span> lubridate<span class="op">::</span><span class="kw">date</span>(time),</a>
-<a class="sourceLine" id="cb9-4" title="4">         <span class="dt">year =</span> lubridate<span class="op">::</span><span class="kw">year</span>(time))</a></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">android_latest &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb10-2" title="2"><span class="st">  </span>android <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb10-3" title="3"><span class="st">  </span><span class="kw">filter</span>(year <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">2019</span>,<span class="dv">2020</span>))</a></code></pre></div>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">android_latest &lt;-</a>
-<a class="sourceLine" id="cb11-2" title="2"><span class="st">  </span>android_latest <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb11-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">header =</span> <span class="kw">if_else</span>(<span class="kw">str_length</span>(header) <span class="op">&gt;=</span><span class="st"> </span><span class="dv">20</span>,</a>
-<a class="sourceLine" id="cb11-4" title="4">                                     <span class="kw">substr</span>(header,<span class="dv">1</span>,<span class="dv">20</span>),</a>
-<a class="sourceLine" id="cb11-5" title="5">                                     header))</a>
-<a class="sourceLine" id="cb11-6" title="6">android &lt;-</a>
-<a class="sourceLine" id="cb11-7" title="7"><span class="st">  </span>android <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb11-8" title="8"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">header =</span> <span class="kw">if_else</span>(<span class="kw">str_length</span>(header) <span class="op">&gt;=</span><span class="st"> </span><span class="dv">20</span>,</a>
-<a class="sourceLine" id="cb11-9" title="9">                                     <span class="kw">substr</span>(header,<span class="dv">1</span>,<span class="dv">20</span>),</a>
-<a class="sourceLine" id="cb11-10" title="10">                                     header))</a></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">android_latest <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb12-2" title="2"><span class="st">  </span><span class="kw">count</span>(header, <span class="dt">sort =</span> <span class="ot">TRUE</span>)  <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb12-3" title="3"><span class="st">  </span><span class="kw">head</span>(<span class="dv">5</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb12-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">header =</span> <span class="kw">fct_reorder</span>(header, n)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb12-5" title="5"><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_col</span>(<span class="kw">aes</span>(<span class="dt">y =</span> header, <span class="dt">x =</span> n)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb12-6" title="6"><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb12-7" title="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Most used Apps - Overall&quot;</span>,</a>
-<a class="sourceLine" id="cb12-8" title="8">       <span class="dt">subtitle =</span> <span class="st">&quot;Android Smartphone usage&quot;</span>,</a>
-<a class="sourceLine" id="cb12-9" title="9">       <span class="dt">caption =</span> <span class="st">&quot;Data:Google Takeout&quot;</span>)</a></code></pre></div>
-<p><img src="My-Trivial_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">android <span class="op">%&gt;%</span><span class="st"> </span></a>
+## $ header   [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;びよーんったー Pro&quot;, &quot;Nova Launcher ホーム&quot;, &quot;Gmail&quot;, &quot;Sla...
+## $ title    [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;使用: びよーんったー Pro&quot;, &quot;使用: Nova Launcher ホーム&quot;, &quot;使用: ...
+## $ titleUrl [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;https://play.google.com/store/apps/details?id=co...
+## $ time     [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;2020-04-16T21:29:57.048Z&quot;, &quot;2020-04-16T21:29:54....
+## $ products [3m[38;5;246m&lt;list&gt;[39m[23m [&quot;Android&quot;, &quot;Android&quot;, &quot;Android&quot;, &quot;Android&quot;, &quot;An...</code></pre>
+</div>
+<div id="timeデータを変換" class="section level3">
+<h3><span class="header-section-number">1.3.3</span> timeデータを変換</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">android &lt;-<span class="st"> </span>android <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">time =</span></a>
+<a class="sourceLine" id="cb7-3" title="3">           <span class="kw">parse_datetime</span>(time, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="dt">tz =</span> <span class="st">&quot;Japan&quot;</span>))</a>
+<a class="sourceLine" id="cb7-4" title="4">         ) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb7-5" title="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">date =</span> lubridate<span class="op">::</span><span class="kw">date</span>(time),</a>
+<a class="sourceLine" id="cb7-6" title="6">         <span class="dt">year =</span> lubridate<span class="op">::</span><span class="kw">year</span>(time))</a></code></pre></div>
+</div>
+<div id="年月ごとのデータ数の集計" class="section level3">
+<h3><span class="header-section-number">1.3.4</span> 年月ごとのデータ数の集計</h3>
+<p>2018年8月以前のデータが少ない。
+activityデータの収集がうまくいっていなかった？</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">android <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(year, <span class="kw">month</span>(date)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="st">  </span><span class="kw">count</span>()</a></code></pre></div>
+<pre><code>## # A tibble: 37 x 3
+## # Groups:   year, month(date) [37]
+##     year `month(date)`     n
+##    &lt;dbl&gt;         &lt;dbl&gt; &lt;int&gt;
+##  1  2016            12     2
+##  2  2017             1     1
+##  3  2017             2    56
+##  4  2017             3    26
+##  5  2017             5     6
+##  6  2017             6    64
+##  7  2017             7    12
+##  8  2017             8    29
+##  9  2017             9    32
+## 10  2017            11     4
+## # ... with 27 more rows</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">android <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="st">  </span><span class="kw">count</span>(date) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(date,n)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="st">  </span><span class="kw">scale_x_date</span>(<span class="dt">breaks =</span> <span class="st">&quot;month&quot;</span>,</a>
+<a class="sourceLine" id="cb10-5" title="5">               <span class="dt">guide =</span> <span class="kw">guide_axis</span>(<span class="dt">n.dodge =</span> <span class="dv">3</span>))</a></code></pre></div>
+<p><img src="My-Trivial_files/figure-html/unnamed-chunk-75-1.png" width="672" /></p>
+</div>
+<div id="データの準備" class="section level3">
+<h3><span class="header-section-number">1.3.5</span> データの準備</h3>
+<p>2019年と2020年のデータのみを使うことにする。</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">android_latest &lt;-<span class="st"> </span>android <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="st">  </span><span class="kw">filter</span>(year <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">2019</span>, <span class="dv">2020</span>))</a></code></pre></div>
+<p>アプリの名前が長いから20文字までにする。</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">android_latest &lt;-<span class="st"> </span>android_latest <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">header =</span> <span class="kw">if_else</span>(<span class="kw">str_length</span>(header) <span class="op">&gt;=</span><span class="st"> </span><span class="dv">20</span>,</a>
+<a class="sourceLine" id="cb12-3" title="3">                          <span class="kw">substr</span>(header, <span class="dv">1</span>, <span class="dv">20</span>), header))</a>
+<a class="sourceLine" id="cb12-4" title="4">android &lt;-<span class="st"> </span>android <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-5" title="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">header =</span> <span class="kw">if_else</span>(<span class="kw">str_length</span>(header) <span class="op">&gt;=</span><span class="st"> </span><span class="dv">20</span>,</a>
+<a class="sourceLine" id="cb12-6" title="6">                          <span class="kw">substr</span>(header, <span class="dv">1</span>, <span class="dv">20</span>), header))</a></code></pre></div>
+</div>
+<div id="アプリの使用回数2019-2020" class="section level3">
+<h3><span class="header-section-number">1.3.6</span> アプリの使用回数（2019-2020）</h3>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">android_latest <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb13-2" title="2"><span class="st">  </span><span class="kw">count</span>(header, <span class="dt">sort =</span> <span class="ot">TRUE</span>)  <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb13-3" title="3"><span class="st">  </span><span class="kw">head</span>(<span class="dv">5</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb13-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">header =</span> <span class="kw">fct_reorder</span>(header, n)) <span class="op">%&gt;%</span><span class="st"> </span></a>
@@ -219,41 +257,54 @@ pacmanがインストールされていない場合は、コメントアウト�
 <a class="sourceLine" id="cb13-7" title="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Most used Apps - Overall&quot;</span>,</a>
 <a class="sourceLine" id="cb13-8" title="8">       <span class="dt">subtitle =</span> <span class="st">&quot;Android Smartphone usage&quot;</span>,</a>
 <a class="sourceLine" id="cb13-9" title="9">       <span class="dt">caption =</span> <span class="st">&quot;Data:Google Takeout&quot;</span>)</a></code></pre></div>
-<p><img src="My-Trivial_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">android_latest <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb14-2" title="2"><span class="st">  </span><span class="kw">filter</span>(year <span class="op">%in%</span><span class="st"> &#39;2019&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb14-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(year, header) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb14-4" title="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb14-5" title="5"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(n)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb14-6" title="6"><span class="st">  </span><span class="kw">head</span>(<span class="dv">5</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co">#View()</span></a>
-<a class="sourceLine" id="cb14-7" title="7"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">header =</span> <span class="kw">fct_reorder</span>(header, n)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb14-8" title="8"><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_col</span>(<span class="kw">aes</span>(<span class="dt">y =</span> header, <span class="dt">x =</span> n)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb14-9" title="9"><span class="st"> </span><span class="co"># facet_wrap(~year, scales = &quot;free&quot;) +</span></a>
-<a class="sourceLine" id="cb14-10" title="10"><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb14-11" title="11"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Most used Apps - 2019&quot;</span>,</a>
-<a class="sourceLine" id="cb14-12" title="12">       <span class="dt">subtitle =</span> <span class="st">&quot;Android Smartphone usage&quot;</span>,</a>
-<a class="sourceLine" id="cb14-13" title="13">       <span class="dt">caption =</span> <span class="st">&quot;Data:Google Takeout&quot;</span>) -&gt;<span class="st"> </span>p2019</a>
-<a class="sourceLine" id="cb14-14" title="14">android_latest <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb14-15" title="15"><span class="st">  </span><span class="kw">filter</span>(year <span class="op">%in%</span><span class="st"> &#39;2020&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb14-16" title="16"><span class="st">  </span><span class="kw">group_by</span>(year, header) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb14-17" title="17"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb14-18" title="18"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(n)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb14-19" title="19"><span class="st">  </span><span class="kw">head</span>(<span class="dv">5</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co">#View()</span></a>
-<a class="sourceLine" id="cb14-20" title="20"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">header =</span> <span class="kw">fct_reorder</span>(header, n)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb14-21" title="21"><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_col</span>(<span class="kw">aes</span>(<span class="dt">y =</span> header, <span class="dt">x =</span> n)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb14-22" title="22"><span class="st"> </span><span class="co"># facet_wrap(~year, scales = &quot;free&quot;) +</span></a>
-<a class="sourceLine" id="cb14-23" title="23"><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb14-24" title="24"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Most used Apps - 2020&quot;</span>,</a>
-<a class="sourceLine" id="cb14-25" title="25">       <span class="dt">subtitle =</span> <span class="st">&quot;Android Smartphone usage&quot;</span>,</a>
-<a class="sourceLine" id="cb14-26" title="26">       <span class="dt">caption =</span> <span class="st">&quot;Data:Google Takeout&quot;</span>) -&gt;<span class="st"> </span>p2020</a>
-<a class="sourceLine" id="cb14-27" title="27"></a>
-<a class="sourceLine" id="cb14-28" title="28">p2019 <span class="op">/</span><span class="st"> </span>p2020</a></code></pre></div>
-<p><img src="My-Trivial_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">android <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb15-2" title="2"><span class="st">  </span><span class="kw">count</span>(date) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb15-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(date,n))</a></code></pre></div>
-<p><img src="My-Trivial_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p><img src="My-Trivial_files/figure-html/unnamed-chunk-78-1.png" width="672" /></p>
+</div>
+<div id="アプリの使用回数すべての年" class="section level3">
+<h3><span class="header-section-number">1.3.7</span> アプリの使用回数（すべての年）</h3>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">android <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb14-2" title="2"><span class="st">  </span><span class="kw">count</span>(header, <span class="dt">sort =</span> <span class="ot">TRUE</span>)  <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb14-3" title="3"><span class="st">  </span><span class="kw">head</span>(<span class="dv">5</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb14-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">header =</span> <span class="kw">fct_reorder</span>(header, n)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb14-5" title="5"><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_col</span>(<span class="kw">aes</span>(<span class="dt">y =</span> header, <span class="dt">x =</span> n)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb14-6" title="6"><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb14-7" title="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Most used Apps - Overall&quot;</span>,</a>
+<a class="sourceLine" id="cb14-8" title="8">       <span class="dt">subtitle =</span> <span class="st">&quot;Android Smartphone usage&quot;</span>,</a>
+<a class="sourceLine" id="cb14-9" title="9">       <span class="dt">caption =</span> <span class="st">&quot;Data:Google Takeout&quot;</span>)</a></code></pre></div>
+<p><img src="My-Trivial_files/figure-html/unnamed-chunk-79-1.png" width="672" /></p>
+</div>
+<div id="比較2019-vs-2020" class="section level3">
+<h3><span class="header-section-number">1.3.8</span> 比較（2019 vs 2020）</h3>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">android_latest <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb15-2" title="2"><span class="st">  </span><span class="kw">filter</span>(year <span class="op">%in%</span><span class="st"> &#39;2019&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb15-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(year, header) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb15-4" title="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb15-5" title="5"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(n)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb15-6" title="6"><span class="st">  </span><span class="kw">head</span>(<span class="dv">5</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co">#View()</span></a>
+<a class="sourceLine" id="cb15-7" title="7"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">header =</span> <span class="kw">fct_reorder</span>(header, n)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb15-8" title="8"><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_col</span>(<span class="kw">aes</span>(<span class="dt">y =</span> header, <span class="dt">x =</span> n)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb15-9" title="9"><span class="st"> </span><span class="co"># facet_wrap(~year, scales = &quot;free&quot;) +</span></a>
+<a class="sourceLine" id="cb15-10" title="10"><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb15-11" title="11"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Most used Apps - 2019&quot;</span>,</a>
+<a class="sourceLine" id="cb15-12" title="12">       <span class="dt">subtitle =</span> <span class="st">&quot;Android Smartphone usage&quot;</span>,</a>
+<a class="sourceLine" id="cb15-13" title="13">       <span class="dt">caption =</span> <span class="st">&quot;Data:Google Takeout&quot;</span>) -&gt;<span class="st"> </span>p2019</a>
+<a class="sourceLine" id="cb15-14" title="14">android_latest <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb15-15" title="15"><span class="st">  </span><span class="kw">filter</span>(year <span class="op">%in%</span><span class="st"> &#39;2020&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb15-16" title="16"><span class="st">  </span><span class="kw">group_by</span>(year, header) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb15-17" title="17"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb15-18" title="18"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(n)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb15-19" title="19"><span class="st">  </span><span class="kw">head</span>(<span class="dv">5</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co">#View()</span></a>
+<a class="sourceLine" id="cb15-20" title="20"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">header =</span> <span class="kw">fct_reorder</span>(header, n)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb15-21" title="21"><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_col</span>(<span class="kw">aes</span>(<span class="dt">y =</span> header, <span class="dt">x =</span> n)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb15-22" title="22"><span class="st"> </span><span class="co"># facet_wrap(~year, scales = &quot;free&quot;) +</span></a>
+<a class="sourceLine" id="cb15-23" title="23"><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb15-24" title="24"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Most used Apps - 2020&quot;</span>,</a>
+<a class="sourceLine" id="cb15-25" title="25">       <span class="dt">subtitle =</span> <span class="st">&quot;Android Smartphone usage&quot;</span>,</a>
+<a class="sourceLine" id="cb15-26" title="26">       <span class="dt">caption =</span> <span class="st">&quot;Data:Google Takeout&quot;</span>) -&gt;<span class="st"> </span>p2020</a>
+<a class="sourceLine" id="cb15-27" title="27"></a>
+<a class="sourceLine" id="cb15-28" title="28">p2019 <span class="op">/</span><span class="st"> </span>p2020</a></code></pre></div>
+<p><img src="My-Trivial_files/figure-html/unnamed-chunk-80-1.png" width="672" /></p>
 
+</div>
 </div>
 </div>
             </section>

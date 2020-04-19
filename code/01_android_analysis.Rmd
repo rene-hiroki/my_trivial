@@ -8,55 +8,83 @@ pacmanがインストールされていない場合は、コメントアウト�
 
 ```{r, warning=FALSE,message=FALSE}
 # install.packages(pacman)
-pacman::p_load(tidyverse, jsonlite, patchwork, here, update = FALSE)
+pacman::p_load(tidyverse, jsonlite, patchwork, here,
+               lubridate, update = FALSE)
 ```
 
 ## activityをダウンロード 
 
-## activityの読み込み 
+あとで書く
+google takeout で検索
+
+## ここから解析
+
+### activityの読み込み 
 
 ```{r}
 android <- jsonlite::fromJSON(here("data/android_activity.json"))
 ```
 
 
+### 読み込んだactivityデータの概要確認
+
 ```{r}
 glimpse(android)
 ```
 
-```{r}
-android$time <- parse_datetime(android$time,locale = locale(tz = "Asia/Calcutta"))
-summary(android$time)
-
-```
+### timeデータを変換
 
 ```{r}
-android <-
-  android %>% 
+android <- android %>%
+  mutate(time =
+           parse_datetime(time, locale = locale(tz = "Japan"))
+         ) %>% 
   mutate(date = lubridate::date(time),
          year = lubridate::year(time))
 ```
 
-```{r}
-android_latest <- 
-  android %>% 
-  filter(year %in% c(2019,2020))
+### 年月ごとのデータ数の集計
+
+2018年8月以前のデータが少ない。
+activityデータの収集がうまくいっていなかった？
+
+```{r paged.print=TRUE}
+android %>% 
+  group_by(year, month(date)) %>% 
+  count()
 ```
 
 ```{r}
-android_latest <-
-  android_latest %>% 
+android %>%
+  count(date) %>% 
+  ggplot() + geom_line(aes(date,n)) +
+  scale_x_date(breaks = "month",
+               guide = guide_axis(n.dodge = 3))
+  
+```
+
+### データの準備
+
+2019年と2020年のデータのみを使うことにする。
+
+```{r}
+android_latest <- android %>%
+  filter(year %in% c(2019, 2020))
+```
+
+アプリの名前が長いから20文字までにする。
+
+```{r}
+android_latest <- android_latest %>%
   mutate(header = if_else(str_length(header) >= 20,
-                                     substr(header,1,20),
-                                     header))
-android <-
-  android %>% 
+                          substr(header, 1, 20), header))
+android <- android %>%
   mutate(header = if_else(str_length(header) >= 20,
-                                     substr(header,1,20),
-                                     header))
+                          substr(header, 1, 20), header))
 
 ```
 
+### アプリの使用回数（2019-2020）
 
 ```{r}
 android_latest %>% 
@@ -70,6 +98,7 @@ android_latest %>%
        caption = "Data:Google Takeout")
 ```
 
+### アプリの使用回数（すべての年）
 
 ```{r}
 android %>% 
@@ -83,6 +112,8 @@ android %>%
        caption = "Data:Google Takeout")
 
 ```
+
+### 比較（2019 vs 2020）
 
 ```{r}
 android_latest %>% 
@@ -115,9 +146,4 @@ android_latest %>%
 p2019 / p2020
 ```
 
-```{r}
-android %>%
-  count(date) %>% 
-  ggplot() + geom_line(aes(date,n))
-```
 

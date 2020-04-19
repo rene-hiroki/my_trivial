@@ -13,7 +13,7 @@ setwd(here("code/"))
 d$file %>% render_book(
   preview = TRUE,
   clean = TRUE,
-  output_dir = here("output_book"),
+  output_dir = here("docs"),
   encoding = "UTF-8",
   config_file = c("_bookdown.yml")
 )
