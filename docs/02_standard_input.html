@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>日々の雑学</title>
+  <title>Chapter: 2 標準入力 | 日々の雑学</title>
   <meta name="description" content="This is a description. Please wrote a abstract this contents." />
   <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="日々の雑学" />
+  <meta property="og:title" content="Chapter: 2 標準入力 | 日々の雑学" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="日々の雑学" />
+  <meta name="twitter:title" content="Chapter: 2 標準入力 | 日々の雑学" />
   
   <meta name="twitter:description" content="This is a description. Please wrote a abstract this contents." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
+<link rel="prev" href="01_android_analysis.html"/>
 
-<link rel="next" href="01_android_analysis.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -168,51 +168,59 @@ My Trivial
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">日々の雑学</h1>
-<p class="author"><em>Akiyama Hiroki</em></p>
-<p class="date"><em>最終更新日: 2020-05-05</em></p>
+<div id="標準入力" class="section level1">
+<h1><span class="header-section-number">Chapter: 2</span> 標準入力</h1>
+<p>標準入力、つまりはPythonで言うところのinput()をRでやろとしたら、かなり苦労したのでtipsとしてまとめておくことにした。</p>
+<div id="readlines" class="section level2">
+<h2><span class="header-section-number">2.1</span> readLines</h2>
+<p>ずばりRで標準入力をするにはreadLinesを使う。ただし、</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">input_lines &lt;-<span class="st"> </span><span class="kw">readLines</span>(<span class="st">&quot;stdin&quot;</span>)</a></code></pre></div>
+<p>このように<code>"stdin"</code>という引数を使用する。おそらくstandard input の略か何かだろう。</p>
+<p><strong>注意すべきは、このコードをRのコンソールで実行してしまうとRがうんともすんとも言わなくなってしまう</strong>こと。</p>
+<p>詳しい理由はわからないが、コマンドプロンプトからの標準入力を受けるように指示しているので、コンソールで実行してしまうとダメ、ということなのだろうか（誰か教えて欲しい）。</p>
+<p>たとえば<code>stdin.R</code>に下記のように記述しておき、</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="co">#! /usr/bin/env Rscript</span></a>
+<a class="sourceLine" id="cb17-2" title="2">input_lines &lt;-<span class="st"> </span><span class="kw">readLines</span>(<span class="st">&quot;stdin&quot;</span>)</a>
+<a class="sourceLine" id="cb17-3" title="3"><span class="kw">cat</span>(input_lines[<span class="dv">1</span>]) <span class="co"># catは標準出力</span></a></code></pre></div>
+<p>コマンドプロンプトから下記のようにして<code>stdin.R</code>を実行してみる</p>
+<pre><code>Rscript stdin.R</code></pre>
+<p>すると入力待ち状態になるので、何かしら記述する。</p>
+<pre><code>Hello world!</code></pre>
+<p>そして、<code>ctrl + c</code>あるいは<code>ctrl + z</code>の後に<code>Enter</code>で入力を終了すると（他の方法ありますか？）</p>
+<pre><code>Hello world!</code></pre>
+<p>とプロンプトに標準出力ができる。</p>
 </div>
-<div id="はじめに" class="section level1 unnumbered">
-<h1>はじめに</h1>
-<p>作成中です hogehoge fugafuga</p>
-<div id="環境" class="section level2">
-<h2><span class="header-section-number">0.1</span> 環境</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">sessionInfo</span>()</a></code></pre></div>
-<pre><code>## R version 3.6.3 (2020-02-29)
-## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 10 x64 (build 18363)
-## 
-## Matrix products: default
-## 
-## locale:
-## [1] LC_COLLATE=Japanese_Japan.932  LC_CTYPE=Japanese_Japan.932   
-## [3] LC_MONETARY=Japanese_Japan.932 LC_NUMERIC=C                  
-## [5] LC_TIME=Japanese_Japan.932    
-## 
-## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
-## 
-## other attached packages:
-##  [1] here_0.1          bookdown_0.18     forcats_0.5.0     stringr_1.4.0    
-##  [5] dplyr_0.8.99.9002 purrr_0.3.3       readr_1.3.1       tidyr_1.0.2      
-##  [9] tibble_3.0.0      ggplot2_3.3.0     tidyverse_1.3.0  
-## 
-## loaded via a namespace (and not attached):
-##  [1] tidyselect_1.0.0  xfun_0.12         haven_2.2.0       lattice_0.20-41  
-##  [5] colorspace_1.4-1  vctrs_0.2.99.9011 generics_0.0.2    htmltools_0.4.0  
-##  [9] yaml_2.2.1        utf8_1.1.4        rlang_0.4.5.9000  pillar_1.4.3     
-## [13] glue_1.4.0        withr_2.1.2       DBI_1.1.0         dbplyr_1.4.2     
-## [17] modelr_0.1.6      readxl_1.3.1      lifecycle_0.2.0   munsell_0.5.0    
-## [21] gtable_0.3.0      cellranger_1.1.0  rvest_0.3.5       evaluate_0.14    
-## [25] knitr_1.28        fansi_0.4.1       broom_0.5.5       Rcpp_1.0.4.6     
-## [29] scales_1.1.0      backports_1.1.6   jsonlite_1.6.1    fs_1.4.1         
-## [33] hms_0.5.3         packrat_0.5.0     digest_0.6.25     stringi_1.4.6    
-## [37] rprojroot_1.3-2   grid_3.6.3        cli_2.0.2         tools_3.6.3      
-## [41] magrittr_1.5      crayon_1.3.4      pkgconfig_2.0.3   ellipsis_0.3.0   
-## [45] xml2_1.3.1        reprex_0.3.0      lubridate_1.7.8   assertthat_0.2.1 
-## [49] rmarkdown_2.1     httr_1.4.1        rstudioapi_0.11   R6_2.4.1         
-## [53] nlme_3.1-145      compiler_3.6.3</code></pre>
+<div id="スクリプトで計算処理" class="section level2">
+<h2><span class="header-section-number">2.2</span> スクリプトで計算処理</h2>
+<p><code>stdin.R</code>に以下のように記述しておけば、標準入力で受け取った値を、計算処理をしてから返すこともできる。</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="co">#! /usr/bin/env Rscript</span></a>
+<a class="sourceLine" id="cb21-2" title="2"></a>
+<a class="sourceLine" id="cb21-3" title="3"><span class="co"># ライブラリもつかえる</span></a>
+<a class="sourceLine" id="cb21-4" title="4"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb21-5" title="5"></a>
+<a class="sourceLine" id="cb21-6" title="6">input_lines &lt;-<span class="st"> </span><span class="kw">readLines</span>(<span class="st">&quot;stdin&quot;</span>)</a>
+<a class="sourceLine" id="cb21-7" title="7">x =<span class="st"> </span><span class="kw">as.integer</span>(input_lines[<span class="dv">1</span>]) <span class="co"># 1つめ（1行目の入力）</span></a>
+<a class="sourceLine" id="cb21-8" title="8">y =<span class="st"> </span><span class="kw">as.integer</span>(input_lines[<span class="dv">2</span>]) <span class="co"># 2つめ</span></a>
+<a class="sourceLine" id="cb21-9" title="9"><span class="kw">cat</span>(x <span class="op">+</span><span class="st"> </span>y)</a></code></pre></div>
+</div>
+<div id="テキストファイルを読ませる" class="section level2">
+<h2><span class="header-section-number">2.3</span> テキストファイルを読ませる</h2>
+<p><code>read_text.txt</code>を別に以下のように準備しておき、</p>
+<p>（read_text.txtの最終行には改行を入れないと、あとでwarningが出るので注意する。）</p>
+<pre><code>Hello
+world!
+</code></pre>
+<p><code>stdin.R</code>をこうしておく</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="co">#! /usr/bin/env Rscript</span></a>
+<a class="sourceLine" id="cb23-2" title="2">input_lines &lt;-<span class="st"> </span><span class="kw">readLines</span>(<span class="st">&quot;stdin&quot;</span>)</a>
+<a class="sourceLine" id="cb23-3" title="3"></a>
+<a class="sourceLine" id="cb23-4" title="4">x =<span class="st"> </span>input_lines[<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb23-5" title="5">y =<span class="st"> </span>input_lines[<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb23-6" title="6"><span class="kw">cat</span>(x, y)</a></code></pre></div>
+<p>そしてコマンドプロンプトで次のようにすれば、<code>read_text.txt</code>から標準入力を受け取ることができる。</p>
+<pre><code>Rscript stdin.R &lt; read_text.txt</code></pre>
+<p>プロンプトの出力はこうなる</p>
+<pre><code>Hello world!</code></pre>
 
 </div>
 </div>
@@ -221,8 +229,8 @@ My Trivial
           </div>
         </div>
       </div>
+<a href="01_android_analysis.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
-<a href="01_android_analysis.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -1,0 +1,100 @@
+# 標準入力
+
+標準入力、つまりはPythonで言うところのinput()をRでやろとしたら、かなり苦労したのでtipsとしてまとめておくことにした。
+
+## readLines
+
+ずばりRで標準入力をするにはreadLinesを使う。ただし、
+
+```{r eval=FALSE}
+input_lines <- readLines("stdin")
+```
+
+このように`"stdin"`という引数を使用する。おそらくstandard input の略か何かだろう。  
+
+**注意すべきは、このコードをRのコンソールで実行してしまうとRがうんともすんとも言わなくなってしまう**こと。
+
+詳しい理由はわからないが、コマンドプロンプトからの標準入力を受けるように指示しているので、コンソールで実行してしまうとダメ、ということなのだろうか（誰か教えて欲しい）。
+
+たとえば`stdin.R`に下記のように記述しておき、
+
+```{r eval=FALSE}
+#! /usr/bin/env Rscript
+input_lines <- readLines("stdin")
+cat(input_lines[1]) # catは標準出力
+```
+
+コマンドプロンプトから下記のようにして`stdin.R`を実行してみる
+
+```
+Rscript stdin.R
+```
+
+すると入力待ち状態になるので、何かしら記述する。
+
+```
+Hello world!
+```
+
+そして、`ctrl + c`あるいは`ctrl + z`の後に`Enter`で入力を終了すると（他の方法ありますか？）
+
+```
+Hello world!
+```
+
+とプロンプトに標準出力ができる。
+
+
+## スクリプトで計算処理
+
+`stdin.R`に以下のように記述しておけば、標準入力で受け取った値を、計算処理をしてから返すこともできる。
+
+```{r eval=FALSE}
+#! /usr/bin/env Rscript
+
+# ライブラリもつかえる
+library(tidyverse)
+
+input_lines <- readLines("stdin")
+x = as.integer(input_lines[1]) # 1つめ（1行目の入力）
+y = as.integer(input_lines[2]) # 2つめ
+cat(x + y)
+```
+
+
+## テキストファイルを読ませる
+
+`read_text.txt`を別に以下のように準備しておき、
+
+（read_text.txtの最終行には改行を入れないと、あとでwarningが出るので注意する。）
+
+
+```
+Hello
+world!
+
+```
+
+`stdin.R`をこうしておく
+
+```{r eval=FALSE}
+#! /usr/bin/env Rscript
+input_lines <- readLines("stdin")
+
+x = input_lines[1]
+y = input_lines[2]
+cat(x, y)
+```
+
+
+そしてコマンドプロンプトで次のようにすれば、`read_text.txt`から標準入力を受け取ることができる。
+
+```
+Rscript stdin.R < read_text.txt
+```
+
+プロンプトの出力はこうなる
+
+```
+Hello world!
+```
