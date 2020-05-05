@@ -170,14 +170,17 @@ My Trivial
             <section class="normal" id="section-">
 <div id="標準入力" class="section level1">
 <h1><span class="header-section-number">Chapter: 2</span> 標準入力</h1>
-<p>標準入力、つまりはPythonで言うところのinput()をRでやろとしたら、かなり苦労したのでtipsとしてまとめておくことにした。</p>
+<p>標準入力、つまりはPythonで言うところのinput()をRでやろうとしたら、かなり苦労したのでtipsとしてまとめておくことにした。</p>
 <div id="readlines" class="section level2">
 <h2><span class="header-section-number">2.1</span> readLines</h2>
 <p>ずばりRで標準入力をするにはreadLinesを使う。ただし、</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">input_lines &lt;-<span class="st"> </span><span class="kw">readLines</span>(<span class="st">&quot;stdin&quot;</span>)</a></code></pre></div>
 <p>このように<code>"stdin"</code>という引数を使用する。おそらくstandard input の略か何かだろう。</p>
-<p><strong>注意すべきは、このコードをRのコンソールで実行してしまうとRがうんともすんとも言わなくなってしまう</strong>こと。</p>
+<p><font color="red">
+<strong>注意すべきは、このコードをRのコンソールで実行してしまうとRがうんともすんとも言わなくなってしまうこと。</strong>
+</font></p>
 <p>詳しい理由はわからないが、コマンドプロンプトからの標準入力を受けるように指示しているので、コンソールで実行してしまうとダメ、ということなのだろうか（誰か教えて欲しい）。</p>
+<p>コンソール上で実験的にコードを試したい場合は、<code>readline()</code>を使えばコンソールで入力待ち状態となるので、こちらを使用する。</p>
 <p>たとえば<code>stdin.R</code>に下記のように記述しておき、</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="co">#! /usr/bin/env Rscript</span></a>
 <a class="sourceLine" id="cb17-2" title="2">input_lines &lt;-<span class="st"> </span><span class="kw">readLines</span>(<span class="st">&quot;stdin&quot;</span>)</a>
