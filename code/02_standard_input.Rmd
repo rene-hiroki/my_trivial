@@ -98,3 +98,8 @@ Rscript stdin.R < read_text.txt
 ```
 Hello world!
 ```
+
+
+これでatcoderにも参戦できる！
+
+（atcoderでRは使用不可、、、）
