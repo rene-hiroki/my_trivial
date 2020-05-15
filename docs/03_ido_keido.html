@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter: 3 緯度経度からちょっとインタラクティブな地図作成 | 日々の雑学</title>
+  <meta name="description" content="This is a description. Please wrote a abstract this contents." />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter: 3 緯度経度からちょっとインタラクティブな地図作成 | 日々の雑学" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a description. Please wrote a abstract this contents." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter: 3 緯度経度からちょっとインタラクティブな地図作成 | 日々の雑学" />
+  
+  <meta name="twitter:description" content="This is a description. Please wrote a abstract this contents." />
+  
+
+<meta name="author" content="Akiyama Hiroki" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="02_standard_input.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.13/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
+<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+<link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
+<script src="libs/selectize-0.12.0/selectize.min.js"></script>
+<link href="libs/dt-plugin-searchhighlight-1.10.20/source.css" rel="stylesheet" />
+<script src="libs/dt-plugin-searchhighlight-1.10.20/jquery.highlight.js"></script>
+<script src="libs/dt-plugin-searchhighlight-1.10.20/source.min.js"></script>
+<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+My Trivial
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>はじめに</a><ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#環境"><i class="fa fa-check"></i><b>0.1</b> 環境</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="01_android_analysis.html"><a href="01_android_analysis.html"><i class="fa fa-check"></i><b>1</b> android分析</a><ul>
+<li class="chapter" data-level="1.1" data-path="01_android_analysis.html"><a href="01_android_analysis.html#ライブラリの準備"><i class="fa fa-check"></i><b>1.1</b> ライブラリの準備</a></li>
+<li class="chapter" data-level="1.2" data-path="01_android_analysis.html"><a href="01_android_analysis.html#activityをダウンロード"><i class="fa fa-check"></i><b>1.2</b> activityをダウンロード</a></li>
+<li class="chapter" data-level="1.3" data-path="01_android_analysis.html"><a href="01_android_analysis.html#ここから解析"><i class="fa fa-check"></i><b>1.3</b> ここから解析</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="01_android_analysis.html"><a href="01_android_analysis.html#activityの読み込み"><i class="fa fa-check"></i><b>1.3.1</b> activityの読み込み</a></li>
+<li class="chapter" data-level="1.3.2" data-path="01_android_analysis.html"><a href="01_android_analysis.html#読み込んだactivityデータの概要確認"><i class="fa fa-check"></i><b>1.3.2</b> 読み込んだactivityデータの概要確認</a></li>
+<li class="chapter" data-level="1.3.3" data-path="01_android_analysis.html"><a href="01_android_analysis.html#timeデータを変換"><i class="fa fa-check"></i><b>1.3.3</b> timeデータを変換</a></li>
+<li class="chapter" data-level="1.3.4" data-path="01_android_analysis.html"><a href="01_android_analysis.html#年月ごとのデータ数の集計"><i class="fa fa-check"></i><b>1.3.4</b> 年月ごとのデータ数の集計</a></li>
+<li class="chapter" data-level="1.3.5" data-path="01_android_analysis.html"><a href="01_android_analysis.html#データの準備"><i class="fa fa-check"></i><b>1.3.5</b> データの準備</a></li>
+<li class="chapter" data-level="1.3.6" data-path="01_android_analysis.html"><a href="01_android_analysis.html#アプリの使用回数2019-2020"><i class="fa fa-check"></i><b>1.3.6</b> アプリの使用回数（2019-2020）</a></li>
+<li class="chapter" data-level="1.3.7" data-path="01_android_analysis.html"><a href="01_android_analysis.html#アプリの使用回数すべての年"><i class="fa fa-check"></i><b>1.3.7</b> アプリの使用回数（すべての年）</a></li>
+<li class="chapter" data-level="1.3.8" data-path="01_android_analysis.html"><a href="01_android_analysis.html#比較2019-vs-2020"><i class="fa fa-check"></i><b>1.3.8</b> 比較（2019 vs 2020）</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="02_standard_input.html"><a href="02_standard_input.html"><i class="fa fa-check"></i><b>2</b> 標準入力</a><ul>
+<li class="chapter" data-level="2.1" data-path="02_standard_input.html"><a href="02_standard_input.html#readlines"><i class="fa fa-check"></i><b>2.1</b> readLines</a></li>
+<li class="chapter" data-level="2.2" data-path="02_standard_input.html"><a href="02_standard_input.html#スクリプトで計算処理"><i class="fa fa-check"></i><b>2.2</b> スクリプトで計算処理</a></li>
+<li class="chapter" data-level="2.3" data-path="02_standard_input.html"><a href="02_standard_input.html#テキストファイルを読ませる"><i class="fa fa-check"></i><b>2.3</b> テキストファイルを読ませる</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="03_ido_keido.html"><a href="03_ido_keido.html"><i class="fa fa-check"></i><b>3</b> 緯度経度からちょっとインタラクティブな地図作成</a><ul>
+<li class="chapter" data-level="3.1" data-path="03_ido_keido.html"><a href="03_ido_keido.html#ライブラリ読み込み"><i class="fa fa-check"></i><b>3.1</b> ライブラリ読み込み</a></li>
+<li class="chapter" data-level="3.2" data-path="03_ido_keido.html"><a href="03_ido_keido.html#データ準備"><i class="fa fa-check"></i><b>3.2</b> データ準備</a></li>
+<li class="chapter" data-level="3.3" data-path="03_ido_keido.html"><a href="03_ido_keido.html#ポップアップの文字作成"><i class="fa fa-check"></i><b>3.3</b> ポップアップの文字作成</a></li>
+<li class="chapter" data-level="3.4" data-path="03_ido_keido.html"><a href="03_ido_keido.html#地図にプロットする"><i class="fa fa-check"></i><b>3.4</b> 地図にプロットする</a></li>
+<li class="chapter" data-level="3.5" data-path="03_ido_keido.html"><a href="03_ido_keido.html#データ一覧"><i class="fa fa-check"></i><b>3.5</b> データ一覧</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">日々の雑学</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="緯度経度からちょっとインタラクティブな地図作成" class="section level1">
+<h1><span class="header-section-number">Chapter: 3</span> 緯度経度からちょっとインタラクティブな地図作成</h1>
+<p>参考にした記事 <del>というかほぼこれ</del></p>
+<p><a href="https://rpubs.com/kazutan/jssp2015_leaflet" class="uri">https://rpubs.com/kazutan/jssp2015_leaflet</a></p>
+<div id="ライブラリ読み込み" class="section level2">
+<h2><span class="header-section-number">3.1</span> ライブラリ読み込み</h2>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb26-2" title="2"><span class="kw">library</span>(DT) <span class="co"># 表作成用</span></a>
+<a class="sourceLine" id="cb26-3" title="3"><span class="kw">library</span>(ggmap) <span class="co"># 住所・緯度経度対応用</span></a>
+<a class="sourceLine" id="cb26-4" title="4"><span class="kw">library</span>(leaflet) <span class="co"># プロット用</span></a>
+<a class="sourceLine" id="cb26-5" title="5"><span class="kw">library</span>(stringi) <span class="co"># 全角から半角変換</span></a></code></pre></div>
+</div>
+<div id="データ準備" class="section level2">
+<h2><span class="header-section-number">3.2</span> データ準備</h2>
+<p>緯度経度取得後</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="co"># 東京ドーム 日本、〒112-0004 東京都文京区後楽１丁目３−６１    35.7056396  139.7518913</span></a>
+<a class="sourceLine" id="cb27-2" title="2"><span class="co"># 福島聖天通商店街  日本、〒553-0003 大阪府大阪市福島区福島７丁目７−１２ 34.6976052  135.4846712</span></a>
+<a class="sourceLine" id="cb27-3" title="3"><span class="co"># 銀座通り商店街   日本、〒489-0043 愛知県瀬戸市朝日町  35.2266746  137.100508</span></a>
+<a class="sourceLine" id="cb27-4" title="4"></a>
+<a class="sourceLine" id="cb27-5" title="5">df &lt;-<span class="st"> </span><span class="kw">tribble</span>(</a>
+<a class="sourceLine" id="cb27-6" title="6">    <span class="op">~</span>id, <span class="op">~</span>lat, <span class="op">~</span>lon, <span class="op">~</span>address, <span class="op">~</span>group, <span class="op">~</span>name,</a>
+<a class="sourceLine" id="cb27-7" title="7">    <span class="dv">1</span>, <span class="fl">35.7056396</span>, <span class="fl">139.7518913</span>,<span class="st">&quot;〒112-0004 東京都文京区後楽１丁目３−６１&quot;</span>, <span class="st">&quot;スポーツ&quot;</span>, <span class="st">&quot;東京ドーム&quot;</span>,</a>
+<a class="sourceLine" id="cb27-8" title="8">    <span class="dv">2</span>, <span class="fl">34.6976052</span>, <span class="fl">135.4846712</span>,<span class="st">&quot;〒112-0004 東京都文京区後楽１丁目３−６１&quot;</span>, <span class="st">&quot;商店街A&quot;</span> ,<span class="st">&quot;福島聖天通商店街&quot;</span>,</a>
+<a class="sourceLine" id="cb27-9" title="9">    <span class="dv">3</span>, <span class="fl">35.2266746</span>, <span class="fl">137.100508</span>,<span class="st">&quot;〒112-0004 東京都文京区後楽１丁目３−６１&quot;</span>, <span class="st">&quot;商店街B&quot;</span>, <span class="st">&quot;銀座通り商店街&quot;</span></a>
+<a class="sourceLine" id="cb27-10" title="10">    )</a>
+<a class="sourceLine" id="cb27-11" title="11"><span class="co"># 住所の全角を半角に変換</span></a>
+<a class="sourceLine" id="cb27-12" title="12"><span class="co"># https://www.pediatricsurgery.site/entry/2017/10/12/105242</span></a>
+<a class="sourceLine" id="cb27-13" title="13">df &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">address =</span> <span class="kw">stri_trans_nfkc</span>(address))</a>
+<a class="sourceLine" id="cb27-14" title="14">df</a></code></pre></div>
+<pre><code>## # A tibble: 3 x 6
+##      id   lat   lon address                              group    name            
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;                                &lt;chr&gt;    &lt;chr&gt;           
+## 1     1  35.7  140. 〒112-0004 東京都文京区後楽1丁目3-61 スポーツ 東京ドーム      
+## 2     2  34.7  135. 〒112-0004 東京都文京区後楽1丁目3-61 商店街A  福島聖天通商店街
+## 3     3  35.2  137. 〒112-0004 東京都文京区後楽1丁目3-61 商店街B  銀座通り商店街</code></pre>
+</div>
+<div id="ポップアップの文字作成" class="section level2">
+<h2><span class="header-section-number">3.3</span> ポップアップの文字作成</h2>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1">df &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">popup =</span> <span class="kw">paste</span>(name, group, address, <span class="dt">sep=</span><span class="st">&quot;&lt;br/&gt;&quot;</span>))</a>
+<a class="sourceLine" id="cb29-2" title="2">df</a></code></pre></div>
+<pre><code>## # A tibble: 3 x 7
+##      id   lat   lon address             group   name      popup                         
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;               &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;                         
+## 1     1  35.7  140. 〒112-0004 東京都文京区後楽~ スポーツ~ 東京ドーム~ 東京ドーム&lt;br/&gt;スポーツ&lt;br/&gt;〒112-0004 ~
+## 2     2  34.7  135. 〒112-0004 東京都文京区後楽~ 商店街A 福島聖天通商店街~ 福島聖天通商店街&lt;br/&gt;商店街A&lt;br/&gt;〒112-00~
+## 3     3  35.2  137. 〒112-0004 東京都文京区後楽~ 商店街B 銀座通り商店街~ 銀座通り商店街&lt;br/&gt;商店街B&lt;br/&gt;〒112-000~</code></pre>
+</div>
+<div id="地図にプロットする" class="section level2">
+<h2><span class="header-section-number">3.4</span> 地図にプロットする</h2>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1"><span class="co"># plot</span></a>
+<a class="sourceLine" id="cb31-2" title="2">geo &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">leaflet</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">addTiles</span>()</a>
+<a class="sourceLine" id="cb31-3" title="3"></a>
+<a class="sourceLine" id="cb31-4" title="4"><span class="cf">for</span> (gru <span class="cf">in</span> df<span class="op">$</span>group){</a>
+<a class="sourceLine" id="cb31-5" title="5">  geo &lt;-<span class="st"> </span>geo <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb31-6" title="6"><span class="st">  </span><span class="kw">addMarkers</span>(<span class="dt">lng =</span> <span class="op">~</span>lon, <span class="dt">lat =</span> <span class="op">~</span>lat, <span class="dt">popup =</span> <span class="op">~</span>popup, <span class="dt">group =</span> gru, </a>
+<a class="sourceLine" id="cb31-7" title="7">             <span class="dt">data =</span> dplyr<span class="op">::</span><span class="kw">filter</span>(<span class="dt">.data =</span> df, group <span class="op">==</span><span class="st"> </span>gru)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb31-8" title="8"><span class="st">  </span><span class="kw">addLayersControl</span>(<span class="dt">overlayGroups =</span> df<span class="op">$</span>group,</a>
+<a class="sourceLine" id="cb31-9" title="9">                   <span class="dt">options =</span> <span class="kw">layersControlOptions</span>(<span class="dt">collapsed =</span> <span class="ot">FALSE</span>))  </a>
+<a class="sourceLine" id="cb31-10" title="10">}</a>
+<a class="sourceLine" id="cb31-11" title="11"></a>
+<a class="sourceLine" id="cb31-12" title="12">geo</a></code></pre></div>
+<div id="htmlwidget-1d5ae2a11d5432da0d90" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1d5ae2a11d5432da0d90">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addMarkers","args":[35.7056396,139.7518913,null,null,"スポーツ",{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},"東京ドーム<br/>スポーツ<br/>〒112-0004 東京都文京区後楽1丁目3-61",null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLayersControl","args":[[],["スポーツ","商店街A","商店街B"],{"collapsed":false,"autoZIndex":true,"position":"topright"}]},{"method":"addMarkers","args":[34.6976052,135.4846712,null,null,"商店街A",{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},"福島聖天通商店街<br/>商店街A<br/>〒112-0004 東京都文京区後楽1丁目3-61",null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLayersControl","args":[[],["スポーツ","商店街A","商店街B"],{"collapsed":false,"autoZIndex":true,"position":"topright"}]},{"method":"addMarkers","args":[35.2266746,137.100508,null,null,"商店街B",{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},"銀座通り商店街<br/>商店街B<br/>〒112-0004 東京都文京区後楽1丁目3-61",null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLayersControl","args":[[],["スポーツ","商店街A","商店街B"],{"collapsed":false,"autoZIndex":true,"position":"topright"}]}],"limits":{"lat":[34.6976052,35.7056396],"lng":[135.4846712,139.7518913]}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="データ一覧" class="section level2">
+<h2><span class="header-section-number">3.5</span> データ一覧</h2>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1"><span class="co"># 一覧表示</span></a>
+<a class="sourceLine" id="cb32-2" title="2">DT<span class="op">::</span><span class="kw">datatable</span>(dplyr<span class="op">::</span><span class="kw">select</span>(df,name<span class="op">:</span>group),<span class="dt">options =</span> <span class="kw">list</span>(<span class="dt">searchHighlight =</span> <span class="ot">TRUE</span>), <span class="dt">filter =</span> <span class="st">&#39;top&#39;</span>)</a></code></pre></div>
+<div id="htmlwidget-384e8d38621b16629b75" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-384e8d38621b16629b75">{"x":{"filter":"top","filterHTML":"<tr>\n  <td><\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["1","2","3"],["東京ドーム","福島聖天通商店街","銀座通り商店街"],["スポーツ","商店街A","商店街B"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>name<\/th>\n      <th>group<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"searchHighlight":true,"order":[],"autoWidth":false,"orderClasses":false,"columnDefs":[{"orderable":false,"targets":0}],"orderCellsTop":true}},"evals":[],"jsHooks":[]}</script>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="02_standard_input.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 1
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["My_Trivial.pdf"],
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"search": true,
+"info": true
+});
+});
+</script>
+
+</body>
+
+</html>

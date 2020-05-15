@@ -1,0 +1,69 @@
+# 緯度経度からちょっとインタラクティブな地図作成
+
+参考にした記事 ~~というかほぼこれ~~
+
+https://rpubs.com/kazutan/jssp2015_leaflet
+
+
+## ライブラリ読み込み
+
+```{r, message=FALSE,warning=FALSE}
+library(dplyr)
+library(DT) # 表作成用
+library(ggmap) # 住所・緯度経度対応用
+library(leaflet) # プロット用
+library(stringi) # 全角から半角変換
+```
+
+## データ準備
+
+緯度経度取得後
+
+```{r}
+# 東京ドーム	日本、〒112-0004 東京都文京区後楽１丁目３−６１	35.7056396	139.7518913
+# 福島聖天通商店街	日本、〒553-0003 大阪府大阪市福島区福島７丁目７−１２	34.6976052	135.4846712
+# 銀座通り商店街	日本、〒489-0043 愛知県瀬戸市朝日町	35.2266746	137.100508
+
+df <- tribble(
+    ~id, ~lat, ~lon, ~address, ~group, ~name,
+    1, 35.7056396, 139.7518913,"〒112-0004 東京都文京区後楽１丁目３−６１", "スポーツ", "東京ドーム",
+    2, 34.6976052, 135.4846712,"〒112-0004 東京都文京区後楽１丁目３−６１", "商店街A" ,"福島聖天通商店街",
+    3, 35.2266746, 137.100508,"〒112-0004 東京都文京区後楽１丁目３−６１", "商店街B", "銀座通り商店街"
+    )
+# 住所の全角を半角に変換
+# https://www.pediatricsurgery.site/entry/2017/10/12/105242
+df <- df %>% mutate(address = stri_trans_nfkc(address))
+df
+```
+
+## ポップアップの文字作成
+
+```{r}
+df <- df %>% mutate(popup = paste(name, group, address, sep="<br/>"))
+df
+```
+
+## 地図にプロットする
+
+```{r}
+# plot
+geo <- df %>% leaflet() %>% addTiles()
+
+for (gru in df$group){
+  geo <- geo %>% 
+  addMarkers(lng = ~lon, lat = ~lat, popup = ~popup, group = gru, 
+             data = dplyr::filter(.data = df, group == gru)) %>% 
+  addLayersControl(overlayGroups = df$group,
+                   options = layersControlOptions(collapsed = FALSE))  
+}
+
+geo
+```
+
+## データ一覧
+
+```{r}
+# 一覧表示
+DT::datatable(dplyr::select(df,name:group),options = list(searchHighlight = TRUE), filter = 'top')
+```
+
