@@ -8,16 +8,18 @@ https://rpubs.com/kazutan/jssp2015_leaflet
 ## ライブラリ読み込み
 
 ```{r, message=FALSE,warning=FALSE}
-library(dplyr)
+library(tidyverse)
+library(here)
 library(DT) # 表作成用
 library(ggmap) # 住所・緯度経度対応用
 library(leaflet) # プロット用
 library(stringi) # 全角から半角変換
 ```
 
+
 ## データ準備
 
-緯度経度取得後
+緯度経度取得後の想定データ
 
 ```{r}
 # 東京ドーム	日本、〒112-0004 東京都文京区後楽１丁目３−６１	35.7056396	139.7518913
@@ -30,9 +32,11 @@ df <- tribble(
     2, 34.6976052, 135.4846712,"〒112-0004 東京都文京区後楽１丁目３−６１", "商店街A" ,"福島聖天通商店街",
     3, 35.2266746, 137.100508,"〒112-0004 東京都文京区後楽１丁目３−６１", "商店街B", "銀座通り商店街"
     )
-# 住所の全角を半角に変換
+
 # https://www.pediatricsurgery.site/entry/2017/10/12/105242
-df <- df %>% mutate(address = stri_trans_nfkc(address))
+df <- 
+  df %>%
+  mutate(address = stri_trans_nfkc(address)) # 住所の全角を半角に変換
 df
 ```
 
@@ -43,20 +47,36 @@ df <- df %>% mutate(popup = paste(name, group, address, sep="<br/>"))
 df
 ```
 
+## マーカーリスト
+
+```{r}
+icon_df <- tibble(group = df$group, icon = paste0(here("picture/icon/"), "/",dir(here("picture/icon/"))[1:3]))
+icon_df
+```
+
+
 ## 地図にプロットする
 
 ```{r}
-# plot
+# iconの高さと幅
+w <- 20
+h <- 30
 geo <- df %>% leaflet() %>% addTiles()
 
 for (gru in df$group){
+  
+  icon_list <- icons(iconUrl = icon_df %>% filter(group == gru) %>% pull(icon),
+                     iconWidth = w, iconHeight = h,
+                     iconAnchorX = w/2, iconAnchorY = h)
+
   geo <- geo %>% 
-  addMarkers(lng = ~lon, lat = ~lat, popup = ~popup, group = gru, 
+  addMarkers(lng = ~lon, lat = ~lat, popup = ~popup, group = gru,
+             icon = icon_list,
              data = dplyr::filter(.data = df, group == gru)) %>% 
   addLayersControl(overlayGroups = df$group,
-                   options = layersControlOptions(collapsed = FALSE))  
+                   options = layersControlOptions(collapsed = FALSE)) 
+  
 }
-
 geo
 ```
 
@@ -66,4 +86,15 @@ geo
 # 一覧表示
 DT::datatable(dplyr::select(df,name:group),options = list(searchHighlight = TRUE), filter = 'top')
 ```
+
+
+
+
+## マーカーリスト
+
+```{r}
+icon_df <- tibble(group = unique(df$group), icon = paste0(here("picture/icon/"), "/",dir(here("picture/icon/"))[1:3]))
+icon_df
+```
+
 

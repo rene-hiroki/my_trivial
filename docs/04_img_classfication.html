@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter: 4 画像処理と多クラス分類 | 日々の雑学</title>
+  <meta name="description" content="This is a description. Please wrote a abstract this contents." />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter: 4 画像処理と多クラス分類 | 日々の雑学" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a description. Please wrote a abstract this contents." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter: 4 画像処理と多クラス分類 | 日々の雑学" />
+  
+  <meta name="twitter:description" content="This is a description. Please wrote a abstract this contents." />
+  
+
+<meta name="author" content="Akiyama Hiroki" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="03_ido_keido.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.13/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
+<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+<link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
+<script src="libs/selectize-0.12.0/selectize.min.js"></script>
+<link href="libs/dt-plugin-searchhighlight-1.10.20/source.css" rel="stylesheet" />
+<script src="libs/dt-plugin-searchhighlight-1.10.20/jquery.highlight.js"></script>
+<script src="libs/dt-plugin-searchhighlight-1.10.20/source.min.js"></script>
+<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+My Trivial
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>はじめに</a><ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#環境"><i class="fa fa-check"></i><b>0.1</b> 環境</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="01_android_analysis.html"><a href="01_android_analysis.html"><i class="fa fa-check"></i><b>1</b> android分析</a><ul>
+<li class="chapter" data-level="1.1" data-path="01_android_analysis.html"><a href="01_android_analysis.html#ライブラリの準備"><i class="fa fa-check"></i><b>1.1</b> ライブラリの準備</a></li>
+<li class="chapter" data-level="1.2" data-path="01_android_analysis.html"><a href="01_android_analysis.html#activityをダウンロード"><i class="fa fa-check"></i><b>1.2</b> activityをダウンロード</a></li>
+<li class="chapter" data-level="1.3" data-path="01_android_analysis.html"><a href="01_android_analysis.html#ここから解析"><i class="fa fa-check"></i><b>1.3</b> ここから解析</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="01_android_analysis.html"><a href="01_android_analysis.html#activityの読み込み"><i class="fa fa-check"></i><b>1.3.1</b> activityの読み込み</a></li>
+<li class="chapter" data-level="1.3.2" data-path="01_android_analysis.html"><a href="01_android_analysis.html#読み込んだactivityデータの概要確認"><i class="fa fa-check"></i><b>1.3.2</b> 読み込んだactivityデータの概要確認</a></li>
+<li class="chapter" data-level="1.3.3" data-path="01_android_analysis.html"><a href="01_android_analysis.html#timeデータを変換"><i class="fa fa-check"></i><b>1.3.3</b> timeデータを変換</a></li>
+<li class="chapter" data-level="1.3.4" data-path="01_android_analysis.html"><a href="01_android_analysis.html#年月ごとのデータ数の集計"><i class="fa fa-check"></i><b>1.3.4</b> 年月ごとのデータ数の集計</a></li>
+<li class="chapter" data-level="1.3.5" data-path="01_android_analysis.html"><a href="01_android_analysis.html#データの準備"><i class="fa fa-check"></i><b>1.3.5</b> データの準備</a></li>
+<li class="chapter" data-level="1.3.6" data-path="01_android_analysis.html"><a href="01_android_analysis.html#アプリの使用回数2019-2020"><i class="fa fa-check"></i><b>1.3.6</b> アプリの使用回数（2019-2020）</a></li>
+<li class="chapter" data-level="1.3.7" data-path="01_android_analysis.html"><a href="01_android_analysis.html#アプリの使用回数すべての年"><i class="fa fa-check"></i><b>1.3.7</b> アプリの使用回数（すべての年）</a></li>
+<li class="chapter" data-level="1.3.8" data-path="01_android_analysis.html"><a href="01_android_analysis.html#比較2019-vs-2020"><i class="fa fa-check"></i><b>1.3.8</b> 比較（2019 vs 2020）</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="02_standard_input.html"><a href="02_standard_input.html"><i class="fa fa-check"></i><b>2</b> 標準入力</a><ul>
+<li class="chapter" data-level="2.1" data-path="02_standard_input.html"><a href="02_standard_input.html#readlines"><i class="fa fa-check"></i><b>2.1</b> readLines</a></li>
+<li class="chapter" data-level="2.2" data-path="02_standard_input.html"><a href="02_standard_input.html#スクリプトで計算処理"><i class="fa fa-check"></i><b>2.2</b> スクリプトで計算処理</a></li>
+<li class="chapter" data-level="2.3" data-path="02_standard_input.html"><a href="02_standard_input.html#テキストファイルを読ませる"><i class="fa fa-check"></i><b>2.3</b> テキストファイルを読ませる</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="03_ido_keido.html"><a href="03_ido_keido.html"><i class="fa fa-check"></i><b>3</b> 緯度経度からちょっとインタラクティブな地図作成</a><ul>
+<li class="chapter" data-level="3.1" data-path="03_ido_keido.html"><a href="03_ido_keido.html#ライブラリ読み込み"><i class="fa fa-check"></i><b>3.1</b> ライブラリ読み込み</a></li>
+<li class="chapter" data-level="3.2" data-path="03_ido_keido.html"><a href="03_ido_keido.html#データ準備"><i class="fa fa-check"></i><b>3.2</b> データ準備</a></li>
+<li class="chapter" data-level="3.3" data-path="03_ido_keido.html"><a href="03_ido_keido.html#ポップアップの文字作成"><i class="fa fa-check"></i><b>3.3</b> ポップアップの文字作成</a></li>
+<li class="chapter" data-level="3.4" data-path="03_ido_keido.html"><a href="03_ido_keido.html#マーカーリスト"><i class="fa fa-check"></i><b>3.4</b> マーカーリスト</a></li>
+<li class="chapter" data-level="3.5" data-path="03_ido_keido.html"><a href="03_ido_keido.html#地図にプロットする"><i class="fa fa-check"></i><b>3.5</b> 地図にプロットする</a></li>
+<li class="chapter" data-level="3.6" data-path="03_ido_keido.html"><a href="03_ido_keido.html#データ一覧"><i class="fa fa-check"></i><b>3.6</b> データ一覧</a></li>
+<li class="chapter" data-level="3.7" data-path="03_ido_keido.html"><a href="03_ido_keido.html#マーカーリスト-1"><i class="fa fa-check"></i><b>3.7</b> マーカーリスト</a></li>
+<li class="chapter" data-level="3.8" data-path="03_ido_keido.html"><a href="03_ido_keido.html#地図にプロットするその２"><i class="fa fa-check"></i><b>3.8</b> 地図にプロットするその２</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="04_img_classfication.html"><a href="04_img_classfication.html"><i class="fa fa-check"></i><b>4</b> 画像処理と多クラス分類</a><ul>
+<li class="chapter" data-level="4.1" data-path="04_img_classfication.html"><a href="04_img_classfication.html#概要説明"><i class="fa fa-check"></i><b>4.1</b> 概要説明</a></li>
+<li class="chapter" data-level="4.2" data-path="04_img_classfication.html"><a href="04_img_classfication.html#結果"><i class="fa fa-check"></i><b>4.2</b> 結果</a></li>
+<li class="chapter" data-level="4.3" data-path="04_img_classfication.html"><a href="04_img_classfication.html#ライブラリ読み込み-1"><i class="fa fa-check"></i><b>4.3</b> ライブラリ読み込み</a></li>
+<li class="chapter" data-level="4.4" data-path="04_img_classfication.html"><a href="04_img_classfication.html#データ読み込み"><i class="fa fa-check"></i><b>4.4</b> データ読み込み</a></li>
+<li class="chapter" data-level="4.5" data-path="04_img_classfication.html"><a href="04_img_classfication.html#あいうえおを見てみる"><i class="fa fa-check"></i><b>4.5</b> 「あいうえお」を見てみる</a></li>
+<li class="chapter" data-level="4.6" data-path="04_img_classfication.html"><a href="04_img_classfication.html#前処理"><i class="fa fa-check"></i><b>4.6</b> 前処理</a></li>
+<li class="chapter" data-level="4.7" data-path="04_img_classfication.html"><a href="04_img_classfication.html#モデリング"><i class="fa fa-check"></i><b>4.7</b> モデリング</a><ul>
+<li class="chapter" data-level="4.7.1" data-path="04_img_classfication.html"><a href="04_img_classfication.html#データをtraintestに8020で分割する"><i class="fa fa-check"></i><b>4.7.1</b> データをtrain/testに80%/20%で分割する</a></li>
+<li class="chapter" data-level="4.7.2" data-path="04_img_classfication.html"><a href="04_img_classfication.html#tidymodelsの準備"><i class="fa fa-check"></i><b>4.7.2</b> tidymodelsの準備</a></li>
+<li class="chapter" data-level="4.7.3" data-path="04_img_classfication.html"><a href="04_img_classfication.html#random-forestとxgboostのモデルを定義"><i class="fa fa-check"></i><b>4.7.3</b> random forestとxgboostのモデルを定義</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="04_img_classfication.html"><a href="04_img_classfication.html#計測"><i class="fa fa-check"></i><b>4.8</b> 計測</a><ul>
+<li class="chapter" data-level="4.8.1" data-path="04_img_classfication.html"><a href="04_img_classfication.html#計測する２文字"><i class="fa fa-check"></i><b>4.8.1</b> 計測する（２文字）</a></li>
+<li class="chapter" data-level="4.8.2" data-path="04_img_classfication.html"><a href="04_img_classfication.html#計測結果２文字"><i class="fa fa-check"></i><b>4.8.2</b> 計測結果（２文字）</a></li>
+<li class="chapter" data-level="4.8.3" data-path="04_img_classfication.html"><a href="04_img_classfication.html#予測結果２文字"><i class="fa fa-check"></i><b>4.8.3</b> 予測結果（２文字）</a></li>
+<li class="chapter" data-level="4.8.4" data-path="04_img_classfication.html"><a href="04_img_classfication.html#計測する１０文字"><i class="fa fa-check"></i><b>4.8.4</b> 計測する（１０文字）</a></li>
+<li class="chapter" data-level="4.8.5" data-path="04_img_classfication.html"><a href="04_img_classfication.html#計測結果１０文字"><i class="fa fa-check"></i><b>4.8.5</b> 計測結果（１０文字）</a></li>
+<li class="chapter" data-level="4.8.6" data-path="04_img_classfication.html"><a href="04_img_classfication.html#予測結果１０文字"><i class="fa fa-check"></i><b>4.8.6</b> 予測結果（１０文字）</a></li>
+<li class="chapter" data-level="4.8.7" data-path="04_img_classfication.html"><a href="04_img_classfication.html#計測する３０文字"><i class="fa fa-check"></i><b>4.8.7</b> 計測する（３０文字）</a></li>
+<li class="chapter" data-level="4.8.8" data-path="04_img_classfication.html"><a href="04_img_classfication.html#計測結果３０文字"><i class="fa fa-check"></i><b>4.8.8</b> 計測結果（３０文字）</a></li>
+<li class="chapter" data-level="4.8.9" data-path="04_img_classfication.html"><a href="04_img_classfication.html#予測結果３０文字"><i class="fa fa-check"></i><b>4.8.9</b> 予測結果（３０文字）</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">日々の雑学</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="画像処理と多クラス分類" class="section level1">
+<h1><span class="header-section-number">Chapter: 4</span> 画像処理と多クラス分類</h1>
+<div id="概要説明" class="section level2">
+<h2><span class="header-section-number">4.1</span> 概要説明</h2>
+<p>あとで書く</p>
+</div>
+<div id="結果" class="section level2">
+<h2><span class="header-section-number">4.2</span> 結果</h2>
+<p>あとで書く</p>
+</div>
+<div id="ライブラリ読み込み-1" class="section level2">
+<h2><span class="header-section-number">4.3</span> ライブラリ読み込み</h2>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1"><span class="kw">library</span>(here)       <span class="co"># file path</span></a>
+<a class="sourceLine" id="cb38-2" title="2"><span class="kw">library</span>(tidyverse)  <span class="co"># handling</span></a>
+<a class="sourceLine" id="cb38-3" title="3"><span class="kw">library</span>(tidymodels) <span class="co"># modeling</span></a>
+<a class="sourceLine" id="cb38-4" title="4"><span class="kw">library</span>(furrr)      <span class="co"># parallel</span></a>
+<a class="sourceLine" id="cb38-5" title="5"><span class="kw">library</span>(xgboost)    <span class="co"># modeling xgboost</span></a>
+<a class="sourceLine" id="cb38-6" title="6"><span class="kw">library</span>(microbenchmark) <span class="co"># time check</span></a>
+<a class="sourceLine" id="cb38-7" title="7"><span class="kw">library</span>(tictoc)     <span class="co"># time check</span></a>
+<a class="sourceLine" id="cb38-8" title="8"><span class="kw">library</span>(imager)     <span class="co"># image processing</span></a>
+<a class="sourceLine" id="cb38-9" title="9"><span class="kw">library</span>(patchwork)  <span class="co"># plot</span></a></code></pre></div>
+</div>
+<div id="データ読み込み" class="section level2">
+<h2><span class="header-section-number">4.4</span> データ読み込み</h2>
+<p>22秒くらいかかる。</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1"><span class="kw">tic</span>()</a>
+<a class="sourceLine" id="cb39-2" title="2">path_vec &lt;-<span class="st"> </span><span class="kw">here</span>(<span class="kw">paste0</span>(<span class="st">&quot;data/hiragana/&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">6069</span>, <span class="st">&quot;.png&quot;</span>))</a>
+<a class="sourceLine" id="cb39-3" title="3">data &lt;-<span class="st"> </span>path_vec <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map</span>(load.image) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tibble</span>(<span class="dt">images =</span> .)</a>
+<a class="sourceLine" id="cb39-4" title="4"><span class="kw">toc</span>()</a></code></pre></div>
+<pre><code>## 15.13 sec elapsed</code></pre>
+</div>
+<div id="あいうえおを見てみる" class="section level2">
+<h2><span class="header-section-number">4.5</span> 「あいうえお」を見てみる</h2>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" title="1">data<span class="op">$</span>images[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map</span>(plot)</a></code></pre></div>
+<p><img src="My_Trivial_files/figure-html/unnamed-chunk-75-1.png" width="672" /></p>
+<pre><code>## [[1]]
+## Image. Width: 72 pix Height: 76 pix Depth: 1 Colour channels: 1 
+## 
+## [[2]]
+## Image. Width: 72 pix Height: 76 pix Depth: 1 Colour channels: 1 
+## 
+## [[3]]
+## Image. Width: 72 pix Height: 76 pix Depth: 1 Colour channels: 1 
+## 
+## [[4]]
+## Image. Width: 72 pix Height: 76 pix Depth: 1 Colour channels: 1 
+## 
+## [[5]]
+## Image. Width: 72 pix Height: 76 pix Depth: 1 Colour channels: 1</code></pre>
+</div>
+<div id="前処理" class="section level2">
+<h2><span class="header-section-number">4.6</span> 前処理</h2>
+<p>余計な部分を削る。</p>
+<p>横は20～50まで、縦は20～60まで。</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" title="1">preprocessing &lt;-<span class="st"> </span><span class="cf">function</span>(img){</a>
+<a class="sourceLine" id="cb43-2" title="2">  mat &lt;-<span class="st"> </span>img <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.matrix</span>()</a>
+<a class="sourceLine" id="cb43-3" title="3">  mat_reshape_img &lt;-<span class="st"> </span>mat[<span class="dv">20</span><span class="op">:</span><span class="dv">50</span>, <span class="dv">20</span><span class="op">:</span><span class="dv">60</span>] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.cimg</span>()</a>
+<a class="sourceLine" id="cb43-4" title="4">  mat_reshape_img</a>
+<a class="sourceLine" id="cb43-5" title="5">}</a>
+<a class="sourceLine" id="cb43-6" title="6"></a>
+<a class="sourceLine" id="cb43-7" title="7">data &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">processed =</span> <span class="kw">map</span>(images, preprocessing))</a>
+<a class="sourceLine" id="cb43-8" title="8">data<span class="op">$</span>processed[[<span class="dv">1</span>]] <span class="op">%&gt;%</span><span class="st"> </span>plot</a></code></pre></div>
+<p><img src="My_Trivial_files/figure-html/unnamed-chunk-76-1.png" width="672" /></p>
+<p>画像を一次元のベクトルに変換する。</p>
+<p>正解のラベルをつける。</p>
+<p>わ行の「い」と「う」と「え」、は「い2」「う2」「え2」</p>
+<p>旧文字の「い」と「え」は「い3」「え3」とした。</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1">s &lt;-<span class="st"> </span><span class="kw">str_c</span>(<span class="st">&quot;あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめも&quot;</span>)</a>
+<a class="sourceLine" id="cb44-2" title="2">s &lt;-<span class="st"> </span><span class="kw">str_split</span>(s, <span class="dt">pattern =</span> <span class="st">&quot;&quot;</span>)[[<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb44-3" title="3">s &lt;-<span class="st"> </span><span class="kw">c</span>(s ,<span class="st">&quot;や&quot;</span>,<span class="st">&quot;い2&quot;</span>,<span class="st">&quot;ゆ&quot;</span>,<span class="st">&quot;え2&quot;</span>,<span class="st">&quot;よ&quot;</span>,<span class="st">&quot;ら&quot;</span>,<span class="st">&quot;り&quot;</span>,<span class="st">&quot;る&quot;</span>,<span class="st">&quot;れ&quot;</span>,<span class="st">&quot;ろ&quot;</span>,<span class="st">&quot;わ&quot;</span>,<span class="st">&quot;い3&quot;</span>,<span class="st">&quot;う2&quot;</span>,<span class="st">&quot;え3&quot;</span>,<span class="st">&quot;を&quot;</span>,<span class="st">&quot;ん&quot;</span>)</a>
+<a class="sourceLine" id="cb44-4" title="4"></a>
+<a class="sourceLine" id="cb44-5" title="5">data &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb44-6" title="6"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">vec_img =</span> processed <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map</span>(as.vector)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb44-7" title="7"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">label =</span> <span class="kw">rep</span>(s, <span class="dv">119</span>)) <span class="co"># それぞれ119文字ずつある。</span></a>
+<a class="sourceLine" id="cb44-8" title="8"></a>
+<a class="sourceLine" id="cb44-9" title="9">data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>()</a></code></pre></div>
+<pre><code>## # A tibble: 6 x 4
+##   images processed vec_img       label
+##   &lt;list&gt; &lt;list&gt;    &lt;list&gt;        &lt;chr&gt;
+## 1 &lt;cimg&gt; &lt;cimg&gt;    &lt;dbl [1,271]&gt; あ   
+## 2 &lt;cimg&gt; &lt;cimg&gt;    &lt;dbl [1,271]&gt; い   
+## 3 &lt;cimg&gt; &lt;cimg&gt;    &lt;dbl [1,271]&gt; う   
+## 4 &lt;cimg&gt; &lt;cimg&gt;    &lt;dbl [1,271]&gt; え   
+## 5 &lt;cimg&gt; &lt;cimg&gt;    &lt;dbl [1,271]&gt; お   
+## 6 &lt;cimg&gt; &lt;cimg&gt;    &lt;dbl [1,271]&gt; か</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" title="1">make_data &lt;-<span class="st"> </span><span class="cf">function</span>(data, start, end){</a>
+<a class="sourceLine" id="cb46-2" title="2">  d &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(label <span class="op">%in%</span><span class="st"> </span>s[start<span class="op">:</span>end]) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span>images, <span class="op">-</span>processed)</a>
+<a class="sourceLine" id="cb46-3" title="3">  <span class="kw">tic</span>()</a>
+<a class="sourceLine" id="cb46-4" title="4">  cols &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;pixel&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">1271</span>)</a>
+<a class="sourceLine" id="cb46-5" title="5">  res &lt;-<span class="st"> </span>d<span class="op">$</span>vec_img[[<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb46-6" title="6">  <span class="kw">names</span>(res) &lt;-<span class="st"> </span>cols</a>
+<a class="sourceLine" id="cb46-7" title="7">  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>(<span class="kw">nrow</span>(d))) {</a>
+<a class="sourceLine" id="cb46-8" title="8">    tmp &lt;-<span class="st"> </span>d<span class="op">$</span>vec_img[[i]]</a>
+<a class="sourceLine" id="cb46-9" title="9">    <span class="kw">names</span>(tmp) &lt;-<span class="st"> </span>cols</a>
+<a class="sourceLine" id="cb46-10" title="10">    res &lt;-<span class="st"> </span>res <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">bind_rows</span>(tmp)</a>
+<a class="sourceLine" id="cb46-11" title="11">    }</a>
+<a class="sourceLine" id="cb46-12" title="12">  res &lt;-<span class="st"> </span>res <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">label =</span> <span class="kw">as.factor</span>(d<span class="op">$</span>label))</a>
+<a class="sourceLine" id="cb46-13" title="13">  <span class="kw">toc</span>()</a>
+<a class="sourceLine" id="cb46-14" title="14">  <span class="kw">return</span>(res)</a>
+<a class="sourceLine" id="cb46-15" title="15">}</a>
+<a class="sourceLine" id="cb46-16" title="16"></a>
+<a class="sourceLine" id="cb46-17" title="17"><span class="co"># 3300秒くらいかかる</span></a>
+<a class="sourceLine" id="cb46-18" title="18"><span class="co"># res_51 &lt;- make_data(data,1,51)</span></a>
+<a class="sourceLine" id="cb46-19" title="19"><span class="co"># 一度読み込んだものをrdsに保存しておいた</span></a>
+<a class="sourceLine" id="cb46-20" title="20">res_<span class="dv">51</span> &lt;-<span class="st"> </span><span class="kw">read_rds</span>(<span class="kw">here</span>(<span class="st">&quot;data/res_51.rds&quot;</span>))</a>
+<a class="sourceLine" id="cb46-21" title="21">res_<span class="dv">2</span> &lt;-<span class="st"> </span>res_<span class="dv">51</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(label <span class="op">%in%</span><span class="st"> </span>s[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">label =</span> <span class="kw">as.factor</span>(label))</a>
+<a class="sourceLine" id="cb46-22" title="22">res_<span class="dv">10</span> &lt;-<span class="st"> </span>res_<span class="dv">51</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(label <span class="op">%in%</span><span class="st"> </span>s[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">label =</span> <span class="kw">as.factor</span>(label))</a>
+<a class="sourceLine" id="cb46-23" title="23">res_<span class="dv">30</span> &lt;-<span class="st"> </span>res_<span class="dv">51</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(label <span class="op">%in%</span><span class="st"> </span>s[<span class="dv">1</span><span class="op">:</span><span class="dv">30</span>]) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">label =</span> <span class="kw">as.factor</span>(label))</a></code></pre></div>
+</div>
+<div id="モデリング" class="section level2">
+<h2><span class="header-section-number">4.7</span> モデリング</h2>
+<div id="データをtraintestに8020で分割する" class="section level3">
+<h3><span class="header-section-number">4.7.1</span> データをtrain/testに80%/20%で分割する</h3>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" title="1"><span class="kw">set.seed</span>(<span class="dv">7777</span>)</a>
+<a class="sourceLine" id="cb47-2" title="2">splits &lt;-<span class="st"> </span>res_<span class="dv">2</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">initial_split</span>(<span class="dt">prop =</span> <span class="fl">0.8</span>, <span class="dt">strata =</span> label)</a>
+<a class="sourceLine" id="cb47-3" title="3">train &lt;-<span class="st"> </span><span class="kw">training</span>(splits)</a>
+<a class="sourceLine" id="cb47-4" title="4">test &lt;-<span class="st"> </span><span class="kw">testing</span>(splits)</a></code></pre></div>
+</div>
+<div id="tidymodelsの準備" class="section level3">
+<h3><span class="header-section-number">4.7.2</span> tidymodelsの準備</h3>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" title="1">target_var &lt;-<span class="st"> </span><span class="kw">sym</span>(<span class="st">&quot;label&quot;</span>)              <span class="co"># set target_var, sym means symbol</span></a>
+<a class="sourceLine" id="cb48-2" title="2">mode &lt;-<span class="st"> &quot;classification&quot;</span>                <span class="co"># set estimate type</span></a>
+<a class="sourceLine" id="cb48-3" title="3">formula &lt;-<span class="st"> </span><span class="kw">expr</span>(<span class="kw">formula</span>(<span class="op">!!</span>target_var <span class="op">~</span><span class="st"> </span>.)) <span class="co"># set formura</span></a>
+<a class="sourceLine" id="cb48-4" title="4"></a>
+<a class="sourceLine" id="cb48-5" title="5"><span class="co"># set recipes</span></a>
+<a class="sourceLine" id="cb48-6" title="6">rec &lt;-<span class="st"> </span>train <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb48-7" title="7"><span class="st">  </span><span class="kw">recipe</span>(<span class="dt">formula =</span> formula)</a>
+<a class="sourceLine" id="cb48-8" title="8"></a>
+<a class="sourceLine" id="cb48-9" title="9">rec_preped &lt;-<span class="st"> </span><span class="kw">prep</span>(rec)</a></code></pre></div>
+</div>
+<div id="random-forestとxgboostのモデルを定義" class="section level3">
+<h3><span class="header-section-number">4.7.3</span> random forestとxgboostのモデルを定義</h3>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1"><span class="co"># random forest</span></a>
+<a class="sourceLine" id="cb49-2" title="2">model_rf &lt;-</a>
+<a class="sourceLine" id="cb49-3" title="3"><span class="st">  </span><span class="kw">rand_forest</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb49-4" title="4"><span class="st">  </span><span class="kw">set_engine</span>(<span class="st">&quot;ranger&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb49-5" title="5"><span class="st">  </span><span class="kw">set_mode</span>(mode)</a>
+<a class="sourceLine" id="cb49-6" title="6"></a>
+<a class="sourceLine" id="cb49-7" title="7"><span class="co">#boosted trees</span></a>
+<a class="sourceLine" id="cb49-8" title="8">model_xgb &lt;-</a>
+<a class="sourceLine" id="cb49-9" title="9"><span class="st">  </span><span class="kw">boost_tree</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb49-10" title="10"><span class="st">  </span><span class="kw">set_engine</span>(<span class="st">&quot;xgboost&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb49-11" title="11"><span class="st">  </span><span class="kw">set_mode</span>(mode)</a>
+<a class="sourceLine" id="cb49-12" title="12"></a>
+<a class="sourceLine" id="cb49-13" title="13">model_list &lt;-</a>
+<a class="sourceLine" id="cb49-14" title="14"><span class="st">  </span><span class="kw">list</span>(<span class="dt">rf =</span> model_rf,</a>
+<a class="sourceLine" id="cb49-15" title="15">       <span class="dt">xgb =</span> model_xgb)</a>
+<a class="sourceLine" id="cb49-16" title="16"></a>
+<a class="sourceLine" id="cb49-17" title="17">flow_list &lt;-<span class="st"> </span><span class="kw">workflow</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">add_recipe</span>(rec) </a>
+<a class="sourceLine" id="cb49-18" title="18">flow_list &lt;-<span class="st"> </span><span class="kw">map</span>(<span class="dt">.x =</span> model_list, <span class="op">~</span><span class="kw">add_model</span>(<span class="dt">x =</span> flow_list, <span class="dt">spec =</span> .x))</a></code></pre></div>
+</div>
+</div>
+<div id="計測" class="section level2">
+<h2><span class="header-section-number">4.8</span> 計測</h2>
+<div id="計測する２文字" class="section level3">
+<h3><span class="header-section-number">4.8.1</span> 計測する（２文字）</h3>
+<p>rfとxgboostそれぞれ50回ずつfitさせる時間を計測する</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" title="1">baked_train &lt;-<span class="st"> </span><span class="kw">bake</span>(rec,train)</a>
+<a class="sourceLine" id="cb50-2" title="2"></a>
+<a class="sourceLine" id="cb50-3" title="3"><span class="co"># random forest</span></a>
+<a class="sourceLine" id="cb50-4" title="4">time_rf_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(</a>
+<a class="sourceLine" id="cb50-5" title="5">  fit_rf &lt;-<span class="st"> </span><span class="kw">fit</span>(flow_list<span class="op">$</span>rf, <span class="dt">data =</span> baked_train),</a>
+<a class="sourceLine" id="cb50-6" title="6">  <span class="dt">times =</span> <span class="dv">2</span></a>
+<a class="sourceLine" id="cb50-7" title="7">  )</a>
+<a class="sourceLine" id="cb50-8" title="8"><span class="co"># xgboost</span></a>
+<a class="sourceLine" id="cb50-9" title="9">time_xgb_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(</a>
+<a class="sourceLine" id="cb50-10" title="10">  fit_xgb &lt;-<span class="st"> </span><span class="kw">fit</span>(flow_list<span class="op">$</span>xgb, <span class="dt">data =</span> baked_train),</a>
+<a class="sourceLine" id="cb50-11" title="11">  <span class="dt">times =</span> <span class="dv">2</span></a>
+<a class="sourceLine" id="cb50-12" title="12">)</a></code></pre></div>
+</div>
+<div id="計測結果２文字" class="section level3">
+<h3><span class="header-section-number">4.8.2</span> 計測結果（２文字）</h3>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" title="1"><span class="kw">bind_rows</span>(time_rf_<span class="dv">2</span>, time_xgb_<span class="dv">2</span>)</a></code></pre></div>
+<pre><code>## Warning in bind_rows_(x, .id): Unequal factor levels: coercing to character</code></pre>
+<pre><code>## Warning in bind_rows_(x, .id): binding character and factor vector, coercing into character vector
+
+## Warning in bind_rows_(x, .id): binding character and factor vector, coercing into character vector</code></pre>
+<pre><code>## Unit: seconds
+##                                               expr      min       lq     mean   median       uq      max neval
+##    fit_rf &lt;- fit(flow_list$rf, data = baked_train) 1.207564 1.207564 1.350436 1.350436 1.493308 1.493308     2
+##  fit_xgb &lt;- fit(flow_list$xgb, data = baked_train) 1.202549 1.202549 1.207039 1.207039 1.211529 1.211529     2</code></pre>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" title="1">my_plot &lt;-<span class="st"> </span><span class="cf">function</span>(time_rf, time_xgb, <span class="dt">bins=</span><span class="dv">20</span>){</a>
+<a class="sourceLine" id="cb55-2" title="2">  <span class="kw">tibble</span>(<span class="dt">rf =</span> time_rf<span class="op">$</span>time<span class="op">/</span><span class="fl">1e+09</span>, <span class="dt">xgb =</span> time_xgb<span class="op">$</span>time<span class="op">/</span><span class="fl">1e+09</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb55-3" title="3"><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="kw">everything</span>()) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb55-4" title="4"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(value)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb55-5" title="5"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> bins) <span class="op">+</span></a>
+<a class="sourceLine" id="cb55-6" title="6"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="kw">vars</span>(name), <span class="dt">ncol =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb55-7" title="7">}</a>
+<a class="sourceLine" id="cb55-8" title="8"><span class="kw">my_plot</span>(time_rf_<span class="dv">2</span>, time_xgb_<span class="dv">2</span>, <span class="dt">bins =</span> <span class="dv">20</span>)</a></code></pre></div>
+<p><img src="My_Trivial_files/figure-html/unnamed-chunk-84-1.png" width="672" /></p>
+</div>
+<div id="予測結果２文字" class="section level3">
+<h3><span class="header-section-number">4.8.3</span> 予測結果（２文字）</h3>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" title="1">my_predict &lt;-<span class="st"> </span><span class="cf">function</span>(){</a>
+<a class="sourceLine" id="cb56-2" title="2">  fit_rf &lt;-<span class="st"> </span><span class="kw">fit</span>(flow_list<span class="op">$</span>rf, <span class="dt">data =</span> <span class="kw">bake</span>(rec, test))</a>
+<a class="sourceLine" id="cb56-3" title="3">  pred_rf &lt;-<span class="st"> </span><span class="kw">predict</span>(fit_rf, <span class="dt">new_data =</span> <span class="kw">bake</span>(rec, test)) </a>
+<a class="sourceLine" id="cb56-4" title="4">  pred_conf_rf &lt;-<span class="st"> </span>caret<span class="op">::</span><span class="kw">confusionMatrix</span>(pred_rf<span class="op">$</span>.pred_class, test<span class="op">$</span>label)</a>
+<a class="sourceLine" id="cb56-5" title="5"></a>
+<a class="sourceLine" id="cb56-6" title="6">  fit_xgb &lt;-<span class="st"> </span><span class="kw">fit</span>(flow_list<span class="op">$</span>xgb, <span class="dt">data =</span> <span class="kw">bake</span>(rec, test))</a>
+<a class="sourceLine" id="cb56-7" title="7">  pred_xgb &lt;-<span class="st"> </span><span class="kw">predict</span>(fit_xgb, <span class="dt">new_data =</span> <span class="kw">bake</span>(rec, test))</a>
+<a class="sourceLine" id="cb56-8" title="8">  pred_conf_xgb &lt;-<span class="st"> </span>caret<span class="op">::</span><span class="kw">confusionMatrix</span>(pred_xgb<span class="op">$</span>.pred_class, test<span class="op">$</span>label)</a>
+<a class="sourceLine" id="cb56-9" title="9"></a>
+<a class="sourceLine" id="cb56-10" title="10">    <span class="kw">return</span>(<span class="kw">list</span>(<span class="dt">rf =</span> pred_conf_rf<span class="op">$</span>table,</a>
+<a class="sourceLine" id="cb56-11" title="11">                <span class="dt">xgb=</span> pred_conf_xgb<span class="op">$</span>table))</a>
+<a class="sourceLine" id="cb56-12" title="12">}</a>
+<a class="sourceLine" id="cb56-13" title="13"><span class="kw">my_predict</span>()</a></code></pre></div>
+<pre><code>## $rf
+##           Reference
+## Prediction あ い
+##         あ 23  0
+##         い  0 23
+## 
+## $xgb
+##           Reference
+## Prediction あ い
+##         あ 23  0
+##         い  0 23</code></pre>
+</div>
+<div id="計測する１０文字" class="section level3">
+<h3><span class="header-section-number">4.8.4</span> 計測する（１０文字）</h3>
+<p>rfとxgboostそれぞれ50回ずつfitさせる時間を計測する。</p>
+<p>データの作成に4分くらいかかる。</p>
+<p>fitには全部で11分くらい。</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" title="1"><span class="co"># set recipes</span></a>
+<a class="sourceLine" id="cb58-2" title="2">rec &lt;-<span class="st"> </span>train <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb58-3" title="3"><span class="st">  </span><span class="kw">recipe</span>(<span class="dt">formula =</span> formula)</a>
+<a class="sourceLine" id="cb58-4" title="4">rec_preped &lt;-<span class="st"> </span><span class="kw">prep</span>(rec)</a>
+<a class="sourceLine" id="cb58-5" title="5">flow_list &lt;-<span class="st"> </span><span class="kw">workflow</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">add_recipe</span>(rec) </a>
+<a class="sourceLine" id="cb58-6" title="6">flow_list &lt;-<span class="st"> </span><span class="kw">map</span>(<span class="dt">.x =</span> model_list, <span class="op">~</span><span class="kw">add_model</span>(<span class="dt">x =</span> flow_list, <span class="dt">spec =</span> .x))</a>
+<a class="sourceLine" id="cb58-7" title="7"></a>
+<a class="sourceLine" id="cb58-8" title="8"><span class="kw">set.seed</span>(<span class="dv">7777</span>)</a>
+<a class="sourceLine" id="cb58-9" title="9">splits &lt;-<span class="st"> </span>res_<span class="dv">10</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">initial_split</span>(<span class="dt">prop =</span> <span class="fl">0.8</span>, <span class="dt">strata =</span> label)</a></code></pre></div>
+<pre><code>## Warning: Too little data to stratify. Unstratified resampling will be used.</code></pre>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" title="1">train &lt;-<span class="st"> </span><span class="kw">training</span>(splits)</a>
+<a class="sourceLine" id="cb60-2" title="2">test &lt;-<span class="st"> </span><span class="kw">testing</span>(splits)</a>
+<a class="sourceLine" id="cb60-3" title="3"></a>
+<a class="sourceLine" id="cb60-4" title="4">baked_train &lt;-<span class="st"> </span><span class="kw">bake</span>(rec,train)</a>
+<a class="sourceLine" id="cb60-5" title="5"><span class="co"># random forest</span></a>
+<a class="sourceLine" id="cb60-6" title="6">time_rf_<span class="dv">10</span> &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(</a>
+<a class="sourceLine" id="cb60-7" title="7">  fit_rf &lt;-<span class="st"> </span><span class="kw">fit</span>(flow_list<span class="op">$</span>rf, <span class="dt">data =</span> baked_train),</a>
+<a class="sourceLine" id="cb60-8" title="8">  <span class="dt">times =</span> <span class="dv">50</span></a>
+<a class="sourceLine" id="cb60-9" title="9">  )</a>
+<a class="sourceLine" id="cb60-10" title="10"><span class="co"># xgboost</span></a>
+<a class="sourceLine" id="cb60-11" title="11">time_xgb_<span class="dv">10</span> &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(</a>
+<a class="sourceLine" id="cb60-12" title="12">  fit_xgb &lt;-<span class="st"> </span><span class="kw">fit</span>(flow_list<span class="op">$</span>xgb, <span class="dt">data =</span> baked_train),</a>
+<a class="sourceLine" id="cb60-13" title="13">  <span class="dt">times =</span> <span class="dv">50</span></a>
+<a class="sourceLine" id="cb60-14" title="14">)</a></code></pre></div>
+</div>
+<div id="計測結果１０文字" class="section level3">
+<h3><span class="header-section-number">4.8.5</span> 計測結果（１０文字）</h3>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" title="1"><span class="kw">bind_rows</span>(time_rf_<span class="dv">10</span>, time_xgb_<span class="dv">10</span>)</a></code></pre></div>
+<pre><code>## Warning in bind_rows_(x, .id): Unequal factor levels: coercing to character</code></pre>
+<pre><code>## Warning in bind_rows_(x, .id): binding character and factor vector, coercing into character vector
+
+## Warning in bind_rows_(x, .id): binding character and factor vector, coercing into character vector</code></pre>
+<pre><code>## Unit: seconds
+##                                               expr     min       lq     mean   median       uq       max neval
+##    fit_rf &lt;- fit(flow_list$rf, data = baked_train) 3.02797 3.053799 3.313087 3.063390 3.095673 15.011433    50
+##  fit_xgb &lt;- fit(flow_list$xgb, data = baked_train) 8.13080 8.285678 8.391799 8.312129 8.454143  9.271326    50</code></pre>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" title="1"><span class="kw">my_plot</span>(time_rf_<span class="dv">10</span>, time_xgb_<span class="dv">10</span>, <span class="dt">bins =</span> <span class="dv">30</span>)</a></code></pre></div>
+<p><img src="My_Trivial_files/figure-html/unnamed-chunk-88-1.png" width="672" /></p>
+</div>
+<div id="予測結果１０文字" class="section level3">
+<h3><span class="header-section-number">4.8.6</span> 予測結果（１０文字）</h3>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" title="1"><span class="kw">my_predict</span>()</a></code></pre></div>
+<pre><code>## $rf
+##           Reference
+## Prediction あ い う え お か き く け こ
+##         あ 25  0  0  0  0  0  0  0  0  0
+##         い  0 25  0  0  0  0  0  0  0  0
+##         う  0  0 15  0  0  0  0  0  0  0
+##         え  0  0  0 23  0  0  0  0  0  0
+##         お  0  0  0  0 19  0  0  0  0  0
+##         か  0  0  0  0  0 21  0  0  0  0
+##         き  0  0  0  0  0  0 30  0  0  0
+##         く  0  0  0  0  0  0  0 26  0  0
+##         け  0  0  0  0  0  0  0  0 23  0
+##         こ  0  0  0  0  0  0  0  0  0 30
+## 
+## $xgb
+##           Reference
+## Prediction あ い う え お か き く け こ
+##         あ 25  0  0  0  0  0  0  0  0  0
+##         い  0 25  0  0  0  0  0  0  0  0
+##         う  0  0 15  0  0  0  0  0  0  0
+##         え  0  0  0 23  0  0  0  0  0  0
+##         お  0  0  0  0 19  0  0  0  0  0
+##         か  0  0  0  0  0 21  0  0  0  0
+##         き  0  0  0  0  0  0 30  0  0  0
+##         く  0  0  0  0  0  0  0 26  0  0
+##         け  0  0  0  0  0  0  0  0 23  0
+##         こ  0  0  0  0  0  0  0  0  0 30</code></pre>
+</div>
+<div id="計測する３０文字" class="section level3">
+<h3><span class="header-section-number">4.8.7</span> 計測する（３０文字）</h3>
+<p>rfとxgboostそれぞれ50回ずつfitさせる時間を計測する。</p>
+<p>fitには全部で分くらい。</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" title="1"><span class="co"># set recipes</span></a>
+<a class="sourceLine" id="cb68-2" title="2">rec &lt;-<span class="st"> </span>train <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb68-3" title="3"><span class="st">  </span><span class="kw">recipe</span>(<span class="dt">formula =</span> formula)</a>
+<a class="sourceLine" id="cb68-4" title="4">rec_preped &lt;-<span class="st"> </span><span class="kw">prep</span>(rec)</a>
+<a class="sourceLine" id="cb68-5" title="5">flow_list &lt;-<span class="st"> </span><span class="kw">workflow</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">add_recipe</span>(rec) </a>
+<a class="sourceLine" id="cb68-6" title="6">flow_list &lt;-<span class="st"> </span><span class="kw">map</span>(<span class="dt">.x =</span> model_list, <span class="op">~</span><span class="kw">add_model</span>(<span class="dt">x =</span> flow_list, <span class="dt">spec =</span> .x))</a>
+<a class="sourceLine" id="cb68-7" title="7"></a>
+<a class="sourceLine" id="cb68-8" title="8"><span class="kw">set.seed</span>(<span class="dv">7777</span>)</a>
+<a class="sourceLine" id="cb68-9" title="9">splits &lt;-<span class="st"> </span>res_<span class="dv">30</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">initial_split</span>(<span class="dt">prop =</span> <span class="fl">0.8</span>, <span class="dt">strata =</span> label)</a></code></pre></div>
+<pre><code>## Warning: Too little data to stratify. Unstratified resampling will be used.</code></pre>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" title="1">train &lt;-<span class="st"> </span><span class="kw">training</span>(splits)</a>
+<a class="sourceLine" id="cb70-2" title="2">test &lt;-<span class="st"> </span><span class="kw">testing</span>(splits)</a>
+<a class="sourceLine" id="cb70-3" title="3"></a>
+<a class="sourceLine" id="cb70-4" title="4">baked_train &lt;-<span class="st"> </span><span class="kw">bake</span>(rec,train)</a>
+<a class="sourceLine" id="cb70-5" title="5"><span class="co"># random forest</span></a>
+<a class="sourceLine" id="cb70-6" title="6">time_rf_<span class="dv">30</span> &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(</a>
+<a class="sourceLine" id="cb70-7" title="7">  fit_rf &lt;-<span class="st"> </span><span class="kw">fit</span>(flow_list<span class="op">$</span>rf, <span class="dt">data =</span> baked_train),</a>
+<a class="sourceLine" id="cb70-8" title="8">  <span class="dt">times =</span> <span class="dv">50</span></a>
+<a class="sourceLine" id="cb70-9" title="9">  )</a>
+<a class="sourceLine" id="cb70-10" title="10"><span class="co"># xgboost</span></a>
+<a class="sourceLine" id="cb70-11" title="11">time_xgb_<span class="dv">30</span> &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(</a>
+<a class="sourceLine" id="cb70-12" title="12">  fit_xgb &lt;-<span class="st"> </span><span class="kw">fit</span>(flow_list<span class="op">$</span>xgb, <span class="dt">data =</span> baked_train),</a>
+<a class="sourceLine" id="cb70-13" title="13">  <span class="dt">times =</span> <span class="dv">50</span></a>
+<a class="sourceLine" id="cb70-14" title="14">)</a></code></pre></div>
+</div>
+<div id="計測結果３０文字" class="section level3">
+<h3><span class="header-section-number">4.8.8</span> 計測結果（３０文字）</h3>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" title="1"><span class="kw">bind_rows</span>(time_rf_<span class="dv">30</span>, time_xgb_<span class="dv">30</span>)</a></code></pre></div>
+<pre><code>## Warning in bind_rows_(x, .id): Unequal factor levels: coercing to character</code></pre>
+<pre><code>## Warning in bind_rows_(x, .id): binding character and factor vector, coercing into
+## character vector
+
+## Warning in bind_rows_(x, .id): binding character and factor vector, coercing into
+## character vector</code></pre>
+<pre><code>## Unit: seconds
+##                                               expr      min       lq     mean   median
+##    fit_rf &lt;- fit(flow_list$rf, data = baked_train) 12.92101 13.17005 14.75011 14.36868
+##  fit_xgb &lt;- fit(flow_list$xgb, data = baked_train) 58.12537 60.32577 68.51813 64.00283
+##        uq       max neval
+##  15.53056  20.77089    50
+##  68.39914 155.76152    50</code></pre>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" title="1"><span class="kw">my_plot</span>(time_rf_<span class="dv">30</span>, time_xgb_<span class="dv">30</span>, <span class="dt">bins =</span> <span class="dv">30</span>)</a></code></pre></div>
+<p><img src="My_Trivial_files/figure-html/unnamed-chunk-92-1.png" width="672" /></p>
+</div>
+<div id="予測結果３０文字" class="section level3">
+<h3><span class="header-section-number">4.8.9</span> 予測結果（３０文字）</h3>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" title="1"><span class="kw">my_predict</span>()</a></code></pre></div>
+<pre><code>## $rf
+##           Reference
+## Prediction あ い う え お か き く け こ さ し す せ そ た ち つ て と な に ぬ ね の
+##         あ 25  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         い  0 27  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         う  0  0 29  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         え  0  0  0 22  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         お  0  0  0  0 22  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         か  0  0  0  0  0 27  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         き  0  0  0  0  0  0 26  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         く  0  0  0  0  0  0  0 27  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         け  0  0  0  0  0  0  0  0 29  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         こ  0  0  0  0  0  0  0  0  0 17  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         さ  0  0  0  0  0  0  0  0  0  0 25  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         し  0  0  0  0  0  0  0  0  0  0  0 16  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         す  0  0  0  0  0  0  0  0  0  0  0  0 20  0  0  0  0  0  0  0  0  0  0  0  0
+##         せ  0  0  0  0  0  0  0  0  0  0  0  0  0 24  0  0  0  0  0  0  0  0  0  0  0
+##         そ  0  0  0  0  0  0  0  0  0  0  0  0  0  0 26  0  0  0  0  0  0  0  0  0  0
+##         た  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 24  0  0  0  0  0  0  0  0  0
+##         ち  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 26  0  0  0  0  0  0  0  0
+##         つ  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 23  0  0  0  0  0  0  0
+##         て  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 18  0  0  0  0  0  0
+##         と  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 24  0  0  0  0  0
+##         な  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 20  0  0  0  0
+##         に  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 24  0  0  0
+##         ぬ  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 19  0  0
+##         ね  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 24  0
+##         の  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 21
+##         は  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         ひ  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         ふ  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         へ  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         ほ  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##           Reference
+## Prediction は ひ ふ へ ほ
+##         あ  0  0  0  0  0
+##         い  0  0  0  0  0
+##         う  0  0  0  0  0
+##         え  0  0  0  0  0
+##         お  0  0  0  0  0
+##         か  0  0  0  0  0
+##         き  0  0  0  0  0
+##         く  0  0  0  0  0
+##         け  0  0  0  0  0
+##         こ  0  0  0  0  0
+##         さ  0  0  0  0  0
+##         し  0  0  0  0  0
+##         す  0  0  0  0  0
+##         せ  0  0  0  0  0
+##         そ  0  0  0  0  0
+##         た  0  0  0  0  0
+##         ち  0  0  0  0  0
+##         つ  0  0  0  0  0
+##         て  0  0  0  0  0
+##         と  0  0  0  0  0
+##         な  0  0  0  0  0
+##         に  0  0  0  0  0
+##         ぬ  0  0  0  0  0
+##         ね  0  0  0  0  0
+##         の  0  0  0  0  0
+##         は 26  0  0  0  0
+##         ひ  0 31  0  0  0
+##         ふ  0  0 25  0  0
+##         へ  0  0  0 22  0
+##         ほ  0  0  0  0 24
+## 
+## $xgb
+##           Reference
+## Prediction あ い う え お か き く け こ さ し す せ そ た ち つ て と な に ぬ ね の
+##         あ 25  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         い  0 27  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         う  0  0 29  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         え  0  0  0 22  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         お  0  0  0  0 22  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         か  0  0  0  0  0 27  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         き  0  0  0  0  0  0 26  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         く  0  0  0  0  0  0  0 27  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         け  0  0  0  0  0  0  0  0 29  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         こ  0  0  0  0  0  0  0  0  0 17  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         さ  0  0  0  0  0  0  0  0  0  0 25  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         し  0  0  0  0  0  0  0  0  0  0  0 16  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         す  0  0  0  0  0  0  0  0  0  0  0  0 20  0  0  0  0  0  0  0  0  0  0  0  0
+##         せ  0  0  0  0  0  0  0  0  0  0  0  0  0 24  0  0  0  0  0  0  0  0  0  0  0
+##         そ  0  0  0  0  0  0  0  0  0  0  0  0  0  0 26  0  0  0  0  0  0  0  0  0  0
+##         た  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 24  0  0  0  0  0  0  0  0  0
+##         ち  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 26  0  0  0  0  0  0  0  0
+##         つ  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 23  0  0  0  0  0  0  0
+##         て  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 18  0  0  0  0  0  0
+##         と  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 24  0  0  0  0  0
+##         な  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 20  0  0  0  0
+##         に  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 24  0  0  0
+##         ぬ  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 19  0  0
+##         ね  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 24  0
+##         の  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 21
+##         は  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         ひ  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         ふ  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         へ  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##         ほ  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+##           Reference
+## Prediction は ひ ふ へ ほ
+##         あ  0  0  0  0  0
+##         い  0  0  0  0  0
+##         う  0  0  0  0  0
+##         え  0  0  0  0  0
+##         お  0  0  0  0  0
+##         か  0  0  0  0  0
+##         き  0  0  0  0  0
+##         く  0  0  0  0  0
+##         け  0  0  0  0  0
+##         こ  0  0  0  0  0
+##         さ  0  0  0  0  0
+##         し  0  0  0  0  0
+##         す  0  0  0  0  0
+##         せ  0  0  0  0  0
+##         そ  0  0  0  0  0
+##         た  0  0  0  0  0
+##         ち  0  0  0  0  0
+##         つ  0  0  0  0  0
+##         て  0  0  0  0  0
+##         と  0  0  0  0  0
+##         な  0  0  0  0  0
+##         に  0  0  0  0  0
+##         ぬ  0  0  0  0  0
+##         ね  0  0  0  0  0
+##         の  0  0  0  0  0
+##         は 26  0  0  0  0
+##         ひ  0 31  0  0  0
+##         ふ  0  0 25  0  0
+##         へ  0  0  0 22  0
+##         ほ  0  0  0  0 24</code></pre>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="03_ido_keido.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 1
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["My_Trivial.pdf"],
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"search": true,
+"info": true
+});
+});
+</script>
+
+</body>
+
+</html>
