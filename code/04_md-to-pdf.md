@@ -17,13 +17,16 @@ header-includes:
 
 ## 目次
 
-はじめに  
-準備  
-手順  
-完成  
-おわりに  
+[**はじめに**](#vspd_start)  
+[**目的**](#vspd_purpose)  
+[**方法**](#vspd_method)  
+[**おわりに**](#vspd_end)
 
-## はじめに
+## はじめに {#vspd_start}
+
+pandocとは何か、これに関しては今回説明しません。
+なぜなら筆者も理解が浅いからです。。。。。
+とりあえず、markdownからhtmlやpdfなどに変換してくれるツールがpandocだと思ってください(本当はもっとすごいyo! [公式](https://pandoc-doc-ja.readthedocs.io/ja/latest/users-guide.html))。
 
 対象読者は、次の3つを満たしている人を想定しています。
 
@@ -39,43 +42,25 @@ header-includes:
 
 ここに画像が入る  
 
-## 目的
+## 目的{#vspd_purpose}
 
 <font color="red">
 vscodeでmarkdownを快適に編集して、日本語pdfを出力すること。
 </font>
 
-markdownの編集はvscodeでやると快適です。
+markdownの編集をvscodeで行うと快適です。
 なぜなら、markdownのプレビューを簡単に表示できるからです。
 しかし、日本語pdfの出力がうまくいかなかったり、数式の出力ができなかったりする問題があります。
 その問題を解消するために、pandocを使用します。
 
-* pandoc markdown preview（必須）
-  * shift + ctrl + r でビュー
-  * front matter yaml も表示
-* vscode-pandec（必須）
-  + レンダリングに必要
-* markdown all in one(補助)
-  + いろいろサポート
-* markdown preview enhanced（補助）
-  * あってもなくてもよい、白プレビューが見れる
-* markdown + math
-  * 数式にゅりょくで補助（補助）
 
-* pandocのイメージ
-  * Rmdのやつサイトもってくる
-* pandoc ユーザーズガイド
-  * pandocの事で困ったらまずこれを見る
-* マージンの設定。
-  * front matter でいじるか、pandocの引数に入れる。
+## 方法{#vspd_method}
 
-
-## 方法
+次の4つの手順を踏んで目的を達成します。
 
 1. Rstudioのpandocにpathを通す
 2. vscodeの拡張機能をいろいろ追加する
 3. front matter yamlの書き方
-4. markdownの書き方を少々
 
 ### 1. Rstudioのpandocにpathを通す{#tejun_1}
 
@@ -84,10 +69,10 @@ markdownの編集はvscodeでやると快適です。
 </font>
 本来ならばpandocをインストールするところから始まりますが、ここではRstudioに組み込まれているpandocを使用します。
 
-システムからRstudioのpandocへのpathは、自分で設定する必要があります。Rstudioのpandocは、以下のようにbinの下にあります。
+Rstudioのpandocへのpathは、自分で設定する必要があります。Rstudioのpandocは、以下のようにbinの下にあります。
 
 ```
-~任意/Rstudio/bin/pandoc
+~環境依存/Rstudio/bin/pandoc
 ```
 
 pathが通ったかどうかの確認として、プロンプトで次のコマンドを入力してください。
@@ -113,43 +98,73 @@ for a particular purpose.
 
 vscodeで拡張を追加する方法と、追加するいくつかの拡張について説明します。
 
-#### 拡張機能を追加する方法
+#### 拡張機能リスト
 
-vscodeの左端っこにある、テトリスみたいなアイコンを押します。アイコンをクリックしたら、検索欄で追加したい拡張機能を検索します。
-
-![](../picture/04pic/kakucho.png)
-
-まずはvscode-pandocと検索してみましょう。検索したら、vscode-pandoc のDougFinkeのやつをクリックします。(Chrisの方でもたぶん大丈夫です)
-
-![](../picture/04pic/vscode-pandoc.png)
-
-
-* 必須
-  * pandoc markdown preview
-  * vscode-pandec
-* 補助
-  * markdown all in one
-  * markdown preview enhanced
-  * markdown + math
-
-#### pandoc markdown preview（必須）
-
-これは
-
-#### vscode-pandec（必須）
-#### markdown all in one（補助）
-#### markdown preview enhanced（補助）
-#### markdown + math（補助）
+|拡張機能|必須/補助|内容|
+| :---: | :---: | :--- |
+|vscode-pandoc|必須|markdownをpandocでレンダリングするのに必要|
+|Pandoc Markdown Preview|必須|shift + ctrl + rでプレビューが表示できる<br>フロントマターyamlも表示してくれる|
+|Markdown+Math|補助|数式のサポートいろいろ(こちらも[公式](https://marketplace.visualstudio.com/items?itemName=goessner.mdmath)で)|
+|Markdown All in One|補助|markdownの書式サポート、ほぼ必須([公式](https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one))|
 
 
-### 3. front matter{#tejun_3}
+
+#### 拡張機能を追加する方法  
+
+
+vscodeの左端っこにある、テトリスみたいなアイコンを押します。アイコンをクリックしたら、検索欄(Search Extensions in ...)で追加したい拡張機能を検索します。
+
+![](https://github.com/rene-hiroki/my_trivial/blob/master/picture/04pic/kakucho.png?raw=true)
+
+
+まずは「vscode-pandoc」と検索してみましょう。検索したら、vscode-pandoc をクリックします(私はバージョン0.0.8の方を使用しています)。あとはinstallボタンをクリックして少し待てば、インストール完了です。
+
+
+![](https://github.com/rene-hiroki/my_trivial/blob/master/picture/04pic/vscode-pandoc.png?raw=true)
+
+
+拡張機能のインストールの仕方を説明しました。vscode-pandocの他にも、pandoc markdown previewという拡張を必須として挙げています。先ほどと同様にインストールしましょう。
+
+まずはテトリスアイコンをクリックして、検索欄に「pandoc markdown preview」と打ち込みます。
+
+![](https://github.com/rene-hiroki/my_trivial/blob/master/picture/04pic/kakucho.png?raw=true)
+
+
+私はすでにインストール済みなのでこのように表示されますが、先ほどと同様にインストールボタンをクリックしてください。
+
+![](https://github.com/rene-hiroki/my_trivial/blob/master/picture/04pic/pandoc-markdown-preview.png?raw=true)
+
+
+今インストールした2つの拡張以外にも便利な拡張機能がわんさかあるので、是非いろいろ試してみてください。
+そして便利そうなやつは共有してください！
+
+
+
+### 3. YAML front matter{#tejun_3}
+
+さあ、ここが少しだけ込み入った話になります。
+pandoc markdown（pandocを使うmarkdown）では、yaml フロントマターというのをmarkdownの一番最初に書きます。
+3つのハイフン---で上下を囲ったやつです。
+たとえばpandocでmarkdownからpdf出力するときはこんな感じのyamlフロントマターを書きます。
+
+```
+---
+title: "pandocでmarkdownから日本語pdf出力 in vscode"
+subtitle: ""
+author: "Akiyama Hiroki"
+date: "2020-05-15"
+---
+
+
+```
+
+
+* マージンの設定。
+  * front matter でいじるか、pandocの引数に入れる。
+aa
+
+
+## おわりに{#vspd_end}
 
 aa
 
-### 4. 書き方を少々{#tejun_4}
-
-aa
-
-## おわりに
-
-aa
