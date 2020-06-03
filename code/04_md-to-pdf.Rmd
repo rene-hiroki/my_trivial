@@ -1,25 +1,11 @@
----
-title: "pandocでmarkdownから日本語pdf出力 in vscode"
-subtitle: ""
-author: "Akiyama Hiroki"
-date: "2020-05-15"
-geometry: "left=3cm,right=3cm,top=2cm,bottom=2cm"
-output:
-  pdf_document: 
-    latex_engine: xelatex 
-header-includes: 
-#  - \usepackage{indentfirst} # first paragraphのインデントを有効化（英文はインデントが不要のため）
-#  - \parindent = 1em         # インデント（字下げ）を1文字に設定
-  - \usepackage{xltxtra} # 日本語pdf用
-  - \usepackage{zxjatype} # 日本語pdf用
-  - \usepackage[ipaex]{zxjafont}  
----
+# pandocでmarkdownから日本語pdf出力 in vscode
 
 ## 目次
 
 [**はじめに**](#vspd_start)  
 [**目的**](#vspd_purpose)  
 [**方法**](#vspd_method)  
+[**結果**](#vspd_result)
 [**おわりに**](#vspd_end)
 
 ## はじめに {#vspd_start}
@@ -61,7 +47,7 @@ vscodeでmarkdownを編集される方は多いと思います。
 5. front matter yamlを書く
 
 
-### 1. Rstudioのpandocにpathを通す{#tejun_1}
+### Rstudioのpandocにpathを通す{#tejun_1}
 
 <font color="red">
 ココがこの記事でのキモです。
@@ -94,7 +80,7 @@ for a particular purpose.
 ```
 
 
-### 2. vscodeの拡張をいろいろ追加していく{#tejun_2}
+### vscodeの拡張をいろいろ追加していく{#tejun_2}
 
 vscodeで拡張を追加する方法と、追加するいくつかの拡張について説明します。
 
@@ -129,7 +115,7 @@ vscodeの左端っこにある、テトリスみたいなアイコンを押し�
 そして便利そうなやつは共有してください！
 
 
-### 3. 簡易版TeX環境を作る{#tejun_3}
+### 簡易版TeX環境を作る{#tejun_3}
 
 TeX環境がすでに構築済みである方は[手順4](#tejun_4)へ進んでください。
 
@@ -138,7 +124,7 @@ TeX環境がすでに構築済みである方は[手順4](#tejun_4)へ進んで�
 
 でも、TeXliveのインストールには労力がかかるのでやりません（私もTeXLiveはインストールしていません）。ではどうするかというとTinyTeXというものを使います。
 
-TinyTeXとは、Rユーザー向けに作成された簡易TeX環境構築パッケージです。詳細はこちら(https://yihui.org/tinytex/)を参照ください。Rユーザー向けではありますが、vscodeでも十分に使えています（所感）。
+TinyTeXとは、Rユーザー向けに作成された簡易TeX環境構築パッケージです。詳細はこちら（https://yihui.org/tinytex/）を参照ください。Rユーザー向けではありますが、vscodeでも十分に使えています（所感）。
 
 ではTinyTeXをインストールしましょう。以下の2行のコマンドをRで実行するだけです。少々時間がかかると思います。コーヒーでも飲んで休憩して待ちましょう。
 
@@ -148,7 +134,7 @@ tinytex::install_tinytex()
 ```
 
 
-### 4. ipaexフォントをインストールする{#tejun_4}
+### ipaexフォントをインストールする{#tejun_4}
 
 ここでは日本語pdfの作成に必要なフォントをインストールします。
 もちろんipaexフォント以外でもpdfの作成はできますが、少々込み入った話になってくるので今回はipaexフォントを使用します。
@@ -158,7 +144,7 @@ tinytex::install_tinytex()
 フォントインストールの手順はOSに依存します。
 
 
-### 5. YAML front matter{#tejun_5}
+### YAML front matter{#tejun_5}
 
 さて、ここが少しだけ込み入った話になります。
 pandoc markdown（pandocを使うmarkdown）では、yamlフロントマターというのをmarkdownの先頭に記述します。
@@ -170,7 +156,7 @@ pandoc markdown（pandocを使うmarkdown）では、yamlフロントマター�
 title: "pandocでmarkdownから日本語pdf出力 in vscode"
 subtitle: ""
 author: "Akiyama Hiroki"
-date: "2020-05-15"
+date: "yyyy-mm-dd"
 geometry: "left=3cm,right=3cm,top=2cm,bottom=2cm"
 output:
   pdf_document: 
@@ -208,6 +194,10 @@ ctrl + , で設定画面を開きます。pandocと検索すると、次のよ�
 ```
 
 などと記述しておくことで、レンダリングする際のpandocの引数を保存しておくことができます。
+
+## 結果{#vspd_end}
+
+sample
 
 ## おわりに{#vspd_end}
 
