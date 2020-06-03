@@ -1,0 +1,41 @@
+# slackの謎
+
+
+```{r}
+library(tidyverse)
+library(here)
+library(plotly)
+```
+
+
+```{r}
+d <- read_csv(here("data/gsds2019_all_20200603.csv"),
+              locale = locale(encoding = "shift-jis"))
+glimpse(d)
+```
+
+```{r}
+long_d <- d %>%
+  select(日付, メンバー数合計, 投稿されたメッセージ数) %>% 
+  pivot_longer(-日付)
+
+p <- long_d %>% 
+  ggplot(aes(x = 日付, y = value)) +
+  geom_line() +
+  facet_wrap(facets = vars(name), ncol = 1, scales = "free_y") +
+  labs(title = "slack gsdsの真実 (おわかりいただけただろうか)",
+       x = "月") +
+  geom_vline(xintercept = as.Date("2020-04-01"), color = "red") +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b")
+```
+
+## 衝撃の新事実
+
+```{r }
+ggplotly(p, dynamicTicks = T)
+```
+
+```{r}
+p
+```
+

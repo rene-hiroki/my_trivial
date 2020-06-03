@@ -1,5 +1,7 @@
 # pandocでmarkdownから日本語pdf出力 in vscode
 
+未完成です
+
 ## 目次
 
 [**はじめに**](#vspd_start)  

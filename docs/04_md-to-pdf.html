@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>日々の雑学</title>
+  <title>Chapter: 4 pandocでmarkdownから日本語pdf出力 in vscode | 日々の雑学</title>
   <meta name="description" content="This is a description. Please wrote a abstract this contents." />
   <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="日々の雑学" />
+  <meta property="og:title" content="Chapter: 4 pandocでmarkdownから日本語pdf出力 in vscode | 日々の雑学" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="日々の雑学" />
+  <meta name="twitter:title" content="Chapter: 4 pandocでmarkdownから日本語pdf出力 in vscode | 日々の雑学" />
   
   <meta name="twitter:description" content="This is a description. Please wrote a abstract this contents." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="01_android_analysis.html"/>
+<link rel="prev" href="03_ido_keido.html"/>
+<link rel="next" href="05_mystery.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -222,56 +222,208 @@ My Trivial
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">日々の雑学</h1>
-<p class="author"><em>Akiyama Hiroki</em></p>
-<p class="date"><em>最終更新日: 2020-06-03</em></p>
+<div id="pandocでmarkdownから日本語pdf出力-in-vscode" class="section level1">
+<h1><span class="header-section-number">Chapter: 4</span> pandocでmarkdownから日本語pdf出力 in vscode</h1>
+<p>未完成です</p>
+<div id="目次" class="section level2">
+<h2><span class="header-section-number">4.1</span> 目次</h2>
+<p><a href="04_md-to-pdf.html#vspd_start"><strong>はじめに</strong></a><br />
+<a href="04_md-to-pdf.html#vspd_purpose"><strong>目的</strong></a><br />
+<a href="04_md-to-pdf.html#vspd_method"><strong>方法</strong></a><br />
+<a href="#vspd_result"><strong>結果</strong></a>
+<a href="04_md-to-pdf.html#vspd_end"><strong>おわりに</strong></a></p>
 </div>
-<div id="はじめに" class="section level1 unnumbered">
-<h1>はじめに</h1>
-<p>作成中です hogehoge fugafuga</p>
-<div id="環境" class="section level2">
-<h2><span class="header-section-number">0.1</span> 環境</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1"></a><span class="kw">sessionInfo</span>()</span></code></pre></div>
-<pre><code>## R version 3.6.3 (2020-02-29)
-## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 10 x64 (build 18363)
-## 
-## Matrix products: default
-## 
-## locale:
-## [1] LC_COLLATE=Japanese_Japan.932  LC_CTYPE=Japanese_Japan.932   
-## [3] LC_MONETARY=Japanese_Japan.932 LC_NUMERIC=C                  
-## [5] LC_TIME=Japanese_Japan.932    
-## 
-## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
-## 
-## other attached packages:
-##  [1] stringi_1.4.6   leaflet_2.0.3   ggmap_3.0.0     DT_0.13         lubridate_1.7.8
-##  [6] patchwork_1.0.0 jsonlite_1.6.1  bookdown_0.19   plotly_4.9.2.1  here_0.1       
-## [11] forcats_0.5.0   stringr_1.4.0   dplyr_1.0.0     purrr_0.3.4     readr_1.3.1    
-## [16] tidyr_1.1.0     tibble_3.0.1    ggplot2_3.3.1   tidyverse_1.3.0
-## 
-## loaded via a namespace (and not attached):
-##  [1] httr_1.4.1          viridisLite_0.3.0   modelr_0.1.8        assertthat_0.2.1   
-##  [5] sp_1.4-2            blob_1.2.1          cellranger_1.1.0    yaml_2.2.1         
-##  [9] pillar_1.4.4        backports_1.1.7     lattice_0.20-41     glue_1.4.1         
-## [13] digest_0.6.25       rvest_0.3.5         colorspace_1.4-1    plyr_1.8.6         
-## [17] htmltools_0.4.0     pkgconfig_2.0.3     broom_0.5.6         haven_2.3.0        
-## [21] scales_1.1.1        jpeg_0.1-8.1        generics_0.0.2      farver_2.0.3       
-## [25] ellipsis_0.3.1      pacman_0.5.1        withr_2.2.0         lazyeval_0.2.2     
-## [29] cli_2.0.2           mime_0.9            magrittr_1.5        crayon_1.3.4       
-## [33] readxl_1.3.1        evaluate_0.14       fs_1.4.1            fansi_0.4.1        
-## [37] nlme_3.1-148        xml2_1.3.2          tools_3.6.3         data.table_1.12.8  
-## [41] hms_0.5.3           RgoogleMaps_1.4.5.3 lifecycle_0.2.0     munsell_0.5.0      
-## [45] reprex_0.3.0        packrat_0.5.0       compiler_3.6.3      rlang_0.4.6        
-## [49] grid_3.6.3          rstudioapi_0.11     rjson_0.2.20        htmlwidgets_1.5.1  
-## [53] crosstalk_1.1.0.1   bitops_1.0-6        labeling_0.3        rmarkdown_2.1      
-## [57] gtable_0.3.0        DBI_1.1.0           markdown_1.1        R6_2.4.1           
-## [61] knitr_1.28          utf8_1.1.4          rprojroot_1.3-2     Rcpp_1.0.4.6       
-## [65] vctrs_0.3.0         png_0.1-7           dbplyr_1.4.4        tidyselect_1.1.0   
-## [69] xfun_0.14</code></pre>
+<div id="vspd_start" class="section level2">
+<h2><span class="header-section-number">4.2</span> はじめに</h2>
+<p>対象読者は、次の3つを満たしている人を想定しています。</p>
+<ol style="list-style-type: decimal">
+<li>vscodeがインストール済み</li>
+<li>Rstudioがインストール済み</li>
+<li>markdownを書いたことがある</li>
+</ol>
+<p>こんな感じの.mdから</p>
+<p>個々に画像が入る</p>
+<p>こんな感じのpdfが出せるようになります</p>
+<p>ここに画像が入る</p>
+</div>
+<div id="vspd_purpose" class="section level2">
+<h2><span class="header-section-number">4.3</span> 目的</h2>
+<p><font color="red">
+vscodeでmarkdownを快適に編集して、日本語pdfを出力すること。
+</font></p>
+<p>vscodeでmarkdownを編集される方は多いと思います。
+なぜなら、markdownのプレビューを簡単に表示できるからです。
+しかし、日本語pdfの出力がうまくいかなかったり、数式の出力ができなかったりする問題がよくあります。
+その問題を解消するために、pandocを使用します。</p>
+</div>
+<div id="vspd_method" class="section level2">
+<h2><span class="header-section-number">4.4</span> 方法</h2>
+<p>次の5つの手順を踏んで目的を達成します。</p>
+<ol style="list-style-type: decimal">
+<li>Rstudioのpandocにpathを通す</li>
+<li>vscodeの拡張機能をいろいろ追加する</li>
+<li>簡易版TeX環境を作る</li>
+<li>ipaexフォントをインストールする</li>
+<li>front matter yamlを書く</li>
+</ol>
+<div id="tejun_1" class="section level3">
+<h3><span class="header-section-number">4.4.1</span> Rstudioのpandocにpathを通す</h3>
+<p><font color="red">
+ココがこの記事でのキモです。
+</font>
+本来ならばpandocをインストールするところから始まりますが、ここではRstudioに組み込まれているpandocを使用することでインストール作業をスキップします。</p>
+<p>Rstudioのpandocへのpathは、自分で設定する必要があります。Rstudioのpandocは、以下のようにbinの下にあります。</p>
+<pre><code>~環境依存/Rstudio/bin/pandoc</code></pre>
+<p>pathが通ったかどうかの確認として、プロンプトで次のコマンドを入力してください。</p>
+<pre><code>pandoc --version</code></pre>
+<p>以下のようにpandocのバージョンが出力されたら、pathの設定は完了です。</p>
+<pre><code>pandoc 2.7.2
+Compiled with pandoc-types 1.17.5.4, texmath 0.11.2.2, skylighting 0.7.7
+Default user data directory: C:\Users\AkiyamaHiroki\AppData\Roaming\pandoc
+Copyright (C) 2006-2019 John MacFarlane
+Web:  http://pandoc.org
+This is free software; see the source for copying conditions.
+There is no warranty, not even for merchantability or fitness
+for a particular purpose.</code></pre>
+</div>
+<div id="tejun_2" class="section level3">
+<h3><span class="header-section-number">4.4.2</span> vscodeの拡張をいろいろ追加していく</h3>
+<p>vscodeで拡張を追加する方法と、追加するいくつかの拡張について説明します。</p>
+<p><strong>拡張機能リスト</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">拡張機能</th>
+<th align="center">必須/補助</th>
+<th align="left">内容</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">vscode-pandoc</td>
+<td align="center">必須</td>
+<td align="left">markdownをpandocでレンダリングするのに必要</td>
+</tr>
+<tr class="even">
+<td align="center">Pandoc Markdown Preview</td>
+<td align="center">必須</td>
+<td align="left">shift + ctrl + rでプレビューが表示できる<br>フロントマターyamlも読んでくれる</td>
+</tr>
+<tr class="odd">
+<td align="center">Markdown All in One</td>
+<td align="center">補助</td>
+<td align="left">markdownの書式サポート、ほぼ必須(<a href="https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one">公式link</a>)</td>
+</tr>
+<tr class="even">
+<td align="center">Markdown+Math</td>
+<td align="center">補助</td>
+<td align="left">数式のサポートいろいろ(こちらも<a href="https://marketplace.visualstudio.com/items?itemName=goessner.mdmath">公式link</a>で)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>拡張機能を追加する方法</strong></p>
+<p>vscodeの左端っこにある、テトリスみたいなアイコンを押します。アイコンをクリックしたら、検索欄(Search Extensions in …)で追加したい拡張機能を検索します。</p>
+<p><img src="https://github.com/rene-hiroki/my_trivial/blob/master/picture/04pic/kakucho.png?raw=true" /></p>
+<p>まずは「vscode-pandoc」と検索してみましょう。検索したら、vscode-pandoc をクリックします(私はバージョン0.0.8の方を使用しています)。あとはinstallボタンをクリックして少し待てば、インストール完了です。</p>
+<p><img src="https://github.com/rene-hiroki/my_trivial/blob/master/picture/04pic/vscode-pandoc.png?raw=true" /></p>
+<p>拡張機能のインストールの仕方を説明しました。vscode-pandocの他にも、Pandoc Markdown Previewという拡張を必須として挙げています。先ほどと同様にインストールしましょう。</p>
+<p>今インストールした2つの拡張以外にも便利な拡張機能がたくさんあるので、是非いろいろ試してみてください。
+そして便利そうなやつは共有してください！</p>
+</div>
+<div id="tejun_3" class="section level3">
+<h3><span class="header-section-number">4.4.3</span> 簡易版TeX環境を作る</h3>
+<p>TeX環境がすでに構築済みである方は<a href="04_md-to-pdf.html#tejun_4">手順4</a>へ進んでください。</p>
+<p>なぜTeX？と思われる方もいるかもしれません。
+ここでTeXが必要な理由は、次のような理由からです。pandoc markdownをpdfに変換するときには、markdown → TeX → pdfという変換を行っています。したがって、TeXの環境が必要になるという訳です。</p>
+<p>でも、TeXliveのインストールには労力がかかるのでやりません（私もTeXLiveはインストールしていません）。ではどうするかというとTinyTeXというものを使います。</p>
+<p>TinyTeXとは、Rユーザー向けに作成された簡易TeX環境構築パッケージです。詳細はこちら（<a href="https://yihui.org/tinytex/）を参照ください。Rユーザー向けではありますが、vscodeでも十分に使えています（所感" class="uri">https://yihui.org/tinytex/）を参照ください。Rユーザー向けではありますが、vscodeでも十分に使えています（所感</a>）。</p>
+<p>ではTinyTeXをインストールしましょう。以下の2行のコマンドをRで実行するだけです。少々時間がかかると思います。コーヒーでも飲んで休憩して待ちましょう。</p>
+<pre><code>install.packages(&#39;tinytex&#39;)
+tinytex::install_tinytex()</code></pre>
+</div>
+<div id="tejun_4" class="section level3">
+<h3><span class="header-section-number">4.4.4</span> ipaexフォントをインストールする</h3>
+<p>ここでは日本語pdfの作成に必要なフォントをインストールします。
+もちろんipaexフォント以外でもpdfの作成はできますが、少々込み入った話になってくるので今回はipaexフォントを使用します。</p>
+<p>こちらのlink(<a href="https://ipafont.ipa.go.jp/old/" class="uri">https://ipafont.ipa.go.jp/old/</a>
+)よりipaexフォントをダウンロードして、PCにインストールします。
+フォントインストールの手順はOSに依存します。</p>
+</div>
+<div id="tejun_5" class="section level3">
+<h3><span class="header-section-number">4.4.5</span> YAML front matter</h3>
+<p>さて、ここが少しだけ込み入った話になります。
+pandoc markdown（pandocを使うmarkdown）では、yamlフロントマターというのをmarkdownの先頭に記述します。
+3つのハイフン—で上下を囲ったやつです。
+たとえばpandocでmarkdownからpdf出力するときはこんな感じのyamlフロントマターを書きます。</p>
+<pre><code>---
+title: &quot;pandocでmarkdownから日本語pdf出力 in vscode&quot;
+subtitle: &quot;&quot;
+author: &quot;Akiyama Hiroki&quot;
+date: &quot;yyyy-mm-dd&quot;
+geometry: &quot;left=3cm,right=3cm,top=2cm,bottom=2cm&quot;
+output:
+  pdf_document: 
+    latex_engine: xelatex 
+header-includes: 
+  - \usepackage{xltxtra} # 日本語pdf用
+  - \usepackage{zxjatype} # 日本語pdf用
+  - \usepackage[ipaex]{zxjafont}  # フォント指定
+---</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">引数</th>
+<th align="left">意味</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">title</td>
+<td align="left">タイトル</td>
+</tr>
+<tr class="even">
+<td align="left">subtitle</td>
+<td align="left">サブタイトル</td>
+</tr>
+<tr class="odd">
+<td align="left">author</td>
+<td align="left">著者名</td>
+</tr>
+<tr class="even">
+<td align="left">date</td>
+<td align="left">日付</td>
+</tr>
+<tr class="odd">
+<td align="left">geometry</td>
+<td align="left">文書の余白</td>
+</tr>
+<tr class="even">
+<td align="left">output</td>
+<td align="left">出力形式</td>
+</tr>
+<tr class="odd">
+<td align="left">header-includes以下</td>
+<td align="left">TeXパッケージ指定</td>
+</tr>
+</tbody>
+</table>
+<p>これらのyaml内容は。大体どの文書にも共通して記述するものになっています。
+header-includes以下に関しては、今回の日本語pdf作成用になっています。この他にもyamlフロントマターへの記述で設定できることはとてもたくさんありますが、それらはまた今度紹介します。</p>
+<p>vscodeの便利な点として、pdfやhtml出力をする際のpandocの引数を、設定に保存しておくことができる点があります。</p>
+<p>ctrl + , で設定画面を開きます。pandocと検索すると、次のような画面が出てきます。</p>
+<p><img src="https://github.com/rene-hiroki/my_trivial/blob/master/picture/04pic/setting-pandoc.png?raw=true" alt="setting-pandoc" /></p>
+<p>ここのPdf Opt Stringに、</p>
+<pre><code>--pdf-engine xelatex -V geometry:margin=1in</code></pre>
+<p>などと記述しておくことで、レンダリングする際のpandocの引数を保存しておくことができます。</p>
+</div>
+</div>
+<div id="vspd_end" class="section level2">
+<h2><span class="header-section-number">4.5</span> 結果</h2>
+<p>sample</p>
+</div>
+<div id="vspd_end" class="section level2">
+<h2><span class="header-section-number">4.6</span> おわりに</h2>
+<p>aa</p>
 
 </div>
 </div>
@@ -280,8 +432,8 @@ My Trivial
           </div>
         </div>
       </div>
-
-<a href="01_android_analysis.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="03_ido_keido.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="05_mystery.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
