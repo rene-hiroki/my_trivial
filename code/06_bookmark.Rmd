@@ -7,13 +7,13 @@ bookmarkの名前, url, 追加日付の3つをデータフレーム化できま�
 
 chromeでctrl + shift + o を押して、bookmark編集画面を開く
 
-![](../picture/06_pic/bookmark.png)
+![](https://github.com/rene-hiroki/my_trivial/blob/master/picture/06pic/bookmark.png?raw=true)
 
 こんな感じの画面が出る。
 
 右上のてんてんてんを押す
 
-![](../picture/06_pic/export.png)
+![](https://github.com/rene-hiroki/my_trivial/blob/master/picture/06pic/export.png?raw=true)
 
 ブックマークをエクスポートする。
 
