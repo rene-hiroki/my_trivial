@@ -7,7 +7,7 @@ output: bookdown::gitbook
 documentclass: book
 fontsize: 20pt
 # github-repo: (your-github-repository)
-description: "役に立つのか、いや役立たないのか、それとも、メケメケなのか"
+description: "バットルドォーム！3Dアックションゲーム！"
 colorlinks: yes
 # url: 'https\://bookdown.org/yihui/bookdown/' サイトのurl
 # github-repo: rstudio/bookdown

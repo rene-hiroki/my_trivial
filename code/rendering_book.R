@@ -8,7 +8,7 @@ d <- dir(here("code")) %>%
   tibble(file = .) %>%
   mutate(Rmd = str_detect(file, ".Rmd")) %>%
   filter(Rmd) %>% 
-  filter(file != "My_trivial.Rmd")
+  filter(file != "My_Trivial.Rmd")
 d
 
 
