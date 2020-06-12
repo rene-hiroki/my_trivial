@@ -7,8 +7,7 @@
 [**はじめに**](#vspd_start)  
 [**目的**](#vspd_purpose)  
 [**方法**](#vspd_method)  
-[**結果**](#vspd_result)
-[**おわりに**](#vspd_end)
+[**サンプルmd**](#vspd_sample)
 
 ## はじめに {#vspd_start}
 
@@ -18,13 +17,33 @@
 2. Rstudioがインストール済み
 3. markdownを書いたことがある
 
+<br>
+
+こんな感じで編集して、
+
+![hensyu.png](https://github.com/rene-hiroki/my_trivial/blob/master/picture/04pic/hensyu.png?raw=true)
+
+
+:::::: {.columns}
+::: {.column width="48%"}
+
 こんな感じの.mdから
 
-個々に画像が入る
+![](https://github.com/rene-hiroki/my_trivial/blob/master/picture/04pic/md.png?raw=true)
+
+
+:::
+::: {.column width="2%"}
+:::
+::: {.column width="48%"}
 
 こんな感じのpdfが出せるようになります
 
-ここに画像が入る  
+![](https://github.com/rene-hiroki/my_trivial/blob/master/picture/04pic/impdf.png?raw=true)
+
+:::
+::::::
+
 
 ## 目的{#vspd_purpose}
 
@@ -40,13 +59,14 @@ vscodeでmarkdownを編集される方は多いと思います。
 
 ## 方法{#vspd_method}
 
-次の5つの手順を踏んで目的を達成します。
+次の6つの手順を踏んで目的を達成します。
 
 1. Rstudioのpandocにpathを通す
 2. vscodeの拡張機能をいろいろ追加する
 3. 簡易版TeX環境を作る
 4. ipaexフォントをインストールする
 5. front matter yamlを書く
+6. 出力のコマンド
 
 
 ### Rstudioのpandocにpathを通す{#tejun_1}
@@ -84,18 +104,20 @@ for a particular purpose.
 
 ### vscodeの拡張をいろいろ追加していく{#tejun_2}
 
-vscodeで拡張を追加する方法と、追加するいくつかの拡張について説明します。
+vscodeで拡張を追加する方法と、追加するいくつかの拡張について説明します。CUIで追加することもできますが、ここではGUIを使って拡張を追加します。
 
+<br>
 **拡張機能リスト**
 
 |拡張機能|必須/補助|内容|
 | :---: | :---: | :--- |
 |vscode-pandoc|必須|markdownをpandocでレンダリングするのに必要|
-|Pandoc Markdown Preview|必須|shift + ctrl + rでプレビューが表示できる<br>フロントマターyamlも読んでくれる|
+|Pandoc Markdown Preview|必須|shift + ctrl + rで、フロントマターyamlを含めたプレビューが表示できる|
 |Markdown All in One|補助|markdownの書式サポート、ほぼ必須([公式link](https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one))|
 |Markdown+Math|補助|数式のサポートいろいろ(こちらも[公式link](https://marketplace.visualstudio.com/items?itemName=goessner.mdmath)で)|
 
 
+<br>
 
 **拡張機能を追加する方法**  
 
@@ -104,6 +126,7 @@ vscodeの左端っこにある、テトリスみたいなアイコンを押し�
 
 ![](https://github.com/rene-hiroki/my_trivial/blob/master/picture/04pic/kakucho.png?raw=true)
 
+<br>
 
 まずは「vscode-pandoc」と検索してみましょう。検索したら、vscode-pandoc をクリックします(私はバージョン0.0.8の方を使用しています)。あとはinstallボタンをクリックして少し待てば、インストール完了です。
 
@@ -174,20 +197,21 @@ header-includes:
 | :--- | :--- |
 |title|タイトル|
 |subtitle|サブタイトル|
-|author|著者名|
+|author|著者|
 |date|日付|
 |geometry|文書の余白|
 |output|出力形式|
 |header-includes以下|TeXパッケージ指定|
 
 これらのyaml内容は。大体どの文書にも共通して記述するものになっています。
-header-includes以下に関しては、今回の日本語pdf作成用になっています。この他にもyamlフロントマターへの記述で設定できることはとてもたくさんありますが、それらはまた今度紹介します。
+header-includes以下に関しては、今回の日本語pdf作成用になっています。この他にもyamlフロントマターへの記述で設定できることはとてもたくさんありますが、それらはまた今度紹介します。たぶん。
 
 vscodeの便利な点として、pdfやhtml出力をする際のpandocの引数を、設定に保存しておくことができる点があります。
 
-ctrl + , で設定画面を開きます。pandocと検索すると、次のような画面が出てきます。
+「ctrl + ,」で設定画面を開きます。pandocと検索すると、次のような画面が出てきます。
 
-![setting-pandoc](https://github.com/rene-hiroki/my_trivial/blob/master/picture/04pic/setting-pandoc.png?raw=true)
+<img src="https://github.com/rene-hiroki/my_trivial/blob/master/picture/04pic/setting-pandoc.png?raw=true" width="50%">
+
 
 ここのPdf Opt Stringに、
 
@@ -196,12 +220,17 @@ ctrl + , で設定画面を開きます。pandocと検索すると、次のよ�
 ```
 
 などと記述しておくことで、レンダリングする際のpandocの引数を保存しておくことができます。
+こうすると、yamlの該当部分は省略して書くことができます。
 
-## 結果{#vspd_end}
+### 出力のコマンド{#tejun_6} 
 
-sample
+準備は整いました。「ctrl + k」を押した後に、「p」を押して、pdfを選択すればpdf出力が完了します！
 
-## おわりに{#vspd_end}
 
-aa
+## サンプルmd{#vspd_sample}
 
+ここ(https://github.com/rene-hiroki/my_trivial/tree/master/code)に04_sample.mdを置きました。中身に書いてあることは本記事とほぼ同じものです。これをvscodeで開き、ここまで説明してきた準備を終えていれば、「ctrl + k」を押した後に「p」を押して、pdf出力ができるはずです。
+
+<br>
+
+enjoy!

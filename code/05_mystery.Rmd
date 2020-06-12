@@ -1,16 +1,15 @@
 # slackの謎
 
 
-```{r}
+```{r message=FALSE,warning=FALSE}
 library(tidyverse)
 library(here)
 library(plotly)
 ```
 
 
-```{r}
-d <- read_csv(here("data/gsds2019_all_20200603.csv"),
-              locale = locale(encoding = "shift-jis"))
+```{r message=FALSE}
+d <- read_csv(here("data/gsds2019_all_20200610.csv"))
 glimpse(d)
 ```
 
@@ -23,19 +22,83 @@ p <- long_d %>%
   ggplot(aes(x = 日付, y = value)) +
   geom_line() +
   facet_wrap(facets = vars(name), ncol = 1, scales = "free_y") +
-  labs(title = "slack gsdsの真実 (おわかりいただけただろうか)",
-       x = "月") +
-  geom_vline(xintercept = as.Date("2020-04-01"), color = "red") +
+  labs(title = "バトルドォーム！　 red：イーブイ誕生、blue:お引越し",
+       x = "月", y = "") +
+  geom_vline(xintercept = as.Date("2020-02-12"), color = "red", size = 0.2) +
+  geom_vline(xintercept = as.Date("2020-04-07"), color = "blue", size = 0.2) +
   scale_x_date(date_breaks = "1 month", date_labels = "%b")
 ```
 
-## 衝撃の新事実
+## 投稿数激増！バトルドォーム！
 
-```{r }
+```{r message=FALSE, warning=FALSE}
 ggplotly(p, dynamicTicks = T)
 ```
 
 ```{r}
 p
+```
+
+---
+
+```{r}
+long_d <- d %>%
+  select(日付, 投稿されたメッセージ数) 
+  
+long_d <- long_d %>%
+  mutate(lag1 = 投稿されたメッセージ数 - lag(投稿されたメッセージ数))
+
+p <- long_d %>% 
+  ggplot(aes(x = 日付, y = lag1)) +
+  geom_line() +
+  labs(title = "前日の投稿メッセージ数からの増減 red：イーブイ誕生、blue:お引越し",
+       x = "月", y = "") +
+  geom_vline(xintercept = as.Date("2020-02-12"), color = "red", size = 0.2) +
+  geom_vline(xintercept = as.Date("2020-04-07"), color = "blue", size = 0.2) +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b")
+```
+
+## バトルドォーム！の差分
+
+```{r message=FALSE, warning=FALSE}
+ggplotly(p, dynamicTicks = T)
+```
+
+```{r}
+p
+```
+
+
+---
+
+```{r}
+d2 <- d %>% select(日付,
+               日間アクティブメンバー数,
+               パブリックチャンネルのメッセージ,
+               プライベートチャンネルのメッセージ,
+               ダイレクトメッセージでの投稿メッセージ数)
+
+p2 <- d2 %>% 
+  pivot_longer(-日付) %>% 
+  ggplot(aes(x = 日付, y = value)) +
+  geom_line() +
+  facet_wrap(facets = vars(name), ncol = 1, scales = "free_y") +
+  labs(title = "超！エキサイティン！！ red：イーブイ誕生、blue:お引越し",
+       x = "月", y = "") +
+  geom_vline(xintercept = as.Date("2020-02-12"), color = "red", size = 0.2) +
+  geom_vline(xintercept = as.Date("2020-04-07"), color = "blue", size = 0.2) +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b")
+```
+
+## 超！エキサイティン！！
+
+
+```{r fig.height=10}
+plotly::ggplotly(p2, dynamicTicks = TRUE)
+```
+
+
+```{r}
+p2
 ```
 

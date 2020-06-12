@@ -198,9 +198,9 @@ My Trivial
 <li class="chapter" data-level="4.4.3" data-path="04_md-to-pdf.html"><a href="04_md-to-pdf.html#tejun_3"><i class="fa fa-check"></i><b>4.4.3</b> 簡易版TeX環境を作る</a></li>
 <li class="chapter" data-level="4.4.4" data-path="04_md-to-pdf.html"><a href="04_md-to-pdf.html#tejun_4"><i class="fa fa-check"></i><b>4.4.4</b> ipaexフォントをインストールする</a></li>
 <li class="chapter" data-level="4.4.5" data-path="04_md-to-pdf.html"><a href="04_md-to-pdf.html#tejun_5"><i class="fa fa-check"></i><b>4.4.5</b> YAML front matter</a></li>
+<li class="chapter" data-level="4.4.6" data-path="04_md-to-pdf.html"><a href="04_md-to-pdf.html#tejun_6"><i class="fa fa-check"></i><b>4.4.6</b> 出力のコマンド</a></li>
 </ul></li>
-<li class="chapter" data-level="4.5" data-path="04_md-to-pdf.html"><a href="04_md-to-pdf.html#vspd_result"><i class="fa fa-check"></i><b>4.5</b> 結果</a></li>
-<li class="chapter" data-level="4.6" data-path="04_md-to-pdf.html"><a href="04_md-to-pdf.html#vspd_end"><i class="fa fa-check"></i><b>4.6</b> おわりに</a></li>
+<li class="chapter" data-level="4.5" data-path="04_md-to-pdf.html"><a href="04_md-to-pdf.html#vspd_sample"><i class="fa fa-check"></i><b>4.5</b> サンプルmd</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="05_mystery.html"><a href="05_mystery.html"><i class="fa fa-check"></i><b>5</b> slackの謎</a><ul>
 <li class="chapter" data-level="5.1" data-path="05_mystery.html"><a href="05_mystery.html#投稿数激増バトルドォーム"><i class="fa fa-check"></i><b>5.1</b> 投稿数激増！バトルドォーム！</a></li>
@@ -232,8 +232,7 @@ My Trivial
 <p><a href="04_md-to-pdf.html#vspd_start"><strong>はじめに</strong></a><br />
 <a href="04_md-to-pdf.html#vspd_purpose"><strong>目的</strong></a><br />
 <a href="04_md-to-pdf.html#vspd_method"><strong>方法</strong></a><br />
-<a href="04_md-to-pdf.html#vspd_result"><strong>結果</strong></a>
-<a href="04_md-to-pdf.html#vspd_end"><strong>おわりに</strong></a></p>
+<a href="04_md-to-pdf.html#vspd_sample"><strong>サンプルmd</strong></a></p>
 </div>
 <div id="vspd_start" class="section level2">
 <h2><span class="header-section-number">4.2</span> はじめに</h2>
@@ -243,10 +242,20 @@ My Trivial
 <li>Rstudioがインストール済み</li>
 <li>markdownを書いたことがある</li>
 </ol>
+<p><br></p>
+<p>こんな感じで編集して、</p>
+<p><img src="https://github.com/rene-hiroki/my_trivial/blob/master/picture/04pic/hensyu.png?raw=true" alt="hensyu.png" /></p>
+<div class="columns">
+<div class="column" style="width:48%;">
 <p>こんな感じの.mdから</p>
-<p>個々に画像が入る</p>
+<p><img src="https://github.com/rene-hiroki/my_trivial/blob/master/picture/04pic/md.png?raw=true" /></p>
+</div><div class="column" style="width:2%;">
+
+</div><div class="column" style="width:48%;">
 <p>こんな感じのpdfが出せるようになります</p>
-<p>ここに画像が入る</p>
+<p><img src="https://github.com/rene-hiroki/my_trivial/blob/master/picture/04pic/impdf.png?raw=true" /></p>
+</div>
+</div>
 </div>
 <div id="vspd_purpose" class="section level2">
 <h2><span class="header-section-number">4.3</span> 目的</h2>
@@ -260,13 +269,14 @@ vscodeでmarkdownを快適に編集して、日本語pdfを出力すること。
 </div>
 <div id="vspd_method" class="section level2">
 <h2><span class="header-section-number">4.4</span> 方法</h2>
-<p>次の5つの手順を踏んで目的を達成します。</p>
+<p>次の6つの手順を踏んで目的を達成します。</p>
 <ol style="list-style-type: decimal">
 <li>Rstudioのpandocにpathを通す</li>
 <li>vscodeの拡張機能をいろいろ追加する</li>
 <li>簡易版TeX環境を作る</li>
 <li>ipaexフォントをインストールする</li>
 <li>front matter yamlを書く</li>
+<li>出力のコマンド</li>
 </ol>
 <div id="tejun_1" class="section level3">
 <h3><span class="header-section-number">4.4.1</span> Rstudioのpandocにpathを通す</h3>
@@ -290,8 +300,9 @@ for a particular purpose.</code></pre>
 </div>
 <div id="tejun_2" class="section level3">
 <h3><span class="header-section-number">4.4.2</span> vscodeの拡張をいろいろ追加していく</h3>
-<p>vscodeで拡張を追加する方法と、追加するいくつかの拡張について説明します。</p>
-<p><strong>拡張機能リスト</strong></p>
+<p>vscodeで拡張を追加する方法と、追加するいくつかの拡張について説明します。CUIで追加することもできますが、ここではGUIを使って拡張を追加します。</p>
+<p><br>
+<strong>拡張機能リスト</strong></p>
 <table>
 <thead>
 <tr class="header">
@@ -309,7 +320,7 @@ for a particular purpose.</code></pre>
 <tr class="even">
 <td align="center">Pandoc Markdown Preview</td>
 <td align="center">必須</td>
-<td align="left">shift + ctrl + rでプレビューが表示できる<br>フロントマターyamlも読んでくれる</td>
+<td align="left">shift + ctrl + rで、フロントマターyamlを含めたプレビューが表示できる</td>
 </tr>
 <tr class="odd">
 <td align="center">Markdown All in One</td>
@@ -323,9 +334,11 @@ for a particular purpose.</code></pre>
 </tr>
 </tbody>
 </table>
+<p><br></p>
 <p><strong>拡張機能を追加する方法</strong></p>
 <p>vscodeの左端っこにある、テトリスみたいなアイコンを押します。アイコンをクリックしたら、検索欄(Search Extensions in …)で追加したい拡張機能を検索します。</p>
 <p><img src="https://github.com/rene-hiroki/my_trivial/blob/master/picture/04pic/kakucho.png?raw=true" /></p>
+<p><br></p>
 <p>まずは「vscode-pandoc」と検索してみましょう。検索したら、vscode-pandoc をクリックします(私はバージョン0.0.8の方を使用しています)。あとはinstallボタンをクリックして少し待てば、インストール完了です。</p>
 <p><img src="https://github.com/rene-hiroki/my_trivial/blob/master/picture/04pic/vscode-pandoc.png?raw=true" /></p>
 <p>拡張機能のインストールの仕方を説明しました。vscode-pandocの他にも、Pandoc Markdown Previewという拡張を必須として挙げています。先ほどと同様にインストールしましょう。</p>
@@ -389,7 +402,7 @@ header-includes:
 </tr>
 <tr class="odd">
 <td align="left">author</td>
-<td align="left">著者名</td>
+<td align="left">著者</td>
 </tr>
 <tr class="even">
 <td align="left">date</td>
@@ -410,22 +423,25 @@ header-includes:
 </tbody>
 </table>
 <p>これらのyaml内容は。大体どの文書にも共通して記述するものになっています。
-header-includes以下に関しては、今回の日本語pdf作成用になっています。この他にもyamlフロントマターへの記述で設定できることはとてもたくさんありますが、それらはまた今度紹介します。</p>
+header-includes以下に関しては、今回の日本語pdf作成用になっています。この他にもyamlフロントマターへの記述で設定できることはとてもたくさんありますが、それらはまた今度紹介します。たぶん。</p>
 <p>vscodeの便利な点として、pdfやhtml出力をする際のpandocの引数を、設定に保存しておくことができる点があります。</p>
-<p>ctrl + , で設定画面を開きます。pandocと検索すると、次のような画面が出てきます。</p>
-<p><img src="https://github.com/rene-hiroki/my_trivial/blob/master/picture/04pic/setting-pandoc.png?raw=true" alt="setting-pandoc" /></p>
+<p>「ctrl + ,」で設定画面を開きます。pandocと検索すると、次のような画面が出てきます。</p>
+<p><img src="https://github.com/rene-hiroki/my_trivial/blob/master/picture/04pic/setting-pandoc.png?raw=true" width="50%"></p>
 <p>ここのPdf Opt Stringに、</p>
 <pre><code>--pdf-engine xelatex -V geometry:margin=1in</code></pre>
-<p>などと記述しておくことで、レンダリングする際のpandocの引数を保存しておくことができます。</p>
+<p>などと記述しておくことで、レンダリングする際のpandocの引数を保存しておくことができます。
+こうすると、yamlの該当部分は省略して書くことができます。</p>
+</div>
+<div id="tejun_6" class="section level3">
+<h3><span class="header-section-number">4.4.6</span> 出力のコマンド</h3>
+<p>準備は整いました。「ctrl + k」を押した後に、「p」を押して、pdfを選択すればpdf出力が完了します！</p>
 </div>
 </div>
-<div id="vspd_result" class="section level2">
-<h2><span class="header-section-number">4.5</span> 結果</h2>
-<p>sample</p>
-</div>
-<div id="vspd_end" class="section level2">
-<h2><span class="header-section-number">4.6</span> おわりに</h2>
-<p>aa</p>
+<div id="vspd_sample" class="section level2">
+<h2><span class="header-section-number">4.5</span> サンプルmd</h2>
+<p>ここ(<a href="https://github.com/rene-hiroki/my_trivial/tree/master/code)に04_sample.mdを置きました。中身に書いてあることは本記事とほぼ同じものです。これをvscodeで開き、ここまで説明してきた準備を終えていれば" class="uri">https://github.com/rene-hiroki/my_trivial/tree/master/code)に04_sample.mdを置きました。中身に書いてあることは本記事とほぼ同じものです。これをvscodeで開き、ここまで説明してきた準備を終えていれば</a>、「ctrl + k」を押した後に「p」を押して、pdf出力ができるはずです。</p>
+<p><br></p>
+<p>enjoy!</p>
 
 </div>
 </div>

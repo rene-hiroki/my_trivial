@@ -198,9 +198,9 @@ My Trivial
 <li class="chapter" data-level="4.4.3" data-path="04_md-to-pdf.html"><a href="04_md-to-pdf.html#tejun_3"><i class="fa fa-check"></i><b>4.4.3</b> 簡易版TeX環境を作る</a></li>
 <li class="chapter" data-level="4.4.4" data-path="04_md-to-pdf.html"><a href="04_md-to-pdf.html#tejun_4"><i class="fa fa-check"></i><b>4.4.4</b> ipaexフォントをインストールする</a></li>
 <li class="chapter" data-level="4.4.5" data-path="04_md-to-pdf.html"><a href="04_md-to-pdf.html#tejun_5"><i class="fa fa-check"></i><b>4.4.5</b> YAML front matter</a></li>
+<li class="chapter" data-level="4.4.6" data-path="04_md-to-pdf.html"><a href="04_md-to-pdf.html#tejun_6"><i class="fa fa-check"></i><b>4.4.6</b> 出力のコマンド</a></li>
 </ul></li>
-<li class="chapter" data-level="4.5" data-path="04_md-to-pdf.html"><a href="04_md-to-pdf.html#vspd_result"><i class="fa fa-check"></i><b>4.5</b> 結果</a></li>
-<li class="chapter" data-level="4.6" data-path="04_md-to-pdf.html"><a href="04_md-to-pdf.html#vspd_end"><i class="fa fa-check"></i><b>4.6</b> おわりに</a></li>
+<li class="chapter" data-level="4.5" data-path="04_md-to-pdf.html"><a href="04_md-to-pdf.html#vspd_sample"><i class="fa fa-check"></i><b>4.5</b> サンプルmd</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="05_mystery.html"><a href="05_mystery.html"><i class="fa fa-check"></i><b>5</b> slackの謎</a><ul>
 <li class="chapter" data-level="5.1" data-path="05_mystery.html"><a href="05_mystery.html#投稿数激増バトルドォーム"><i class="fa fa-check"></i><b>5.1</b> 投稿数激増！バトルドォーム！</a></li>
@@ -250,11 +250,11 @@ google takeout で検索</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="01_android_analysis.html#cb5-1"></a><span class="kw">glimpse</span>(android)</span></code></pre></div>
 <pre><code>## Rows: 63,120
 ## Columns: 5
-## $ header   [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;びよーんったー Pro&quot;, &quot;Nova Launcher ホーム&quot;, &quot;Gmail&quot;, &quot;Slack&quot;, &quot;Nova Launch...
-## $ title    [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;使用: びよーんったー Pro&quot;, &quot;使用: Nova Launcher ホーム&quot;, &quot;使用: Gmail&quot;, &quot;使用: Slac...
-## $ titleUrl [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;https://play.google.com/store/apps/details?id=com.ABS104a.biyontt...
-## $ time     [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;2020-04-16T21:29:57.048Z&quot;, &quot;2020-04-16T21:29:54.832Z&quot;, &quot;2020-04-1...
-## $ products [3m[38;5;246m&lt;list&gt;[39m[23m [&quot;Android&quot;, &quot;Android&quot;, &quot;Android&quot;, &quot;Android&quot;, &quot;Android&quot;, &quot;Android&quot;...</code></pre>
+## $ header   [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;びよーんったー Pro&quot;, &quot;Nova Launcher ホーム&quot;, &quot;Gmail&quot;, &quot;Slack&quot;, &quot;Nova Launcher ホーム&quot;,...
+## $ title    [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;使用: びよーんったー Pro&quot;, &quot;使用: Nova Launcher ホーム&quot;, &quot;使用: Gmail&quot;, &quot;使用: Slack&quot;, &quot;使用:...
+## $ titleUrl [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;https://play.google.com/store/apps/details?id=com.ABS104a.biyontterpro&quot;, ...
+## $ time     [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;2020-04-16T21:29:57.048Z&quot;, &quot;2020-04-16T21:29:54.832Z&quot;, &quot;2020-04-16T21:29:...
+## $ products [3m[38;5;246m&lt;list&gt;[39m[23m [&quot;Android&quot;, &quot;Android&quot;, &quot;Android&quot;, &quot;Android&quot;, &quot;Android&quot;, &quot;Android&quot;, &quot;Andro...</code></pre>
 </div>
 <div id="timeデータを変換" class="section level3">
 <h3><span class="header-section-number">1.3.3</span> timeデータを変換</h3>
@@ -292,7 +292,7 @@ activityデータの収集がうまくいっていなかった？</p>
 <span id="cb10-3"><a href="01_android_analysis.html#cb10-3"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(date,n)) <span class="op">+</span></span>
 <span id="cb10-4"><a href="01_android_analysis.html#cb10-4"></a><span class="st">  </span><span class="kw">scale_x_date</span>(<span class="dt">breaks =</span> <span class="st">&quot;month&quot;</span>,</span>
 <span id="cb10-5"><a href="01_android_analysis.html#cb10-5"></a>               <span class="dt">guide =</span> <span class="kw">guide_axis</span>(<span class="dt">n.dodge =</span> <span class="dv">3</span>))</span></code></pre></div>
-<p><img src="My_Trivial_files/figure-html/unnamed-chunk-54-1.png" width="672" /></p>
+<p><img src="My_Trivial_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 </div>
 <div id="データの準備" class="section level3">
 <h3><span class="header-section-number">1.3.5</span> データの準備</h3>
@@ -318,7 +318,7 @@ activityデータの収集がうまくいっていなかった？</p>
 <span id="cb13-7"><a href="01_android_analysis.html#cb13-7"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Most used Apps - Overall&quot;</span>,</span>
 <span id="cb13-8"><a href="01_android_analysis.html#cb13-8"></a>       <span class="dt">subtitle =</span> <span class="st">&quot;Android Smartphone usage&quot;</span>,</span>
 <span id="cb13-9"><a href="01_android_analysis.html#cb13-9"></a>       <span class="dt">caption =</span> <span class="st">&quot;Data:Google Takeout&quot;</span>)</span></code></pre></div>
-<p><img src="My_Trivial_files/figure-html/unnamed-chunk-57-1.png" width="672" /></p>
+<p><img src="My_Trivial_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 </div>
 <div id="アプリの使用回数すべての年" class="section level3">
 <h3><span class="header-section-number">1.3.7</span> アプリの使用回数（すべての年）</h3>
@@ -331,7 +331,7 @@ activityデータの収集がうまくいっていなかった？</p>
 <span id="cb14-7"><a href="01_android_analysis.html#cb14-7"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Most used Apps - Overall&quot;</span>,</span>
 <span id="cb14-8"><a href="01_android_analysis.html#cb14-8"></a>       <span class="dt">subtitle =</span> <span class="st">&quot;Android Smartphone usage&quot;</span>,</span>
 <span id="cb14-9"><a href="01_android_analysis.html#cb14-9"></a>       <span class="dt">caption =</span> <span class="st">&quot;Data:Google Takeout&quot;</span>)</span></code></pre></div>
-<p><img src="My_Trivial_files/figure-html/unnamed-chunk-58-1.png" width="672" /></p>
+<p><img src="My_Trivial_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 </div>
 <div id="比較2019-vs-2020" class="section level3">
 <h3><span class="header-section-number">1.3.8</span> 比較（2019 vs 2020）</h3>
@@ -364,7 +364,7 @@ activityデータの収集がうまくいっていなかった？</p>
 <span id="cb17-13"><a href="01_android_analysis.html#cb17-13"></a>       <span class="dt">caption =</span> <span class="st">&quot;Data:Google Takeout&quot;</span>) -&gt;<span class="st"> </span>p2020</span></code></pre></div>
 <pre><code>## `summarise()` regrouping output by &#39;year&#39; (override with `.groups` argument)</code></pre>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="01_android_analysis.html#cb19-1"></a>p2019 <span class="op">/</span><span class="st"> </span>p2020</span></code></pre></div>
-<p><img src="My_Trivial_files/figure-html/unnamed-chunk-59-1.png" width="672" /></p>
+<p><img src="My_Trivial_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 
 </div>
 </div>
