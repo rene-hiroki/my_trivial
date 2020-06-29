@@ -238,3 +238,16 @@ $$
 <br><br><br>
 
 enjoy!
+
+
+
+
+## 追記
+
+
+* 現状だと、プレビューまではできるけど、出力はうまくいかない
+* Rstudioで一度knitすることで、tex変換に必要なパッケージをインストールしてくれる
+* tlmgr install ipaexをする必要あり
+  + tinytex::tlmgr_install("ipaex")
+* 
+

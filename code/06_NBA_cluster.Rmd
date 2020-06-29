@@ -1,0 +1,461 @@
+# NBAのスタッツデータでクラスタリング
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, comment = "")
+```
+
+
+ここ
+（https://www.kaggle.com/drgilermo/nba-players-stats）
+に公開されているNBA選手のスタッツや身長体重などのデータを用いて、クラスタリングをおこなう。
+kmeansを使用し、クラスタ数は2,3,5の3パターンを試した。
+バスケのポジションごとにクラスタとなればいいなと期待していた。
+しかし結果としては、スタメンやスター選手、控えの選手、あまり出場機会がない選手というようなクラスタに別れた。
+
+
+以下にコードと結果を示す。
+
+## 前処理
+
+### ライブラリとデータ読み込み
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(purrr)
+library(tibble)
+library(tidyr)
+library(tidymodels)
+library(factoextra)
+library(NbClust)
+library(patchwork)
+library(naniar) # vis_miss
+library(ggrepel)
+library(here)
+```
+
+read_csvの自動識別だと微妙なので、読み込むカラム型を事前に決めておく。
+
+```{r}
+set_coltypes <- cols(
+  .default = col_double(), 
+  Year = col_double(),
+  Player = col_character(),
+  Pos = col_character(),
+  Age = col_double(),
+  Tm = col_character(),
+  G = col_double(),
+  GS = col_double(),
+  MP = col_double(),
+  PER = col_double(),
+  `TS%` = col_double(),
+  `3PAr` = col_double(),
+  FTr = col_double(),
+  `ORB%` = col_double(),
+  `DRB%` = col_double(),
+  `TRB%` = col_double(),
+  `AST%` = col_double(),
+  `STL%` = col_double(),
+  `BLK%` = col_double(),
+  `TOV%` = col_double(),
+  `USG%` = col_double(),
+  blanl = col_skip(),
+  OWS = col_double(),
+  DWS = col_double(),
+  WS = col_double(),
+  `WS/48` = col_double(),
+  blank2 = col_skip(),
+  OBPM = col_double(),
+  DBPM = col_double(),
+  BPM = col_double(),
+  VORP = col_double(),
+  FG = col_double(),
+  FGA = col_double(),
+  `FG%` = col_double(),
+  `3P` = col_double(),
+  `3PA` = col_double(),
+  `3P%` = col_double(),
+  `2P` = col_double(),
+  `2PA` = col_double(),
+  `2P%` = col_double(),
+  `eFG%` = col_double(),
+  FT = col_double(),
+  FTA = col_double(),
+  `FT%` = col_double(),
+  ORB = col_double(),
+  DRB = col_double(),
+  TRB = col_double(),
+  AST = col_double(),
+  STL = col_double(),
+  BLK = col_double(),
+  TOV = col_double(),
+  PF = col_double(),
+  PTS = col_double()
+)
+```
+
+Seasons_Stats.csvを読み込む。Players.csvを読み込む。Playersから身長と体重のカラムを、Seasons_Statsにジョインさせる。ジョインしたものをdataとする。
+
+```{r message=FALSE}
+players <- read_csv(here("data/Players.csv"))
+seasons_stats <- read_csv(here("data/Seasons_Stats.csv"),
+                          col_types = set_coltypes)
+
+data <- players %>%
+  select(Player, height, weight) %>% 
+  right_join(seasons_stats, by = "Player")
+
+
+```
+
+### データの整理
+
+* データを2000年以降に絞る
+  + 古いデータはスタッツが取れていなくて欠損が多いため
+* 選手の名前で、最新のデータから順にユニークをとる
+* X1 はインデックスなので消去する
+* 最新の選手データに絞ったので、Yearはもう不要だから消去
+
+```{r}
+data_2000_uniquename <-
+  data %>%
+  filter(Year >= 2000) %>% 
+  arrange(desc(Year)) %>% 
+  distinct(Player, .keep_all = TRUE) %>% 
+  select(-X1, -Year)
+```
+
+### 各ポジションの選手数
+
+```{r}
+data_2000_uniquename %>% group_by(Pos) %>% count
+```
+
+### ５つのポジションにする
+
+C-PFや、PG-SGなどの2ポジション登録されているものは数が少ないので消去して、5つのポジション(PG, SG, SF, PF, C)のみにする。
+
+```{r}
+data_2000_uniquename_5pos <-
+  data_2000_uniquename %>% 
+  filter(Pos %in% c("PG", "SG", "SF", "PF", "C")) %>% 
+  mutate(Pos = fct_relevel(Pos ,"PG", "SG", "SF", "PF", "C"))
+```
+
+### 欠損の可視化
+
+```{r}
+data_2000_uniquename_5pos %>% vis_miss()
+```
+
+### 欠損の除去
+
+3P%とFT%の欠損は、3PとFTのアテンプトがないことによるものである（たぶん）。
+3Pと3PAの値は入っているため、3P%は情報量として特に意味がないので使用しないことにする。
+同様にしてFT%も使用しないこととする。
+その他に欠損が存在しているレコードは数が少ないので、それらのレコードは除いて分析をおこなうことにする。
+
+```{r}
+data_2000_uniquename_5pos_clean <-
+  data_2000_uniquename_5pos %>% 
+  select(-`3P%`, -`FT%`) %>% 
+  drop_na() 
+
+data_2000_uniquename_5pos_clean %>% vis_miss()
+```
+
+欠損値がなくなった綺麗なデータができあがった。
+
+
+### チームの略称を整理する
+
+現在のNBAは東西合わせて30チームある。今扱っているデータには、チームの略称が変わっているものなどが存在するので、それを統一する。
+
+* CHH, CHOは、現在のCHAなので、CHAに統一する。  
+* NJNはニュージャージーネッツ、現在のブルックリンネッツなので、BRKに統一する。  
+* NOH, NOKは、現在のNOPだから統一する。  
+* TOTは、シーズン途中で移籍した選手に関して、移籍前と後の成績を足し合わせたもの。だから、今回はTOTは外す。  
+* VANはバンクーバーグリズリーズ、現在のメンフィスグリズーズだから、MEMに統一する。  
+* SEAはOKCに統一する。  
+
+```{r}
+data_2000_uniquename_5pos_clean <-
+  data_2000_uniquename_5pos_clean %>% 
+  mutate(Tm_30 = case_when(
+    Tm %in% c("CHH", "CHO") ~ "CHA",
+    Tm == "NJN" ~ "BRK",
+    Tm %in% c("NOH", "NOK") ~ "NOP",
+    Tm == "VAN" ~ "MEM",
+    Tm == "SEA" ~ "OKC",
+    TRUE ~ Tm) # case_whenを使うときはTRUE のケースを忘れないように注意する
+    ) %>% 
+  filter(Tm != "TOT")
+```
+
+## 可視化
+
+```{r include=FALSE}
+# library(GGally)
+# p <- 
+#   data_2000_uniquename_5pos_clean %>% 
+#   select(-where(is.character)) %>%
+#   ggpairs(mapping = aes(color = Pos),
+#           lower = list(continuous = "smooth"),
+#           diag = list(continuous = wrap("densityDiag", alpha = 0.3))
+#           #3種の密度図が重なるので，透過率0.5にして可視化
+#           )
+```
+
+```{r include=FALSE}
+data_2000_uniquename_5pos_clean %>% glimpse()
+```
+
+### クラスタリングに使用するデータ
+
+```{r echo=FALSE, fig.height=9, fig.width=9, paged.print=TRUE}
+DT::datatable(data_2000_uniquename_5pos_clean,　options = list(searchHighlight = TRUE), filter = 'top', fillContainer = TRUE)
+```
+
+
+### PCAしてみる
+
+```{r}
+rec_preped <- 
+  data_2000_uniquename_5pos_clean %>% 
+  recipe() %>%
+  step_center(all_numeric()) %>% 
+  step_scale(all_numeric()) %>% 
+  step_pca(all_numeric(), threshold = .80) %>% 
+  prep() 
+
+t <- rec_preped$steps[[3]]$res %>% summary() 
+t$importance %>%
+  broom::tidy() %>% 
+  pivot_longer(-.rownames) %>% 
+  filter(.rownames == "Cumulative Proportion") %>% 
+  mutate(name = as_factor(name)) %>% 
+  ggplot(aes(x = name, y = value)) +
+  geom_point() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(text = element_text(family = "Japan1GothicBBB")) +
+  labs(x = "", y = "累積寄与率",
+       title = "主成分分析の累積寄与率") +
+  ylim(0,1)
+
+data_pca80 <- rec_preped %>% juice()
+```
+
+### PCAの２軸でポジション別プロット
+
+```{r}
+p_pca <-
+  data_pca80 %>% 
+  ggplot(aes(PC1, PC2, color = Pos)) +
+  geom_point() +
+  labs(title = "PCAの2軸で でポジション別")
+p_pca
+```
+
+### チーム別ポジション別でPCA２軸
+
+```{r fig.height=10, fig.width=10}
+p_pca_facet_team <- 
+  data_pca80 %>% 
+  ggplot(aes(PC1, PC2, color = Pos)) +
+  geom_point() +
+  facet_wrap(vars(Tm_30))
+p_pca_facet_team
+```
+
+一部の選手のみラベルを表示させるために、ラベルのカラムを作成する。  
+
+```{r}
+data_pca80 <- data_pca80 %>%
+  mutate(label = if_else(condition = (10 <= PC1| 5 <= PC2),
+                         true = as.character(Player), false = ""
+                         ))
+```
+
+
+```{r fig.height=15, fig.width=15}
+p_pca_facet_team_label <- 
+  data_pca80 %>% 
+  ggplot(aes(PC1, PC2, color = Pos, label = label)) +
+  geom_point() +
+  geom_text_repel() +
+  facet_wrap(vars(Tm_30))
+p_pca_facet_team_label
+```
+
+
+## kmeansでクラスタリング
+
+
+### エルボー法とシルエット法でクラスタ数チェック
+
+
+```{r}
+# Elbow method
+p_elbow <-
+  data_2000_uniquename_5pos_clean %>% 
+  select(where(is.numeric)) %>% 
+  fviz_nbclust(kmeans, method = "wss") +
+  geom_vline(xintercept = 3, linetype = 2) + # add line for better visualisation
+  labs(subtitle = "Elbow method") # add subtitle
+
+p_silhouette <-
+  data_2000_uniquename_5pos_clean %>% 
+  select(where(is.numeric)) %>% 
+  fviz_nbclust(kmeans, method = "silhouette") +
+  labs(subtitle = "Silhouette method")
+
+p_elbow | p_silhouette
+```
+
+エルボーでは3、シルエットでは2がよさそう。
+
+
+### kmeans２と３と５
+
+```{r}
+my_kmeans <- function(data, centers, nstart = 50){
+  model <-
+    data %>%
+    select(where(is.numeric)) %>%
+    kmeans(centers = centers, nstart = nstart)
+  
+  cat("クラスタ数", centers ,", クラスタ間分散/全体分散 * 100 = ",
+      100 * model$betweenss / model$totss, "\n")
+  return(as.character(model$cluster))
+}
+
+set.seed(7777)
+data_2000_uniquename_5pos_clean$kmeans2 <- 
+  my_kmeans(data_2000_uniquename_5pos_clean, centers = 2, nstart = 50)
+set.seed(7777)
+data_2000_uniquename_5pos_clean$kmeans3 <-
+  my_kmeans(data_2000_uniquename_5pos_clean, centers = 3, nstart = 50)
+set.seed(7777)
+data_2000_uniquename_5pos_clean$kmeans5 <-
+  my_kmeans(data_2000_uniquename_5pos_clean, centers = 5, nstart = 50)
+
+```
+
+
+### 結果をPCAの2軸で可視化してみる。
+
+```{r fig.height=10, fig.width=10}
+rec_preped <- 
+  data_2000_uniquename_5pos_clean %>% 
+  recipe() %>%
+  step_center(all_numeric()) %>% 
+  step_scale(all_numeric()) %>% 
+  step_pca(all_numeric(), threshold = .80) %>% 
+  prep() 
+data_pca80 <- rec_preped %>% juice() 
+
+cluster_2 <-
+  data_pca80 %>% 
+  ggplot(aes(PC1, PC2, color = kmeans2)) +
+  geom_point() +
+  labs(title = "PCAの2軸で 2クラスタ") +
+  theme(legend.position = "bottom")
+
+cluster_3 <-
+  data_pca80 %>% 
+  ggplot(aes(PC1, PC2, color = kmeans3)) +
+  geom_point() +
+  labs(title = "PCAの2軸で 3クラスタ") +
+  theme(legend.position = "bottom")
+
+cluster_5 <-
+  data_pca80 %>% 
+  ggplot(aes(PC1, PC2, color = kmeans5)) +
+  geom_point() +
+  labs(title = "PCAの2軸で 5クラスタ") +
+  theme(legend.position = "bottom")
+
+(p_pca | cluster_2) / (cluster_3 | cluster_5)
+```
+
+**お世辞にもポジションでクラスタに分かれたようには見えへん！！！！**
+
+近年のNBAでは、どのポジションでもドリブル・シュート・アシストなどが高いレベルでできることが求められている。
+改めて考えると、身長体重やスタッツのデータがポジションごとでクラスタになるのは、確かにありえないか、とも思う。
+
+とりあえず固まった、３クラスタで見ていく。
+
+
+### チーム別kmeansプロット
+
+インタラクティブなプロットになってます。
+
+```{r fig.height=9, fig.width=9}
+p_pca_facet_team_kmeans3 <- 
+  data_pca80 %>% 
+  ggplot(aes(PC1, PC2, color = kmeans3, label = Player)) +
+  geom_point() +
+  facet_wrap(vars(Tm_30))
+# p_pca_facet_team_kmeans3
+plotly::ggplotly(p_pca_facet_team_kmeans3, dynamicTicks = T)
+```
+
+### 選手名つき
+
+インタラクティブプロットを見る感じ、どうやら緑のクラスタは、スタメンやスター級の選手が固まっているらしい。
+
+一部の選手のみラベルを表示させるために、ラベルのカラムを作成する。PC1が10以上の選手のみラベルをつける。  
+
+```{r}
+data_pca80 <- data_pca80 %>%
+  mutate(label = if_else(condition = (10 <= PC1),
+                         true = as.character(Player), false = ""
+                         ))
+```
+
+```{r fig.height=9, fig.width=9}
+p_pca_facet_team_label_kmeans3 <- 
+  data_pca80 %>% 
+  ggplot(aes(PC1, PC2, color = kmeans3, label = label)) +
+  geom_point() +
+  geom_text_repel() +
+  facet_wrap(vars(Tm_30))
+p_pca_facet_team_label_kmeans3
+
+```
+
+やはりスター選手やスタメンの選手がほぼすべてである。
+
+### スタメンかどうかでわける
+
+半分以上の試合でスタメンの選手のみで、クラスタの集計をしてみる。
+
+```{r}
+data_pca80 %>% 
+  left_join(data_2000_uniquename_5pos_clean %>% select(Player, GS), 
+            by = "Player") %>% 
+  filter(GS >= 41) %>% 
+  group_by(kmeans3) %>% 
+  count()
+```
+
+逆に、半分の試合でスタメンでないクラスタを集計するとこうなる。
+
+```{r}
+data_pca80 %>% 
+  left_join(data_2000_uniquename_5pos_clean %>% select(Player, GS), 
+            by = "Player") %>% 
+  filter(GS <= 41) %>% 
+  group_by(kmeans3) %>% 
+  count()
+```
+
+
+## 雑感
+
+ポジションクラスタという期待していた結果にはならなかったが、これはこれで面白い結果になったと思う。
+クラスタリングにかけるデータを取捨選択するとかなんとかすれば（たとえば身長・体重と何かだけとか）、ポジションクラスタもできるかもしれない。
+他にも、年代別とかでもっと分析ができそうだなと感じた。時間があればやる！！！！
+

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter: 4 pandocでmarkdownから日本語pdf出力 in vscode | 日々の雑学</title>
   <meta name="description" content="バットルドォーム！3Dアックションゲーム！" />
-  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter: 4 pandocでmarkdownから日本語pdf出力 in vscode | 日々の雑学" />
   <meta property="og:type" content="book" />
@@ -49,6 +49,7 @@
 
 
 
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
 <link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
 <script src="libs/leaflet-1.3.1/leaflet.js"></script>
@@ -58,7 +59,7 @@
 <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
 <script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.13/datatables.js"></script>
+<script src="libs/datatables-binding-0.14/datatables.js"></script>
 <link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
 <script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
@@ -201,11 +202,38 @@ My Trivial
 <li class="chapter" data-level="4.4.6" data-path="04_md-to-pdf.html"><a href="04_md-to-pdf.html#tejun_6"><i class="fa fa-check"></i><b>4.4.6</b> 出力のコマンド</a></li>
 </ul></li>
 <li class="chapter" data-level="4.5" data-path="04_md-to-pdf.html"><a href="04_md-to-pdf.html#vspd_sample"><i class="fa fa-check"></i><b>4.5</b> サンプルmd</a></li>
+<li class="chapter" data-level="4.6" data-path="04_md-to-pdf.html"><a href="04_md-to-pdf.html#追記"><i class="fa fa-check"></i><b>4.6</b> 追記</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="05_mystery.html"><a href="05_mystery.html"><i class="fa fa-check"></i><b>5</b> slackの謎</a><ul>
 <li class="chapter" data-level="5.1" data-path="05_mystery.html"><a href="05_mystery.html#投稿数激増バトルドォーム"><i class="fa fa-check"></i><b>5.1</b> 投稿数激増！バトルドォーム！</a></li>
 <li class="chapter" data-level="5.2" data-path="05_mystery.html"><a href="05_mystery.html#バトルドォームの差分"><i class="fa fa-check"></i><b>5.2</b> バトルドォーム！の差分</a></li>
 <li class="chapter" data-level="5.3" data-path="05_mystery.html"><a href="05_mystery.html#超エキサイティン"><i class="fa fa-check"></i><b>5.3</b> 超！エキサイティン！！</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="06_NBA_cluster.html"><a href="06_NBA_cluster.html"><i class="fa fa-check"></i><b>6</b> NBAのスタッツデータでクラスタリング</a><ul>
+<li class="chapter" data-level="6.1" data-path="06_NBA_cluster.html"><a href="06_NBA_cluster.html#前処理"><i class="fa fa-check"></i><b>6.1</b> 前処理</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="06_NBA_cluster.html"><a href="06_NBA_cluster.html#ライブラリとデータ読み込み"><i class="fa fa-check"></i><b>6.1.1</b> ライブラリとデータ読み込み</a></li>
+<li class="chapter" data-level="6.1.2" data-path="06_NBA_cluster.html"><a href="06_NBA_cluster.html#データの整理"><i class="fa fa-check"></i><b>6.1.2</b> データの整理</a></li>
+<li class="chapter" data-level="6.1.3" data-path="06_NBA_cluster.html"><a href="06_NBA_cluster.html#各ポジションの選手数"><i class="fa fa-check"></i><b>6.1.3</b> 各ポジションの選手数</a></li>
+<li class="chapter" data-level="6.1.4" data-path="06_NBA_cluster.html"><a href="06_NBA_cluster.html#つのポジションにする"><i class="fa fa-check"></i><b>6.1.4</b> ５つのポジションにする</a></li>
+<li class="chapter" data-level="6.1.5" data-path="06_NBA_cluster.html"><a href="06_NBA_cluster.html#欠損の可視化"><i class="fa fa-check"></i><b>6.1.5</b> 欠損の可視化</a></li>
+<li class="chapter" data-level="6.1.6" data-path="06_NBA_cluster.html"><a href="06_NBA_cluster.html#欠損の除去"><i class="fa fa-check"></i><b>6.1.6</b> 欠損の除去</a></li>
+<li class="chapter" data-level="6.1.7" data-path="06_NBA_cluster.html"><a href="06_NBA_cluster.html#チームの略称を整理する"><i class="fa fa-check"></i><b>6.1.7</b> チームの略称を整理する</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="06_NBA_cluster.html"><a href="06_NBA_cluster.html#可視化"><i class="fa fa-check"></i><b>6.2</b> 可視化</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="06_NBA_cluster.html"><a href="06_NBA_cluster.html#クラスタリングに使用するデータ"><i class="fa fa-check"></i><b>6.2.1</b> クラスタリングに使用するデータ</a></li>
+<li class="chapter" data-level="6.2.2" data-path="06_NBA_cluster.html"><a href="06_NBA_cluster.html#pcaしてみる"><i class="fa fa-check"></i><b>6.2.2</b> PCAしてみる</a></li>
+<li class="chapter" data-level="6.2.3" data-path="06_NBA_cluster.html"><a href="06_NBA_cluster.html#pcaの２軸でポジション別プロット"><i class="fa fa-check"></i><b>6.2.3</b> PCAの２軸でポジション別プロット</a></li>
+<li class="chapter" data-level="6.2.4" data-path="06_NBA_cluster.html"><a href="06_NBA_cluster.html#チーム別ポジション別でpca２軸"><i class="fa fa-check"></i><b>6.2.4</b> チーム別ポジション別でPCA２軸</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="06_NBA_cluster.html"><a href="06_NBA_cluster.html#kmeansでクラスタリング"><i class="fa fa-check"></i><b>6.3</b> kmeansでクラスタリング</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="06_NBA_cluster.html"><a href="06_NBA_cluster.html#エルボー法とシルエット法でクラスタ数チェック"><i class="fa fa-check"></i><b>6.3.1</b> エルボー法とシルエット法でクラスタ数チェック</a></li>
+<li class="chapter" data-level="6.3.2" data-path="06_NBA_cluster.html"><a href="06_NBA_cluster.html#kmeans２と３と５"><i class="fa fa-check"></i><b>6.3.2</b> kmeans２と３と５</a></li>
+<li class="chapter" data-level="6.3.3" data-path="06_NBA_cluster.html"><a href="06_NBA_cluster.html#結果をpcaの2軸で可視化してみる"><i class="fa fa-check"></i><b>6.3.3</b> 結果をPCAの2軸で可視化してみる。</a></li>
+<li class="chapter" data-level="6.3.4" data-path="06_NBA_cluster.html"><a href="06_NBA_cluster.html#チーム別kmeansプロット"><i class="fa fa-check"></i><b>6.3.4</b> チーム別kmeansプロット</a></li>
+<li class="chapter" data-level="6.3.5" data-path="06_NBA_cluster.html"><a href="06_NBA_cluster.html#選手名つき"><i class="fa fa-check"></i><b>6.3.5</b> 選手名つき</a></li>
+<li class="chapter" data-level="6.3.6" data-path="06_NBA_cluster.html"><a href="06_NBA_cluster.html#スタメンかどうかでわける"><i class="fa fa-check"></i><b>6.3.6</b> スタメンかどうかでわける</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="06_NBA_cluster.html"><a href="06_NBA_cluster.html#雑感"><i class="fa fa-check"></i><b>6.4</b> 雑感</a></li>
 </ul></li>
 </ul>
 
@@ -445,6 +473,18 @@ f(x)={\displaystyle\sum_{k=0}^{\infty}}f^{(k)}(0)\dfrac{x^k}{k!}\\=f(0)+f&#39;(0
 \]</span></p>
 <p><br><br><br></p>
 <p>enjoy!</p>
+</div>
+<div id="追記" class="section level2">
+<h2><span class="header-section-number">4.6</span> 追記</h2>
+<ul>
+<li>現状だと、プレビューまではできるけど、出力はうまくいかない</li>
+<li>Rstudioで一度knitすることで、tex変換に必要なパッケージをインストールしてくれる</li>
+<li>tlmgr install ipaexをする必要あり
+<ul>
+<li>tinytex::tlmgr_install(“ipaex”)</li>
+</ul></li>
+<li></li>
+</ul>
 
 </div>
 </div>
