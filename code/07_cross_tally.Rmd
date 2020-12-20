@@ -1,0 +1,421 @@
+# Rでクロス集計（janitor）
+
+
+janitorパッケージを使うと、Rでのクロス集計がかなり捗る。
+
+クロス集計をする前に、まずは1つのデータでの度数表の作成や、その他便利な関数を紹介する。
+
+その後に、クロス集計を行う。
+
+最後に、クロス集計で出来たデータでの可視化も行ってみる。
+
+
+## janitorパッケージ
+
+```{r warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(comment = "")
+if (!require("janitor")) install.packages("janitor")
+if (!require("naniar")) install.packages("naniar")
+if (!require("DT")) install.packages("DT")
+library(janitor)
+library(naniar)
+library(tidyverse)
+```
+
+
+## データの準備
+
+
+Rに標準搭載されているdiamondsデータを使う。
+
+今回はクロス集計をおこなうため、cut と colorのカラムを主に扱う。
+
+```{r}
+data <- diamonds %>% as_tibble() 
+data %>% glimpse()
+```
+
+
+先頭100行だけを表示。
+
+```{r}
+data %>% 
+  head(100) %>% 
+  DT::datatable()
+```
+
+
+欠損値は存在しない。
+
+```{r}
+data %>% vis_miss()
+```
+
+
+## cutカラムの度数表
+
+通常のやり方では、（１）table関数を使用して次のようにしたり、
+
+```{r}
+table(data$cut)
+```
+
+（２）count関数を使ったり
+
+```{r}
+data %>% count(cut)
+```
+
+（３）dplyrを使う方法などがある。
+
+```{r}
+data %>% 
+  group_by(cut) %>% 
+  tally()
+```
+
+janitorパッケージの関数を使うと、次のように書くことができる。
+
+table関数の進化系という感じで、**tabyl**という関数を使う。
+
+```{r}
+data %>% tabyl(cut)
+```
+
+見てわかると思うが、度数の横に割合も表示してくれるのが既に便利である。
+
+なおtabylの出力結果のclassはtabyl(data.frame)となっているので、tibbleにして扱いやすくしておく。
+
+```{r}
+data %>% tabyl(cut) %>% class
+```
+
+```{r}
+data %>% tabyl(cut) %>% as_tibble
+```
+
+dplyrで割合の計算もしようとすると、コードが少し長くなる。
+
+```{r}
+data %>% count(cut) %>% mutate(percent = n/sum(n))
+```
+
+
+## 欠損がある場合
+
+
+最初に確認したが、もとのdiamondsデータには欠損が含まれていないので、人工的に欠損値を仕込む。
+
+```{r}
+N <- nrow(data)
+set.seed(334)
+n <- sample(1:N, 10000)
+
+data_include_na <-
+  data %>% 
+  mutate(index = row_number()) %>% 
+  mutate(cut = if_else(index %in% n, as.character(NA), as.character(cut))) 
+
+data_include_na %>% vis_miss()
+```
+
+集計値にNAがある場合、valid_percent（欠損を除いた割合）カラムが自動的に追加される。
+
+```{r}
+data_include_na %>% tabyl(cut) %>% as_tibble()
+```
+
+
+## 度数表のtotal値
+
+
+度数表にtotal値を追加するにはadorn_totalsという関数を使用する。
+
+adornは「装飾する」という意味らしい。
+
+最後の行にTotal値が入る。
+
+```{r}
+data_include_na %>% 
+  tabyl(cut) %>% 
+  adorn_totals() %>% 
+  as_tibble() 
+```
+
+
+## 度数表の％表記
+
+
+度数表を作成したあとにそのデータで分析を進めないのであれば、割合を％表記にすると少し表が見やすくなる。
+
+adorn_pct_formatting関数を使う。
+
+digits で桁数を指定する。
+
+affix_singをFALSEにすれば％表記を消すこともできる。
+
+```{r}
+data_include_na %>% 
+  tabyl(cut) %>% 
+  adorn_totals() %>% 
+  adorn_pct_formatting(digits = 2, affix_sign = TRUE) %>% 
+  as_tibble() 
+```
+
+
+## クロス集計
+
+
+いよいよクロス集計をしてみる。
+
+### 通常のやり方
+
+通常のやり方では、table関数を使用して次のようにする。
+
+**度数表**
+
+```{r}
+table(data_include_na$cut,
+      data_include_na$color) 
+```
+
+**割合**
+
+```{r}
+prop.table(table(data_include_na$cut, 
+                 data_include_na$color))
+```
+
+### janitorのやり方
+
+
+janitorパッケージのtabyl関数を使うと次のように書ける。
+
+**度数表**
+
+```{r}
+data_include_na %>% 
+  tabyl(cut, color) %>% 
+  as_tibble() 
+```
+
+**割合**
+
+adorn_percentages関数を使用する。
+
+denominatorは "all", "col", "row"の中から選ぶことができる。
+
+同時確率を見たいか、行か列での条件つき確率をみたいかどうかで変える。
+
+```{r}
+data_include_na %>% 
+  tabyl(cut, color) %>% 
+  adorn_percentages(denominator = "all") %>% 
+  as_tibble() 
+
+data_include_na %>% 
+  tabyl(cut, color) %>% 
+  adorn_percentages(denominator = "col") %>% 
+  as_tibble() 
+
+data_include_na %>% 
+  tabyl(cut, color) %>% 
+  adorn_percentages(denominator = "row") %>% 
+  as_tibble() 
+
+```
+
+## クロス集計の装飾
+
+
+### totalと％
+
+
+度数表と同様にして、Total値を付けたり、％表記をすることができる。
+
+**カラムごとに合計**
+
+```{r}
+data_include_na %>% 
+  tabyl(cut, color) %>% 
+  adorn_totals(where = c("row")) %>% 
+  adorn_percentages(denominator = "col") %>% 
+  adorn_pct_formatting(digits = 2, affix_sign = TRUE) %>% 
+  as_tibble() 
+```
+
+**行ごとに合計**
+
+```{r}
+data_include_na %>% 
+  tabyl(cut, color) %>% 
+  adorn_totals(where = c("col")) %>% 
+  adorn_percentages(denominator = "row") %>% 
+  adorn_pct_formatting(digits = 2, affix_sign = TRUE) %>% 
+  as_tibble() 
+```
+
+**全体で合計**
+
+```{r}
+data_include_na %>% 
+  tabyl(cut, color) %>% 
+  adorn_totals(where = c("col", "row")) %>% 
+  adorn_percentages(denominator = "all") %>% 
+  adorn_pct_formatting(digits = 2, affix_sign = TRUE) %>% 
+  as_tibble() 
+```
+
+
+### 集計値の名前を変更
+
+
+adorn_titleという関数を使うと、何と何で集計を行っているかを一番左上のセルに追加できる。
+
+```{r}
+data_include_na %>% 
+  tabyl(cut, color) %>% 
+  adorn_totals(where = c("row", "col")) %>% 
+  adorn_percentages(denominator = "col") %>% 
+  adorn_pct_formatting(digits = 2) %>% 
+  adorn_title(placement = "combined", col_name = "color") %>% 
+  as_tibble() 
+```
+
+
+### 度数表と割合を同時に表示
+
+
+adorn_nsという関数を使うと、度数と割合を同時に表示できる。
+
+引数positionに
+
+* "front"を指定すると割合が（）内に表示される
+* "rear"を指定すると度数が（）内に表示される
+
+```{r eval=FALSE}
+data_include_na %>% 
+  tabyl(cut, color) %>% 
+  adorn_totals(where = c("row", "col")) %>% 
+  adorn_percentages(denominator = "col") %>% 
+  adorn_pct_formatting(digits = 2) %>% 
+  adorn_title(placement = "combined", col_name = "color") %>% 
+  adorn_ns(position = "front") %>% 
+  as_tibble() %>% DT::datatable()
+```
+
+```{r echo=FALSE}
+data_include_na %>% 
+  tabyl(cut, color) %>% 
+  adorn_totals(where = c("row", "col")) %>% 
+  adorn_percentages(denominator = "col") %>% 
+  adorn_pct_formatting(digits = 2) %>% 
+  adorn_title(placement = "combined", col_name = "color") %>% 
+  adorn_ns(position = "front") %>% 
+  as_tibble() %>% 
+  DT::datatable()
+```
+
+
+## 関数化
+
+
+2つの変数を入れるとクロス集計表が出てくるように関数化しておくと便利だろう。
+
+（2重 curly brackets{{}}やenquoなどの黒魔術はスルーしてほしい）
+
+```{r}
+cross_tally <- function(data, var1, var2, affix_sign_TF = TRUE, adorn_ns_TF = TRUE){
+  res <-
+    data %>% 
+    tabyl({{var1}}, {{var2}}) %>% 
+    adorn_totals(where = c("row", "col")) %>%
+    adorn_percentages(denominator = "col") %>%
+    adorn_pct_formatting(digits = 2, affix_sign = affix_sign_TF) %>%
+    adorn_title(placement = "combined",
+                row_name = as_label(enquo(var1)),
+                col_name = as_label(enquo(var2))) 
+
+  if (adorn_ns_TF){
+    res <- 
+      res %>% adorn_ns(position = "front")
+    }
+  
+  return(as_tibble(res))
+}
+```
+
+
+```{r}
+data_include_na %>% cross_tally(cut, color)
+```
+
+
+
+## 可視化
+
+
+### モザイクプロット
+
+クロス集計表はモザイクプロットを使用して可視化することが多いが、結構見づらいことが多い。
+
+```{r}
+df <- data %>% 
+  tabyl(cut, color) %>% 
+  adorn_percentages(denominator = "all") %>% 
+  adorn_title(placement = "combined", col_name = "color") %>% 
+  as_tibble() 
+
+mat <- df %>% select(-`cut/color`) %>% as.matrix() 
+colnames(mat) <- colnames(df %>% select(-`cut/color`))
+rownames(mat) <- df$`cut/color`
+
+t(mat) %>% mosaicplot("クロス集計")
+
+```
+
+
+
+DTパッケージを使用して、テーブルのまま装飾を加えることできれいに可視化することができる。
+
+
+### 通常のテーブル
+
+```{r}
+data_include_na %>% 
+  tabyl(cut, color) %>% 
+  adorn_totals(where = c("row", "col")) %>% 
+  adorn_percentages(denominator = "all") %>% 
+  adorn_title(placement = "combined", col_name = "color") %>% 
+  as_tibble() %>%
+  mutate_if(is.double, round, 5) %>% 
+  DT::datatable()
+```
+
+
+### 装飾を加えたテーブル
+
+* 参考
+  + https://kazutan.github.io/SappoRoR5/DT_demo.html
+  + https://rstudio.github.io/DT/010-style.html
+
+
+```{r}
+df <- data %>% 
+  tabyl(cut, color) %>% 
+  adorn_percentages(denominator = "all") %>% 
+  adorn_title(placement = "combined", col_name = "color") %>% 
+  as_tibble() 
+
+df %>%
+  mutate_if(is.double, round, 5) %>% 
+  DT::datatable() %>%
+  formatStyle(names(df),
+  background = styleColorBar(range(df %>% select(-`cut/color`)), 'lightblue'),
+  backgroundSize = '98% 88%',
+  backgroundRepeat = 'no-repeat',
+  backgroundPosition = 'center') 
+```
+
+
+

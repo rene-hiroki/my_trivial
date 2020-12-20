@@ -9,7 +9,7 @@ library(plotly)
 
 
 ```{r message=FALSE}
-d <- read_csv(here("data/slack0629.csv"))
+d <- read_csv(here("data/slack0924.csv"))
 glimpse(d)
 ```
 

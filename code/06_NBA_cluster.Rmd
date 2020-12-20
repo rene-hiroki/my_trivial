@@ -215,7 +215,7 @@ data_2000_uniquename_5pos_clean %>% glimpse()
 ### クラスタリングに使用するデータ
 
 ```{r echo=FALSE, fig.height=9, fig.width=9, paged.print=TRUE}
-DT::datatable(data_2000_uniquename_5pos_clean,　options = list(searchHighlight = TRUE), filter = 'top', fillContainer = TRUE)
+DT::datatable(data_2000_uniquename_5pos_clean, fillContainer = TRUE)
 ```
 
 
@@ -232,9 +232,9 @@ rec_preped <-
 
 t <- rec_preped$steps[[3]]$res %>% summary() 
 t$importance %>%
-  broom::tidy() %>% 
-  pivot_longer(-.rownames) %>% 
-  filter(.rownames == "Cumulative Proportion") %>% 
+  as_tibble() %>% 
+  slice(3) %>% 
+  pivot_longer(cols = everything()) %>% 
   mutate(name = as_factor(name)) %>% 
   ggplot(aes(x = name, y = value)) +
   geom_point() +
