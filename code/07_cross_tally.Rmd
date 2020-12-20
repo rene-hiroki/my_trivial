@@ -10,6 +10,23 @@ janitorパッケージを使うと、Rでのクロス集計がかなり捗る。
 最後に、クロス集計で出来たデータでの可視化も行ってみる。
 
 
+↓本節のゴール↓　（空白セルはNA）
+
+```{r echo=FALSE}
+load(here::here("data", "cross_tally.Rdata"))
+library(tidyverse)
+library(janitor)
+data_include_na %>% 
+  tabyl(cut, color) %>% 
+  adorn_totals(where = c("row", "col")) %>% 
+  adorn_percentages(denominator = "all") %>% 
+  adorn_title(placement = "combined", col_name = "color") %>% 
+  as_tibble() %>%
+  mutate_if(is.double, round, 5) %>% 
+  DT::datatable()
+```
+
+
 ## janitorパッケージ
 
 ```{r warning=FALSE, message=FALSE}
@@ -301,7 +318,15 @@ data_include_na %>%
   adorn_pct_formatting(digits = 2) %>% 
   adorn_title(placement = "combined", col_name = "color") %>% 
   adorn_ns(position = "front") %>% 
-  as_tibble() %>% DT::datatable()
+  as_tibble() %>% 
+  DT::datatable(
+  extensions = 'FixedColumns',
+  options = list(
+    dom = 't',
+    scrollX = TRUE,
+    scrollCollapse = TRUE
+  )
+)
 ```
 
 ```{r echo=FALSE}
@@ -416,6 +441,5 @@ df %>%
   backgroundRepeat = 'no-repeat',
   backgroundPosition = 'center') 
 ```
-
 
 
